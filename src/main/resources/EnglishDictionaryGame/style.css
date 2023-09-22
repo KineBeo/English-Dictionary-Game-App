@@ -1,0 +1,29 @@
+.search-box{
+    -fx-background-color:   #44008b;
+    -fx-background-radius: 15;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, #8c7ae6, 15, 0, 0, 2) ;
+}
+.search-field{
+  -fx-background-color: transparent;
+  -fx-text-fill: #F0F0F0;
+  -fx-font-size: 13;
+  -fx-text-color: #F0F0F0;
+  -fx-border: none ;
+}
+.search-field:pressed > .search-box{
+   -fx-background-color: white;
+}
+
+.search-field-radius {
+    -fx-background-radius: 15;
+}
+
+.background-radius {
+    -fx-background-color: #5DB962;
+    -fx-background-radius: 15;
+}
+
+.background {
+    -fx-background-color: #5DB962;
+}
