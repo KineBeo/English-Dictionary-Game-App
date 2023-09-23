@@ -1,9 +1,9 @@
-package EnglishDictionaryGame;
+package EnglishDictionaryGame.Controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class Controller {
     @FXML
     private Label welcomeText;
 
