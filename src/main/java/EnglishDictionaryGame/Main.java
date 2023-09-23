@@ -1,5 +1,6 @@
-package dictionaryapplication.englishdictionarygameapp;
+package EnglishDictionaryGame;
 
+import EnglishDictionaryGame.Data.Word;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,7 +19,10 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
-        System.out.println("Hello, World!");
+        // launch();
+
+        /** Word class test */
+        Word word = new Word("dsddfdffdf", "");
+        System.out.println("Hello World");
     }
 }

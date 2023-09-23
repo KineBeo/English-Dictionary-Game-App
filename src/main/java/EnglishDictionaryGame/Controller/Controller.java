@@ -1,4 +1,4 @@
-package dictionaryapplication.englishdictionarygameapp;
+package EnglishDictionaryGame;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
