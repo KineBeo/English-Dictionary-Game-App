@@ -8,6 +8,7 @@ module dictionaryapplication.englishdictionarygameapp {
 
     opens EnglishDictionaryGame to javafx.fxml;
     exports EnglishDictionaryGame;
+
     exports EnglishDictionaryGame.Controller;
     opens EnglishDictionaryGame.Controller to javafx.fxml;
 }
