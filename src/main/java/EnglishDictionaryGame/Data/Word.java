@@ -1,25 +1,33 @@
 package EnglishDictionaryGame.Data;
 
-import EnglishDictionaryGame.Exceptions.WordExceptions.WordTargetIsEmptyException;
-import EnglishDictionaryGame.Exceptions.WordExceptions.WordExplainIsEmptyException;
+import EnglishDictionaryGame.Exceptions.WordExceptions.*;
 import EnglishDictionaryGame.Exceptions.Utils;
+
 public class Word {
 
   private String wordTarget = "";
   private String wordExplain = "";
 
-  private void checkIfWordTargetIsEmpty(String wordTarget) throws WordTargetIsEmptyException {
+  private void checkIfWordTargetIsValid(String wordTarget)
+      throws WordTargetIsEmptyException, WordTargetContainsNewlineException {
     if (wordTarget.isEmpty()) {
-      throw new WordTargetIsEmptyException("Word target cannot be empty");
+      throw new WordTargetIsEmptyException("EXCEPTION: Word target cannot be empty");
+    } else if (wordTarget.contains("\n")) {
+      throw new WordTargetContainsNewlineException("EXCEPTION: Word target cannot contain newline");
     }
   }
 
-  private void checkIfWordExplainIsEmpty(String wordExplain) throws WordExplainIsEmptyException {
+  private void checkIfWordExplainIsValid(String wordExplain)
+      throws WordExplainIsEmptyException, WordExplainContainsNewlineException {
     if (wordExplain.isEmpty()) {
-      throw new WordExplainIsEmptyException("Word explain cannot be empty");
+      throw new WordExplainIsEmptyException("EXCEPTION: Word explain cannot be empty");
+    } else if (wordExplain.contains("\n")) {
+      throw new WordExplainContainsNewlineException("EXCEPTION: Word explain cannot contain newline");
     }
   }
-  public Word() {}
+
+  public Word() {
+  }
 
   public Word(String wordTarget, String wordExplain) {
     this.setWordTarget(wordTarget);
@@ -28,9 +36,9 @@ public class Word {
 
   public String getWordTarget() {
     try {
-      checkIfWordTargetIsEmpty(this.wordTarget);
-    } catch (WordTargetIsEmptyException wtiee) {
-      Utils.printRelevantStackTrace(wtiee);
+      checkIfWordTargetIsValid(this.wordTarget);
+    } catch (WordTargetIsEmptyException | WordTargetContainsNewlineException wte) {
+      Utils.printRelevantStackTrace(wte);
     }
 
     return wordTarget;
@@ -38,9 +46,9 @@ public class Word {
 
   public void setWordTarget(String wordTarget) {
     try {
-      checkIfWordTargetIsEmpty(wordTarget);
-    } catch (WordTargetIsEmptyException wtiee) {
-      Utils.printRelevantStackTrace(wtiee);
+      checkIfWordTargetIsValid(wordTarget);
+    } catch (WordTargetIsEmptyException | WordTargetContainsNewlineException wte) {
+      Utils.printRelevantStackTrace(wte);
     }
 
     this.wordTarget = wordTarget;
@@ -48,9 +56,9 @@ public class Word {
 
   public String getWordExplain() {
     try {
-      checkIfWordExplainIsEmpty(this.wordExplain);
-    } catch (WordExplainIsEmptyException weiee) {
-      Utils.printRelevantStackTrace(weiee);
+      checkIfWordExplainIsValid(this.wordExplain);
+    } catch (WordExplainIsEmptyException | WordExplainContainsNewlineException wee) {
+      Utils.printRelevantStackTrace(wee);
     }
 
     return wordExplain;
@@ -58,9 +66,9 @@ public class Word {
 
   public void setWordExplain(String wordExplain) {
     try {
-      checkIfWordExplainIsEmpty(wordExplain);
-    } catch (WordExplainIsEmptyException weiee) {
-      Utils.printRelevantStackTrace(weiee);
+      checkIfWordExplainIsValid(wordExplain);
+    } catch (WordExplainIsEmptyException | WordExplainContainsNewlineException wee) {
+      Utils.printRelevantStackTrace(wee);
     }
 
     this.wordExplain = wordExplain;
