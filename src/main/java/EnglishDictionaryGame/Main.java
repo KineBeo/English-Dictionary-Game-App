@@ -19,7 +19,6 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
-    Word word = new Word("\n", "\n");
     launch();
     System.out.println("Hello, World!");
   }
