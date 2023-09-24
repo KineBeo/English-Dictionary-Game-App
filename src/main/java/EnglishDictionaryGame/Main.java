@@ -1,7 +1,7 @@
 package EnglishDictionaryGame;
 
+import EnglishDictionaryGame.CommandLine.DictionaryCommandLine;
 import java.io.IOException;
-import EnglishDictionaryGame.Data.Word;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,8 +19,9 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
-    launch();
-    System.out.println("Hello, World!");
+    // launch();
+    DictionaryCommandLine dictionaryCommandLine = new DictionaryCommandLine();
+    dictionaryCommandLine.dictionaryBasic();
   }
 }
 

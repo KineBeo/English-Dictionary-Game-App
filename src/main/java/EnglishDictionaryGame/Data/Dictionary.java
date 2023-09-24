@@ -20,6 +20,7 @@ public class Dictionary {
   }
 
   public void addWord(Word word) {
+    word.setWordTarget(word.getWordTarget().toLowerCase());
     word.setWordTarget(StringUtils.capitalize(word.getWordTarget()));
     words.add(word);
   }
