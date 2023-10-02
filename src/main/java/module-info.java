@@ -6,8 +6,9 @@ module dictionaryapplication.englishdictionarygameapp {
     requires org.kordamp.bootstrapfx.core;
     requires com.almasb.fxgl.all;
   requires org.apache.commons.lang3;
+    requires java.sql;
 
-  opens EnglishDictionaryGame to javafx.fxml;
+    opens EnglishDictionaryGame to javafx.fxml;
     exports EnglishDictionaryGame;
 
     exports EnglishDictionaryGame.Controller;
