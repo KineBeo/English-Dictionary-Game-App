@@ -7,10 +7,11 @@ module dictionaryapplication.englishdictionarygameapp {
     requires com.almasb.fxgl.all;
   requires org.apache.commons.lang3;
     requires java.sql;
+    requires javafx.web;
 
     opens EnglishDictionaryGame to javafx.fxml;
     exports EnglishDictionaryGame;
 
-    exports EnglishDictionaryGame.Controller;
-    opens EnglishDictionaryGame.Controller to javafx.fxml;
+    opens EnglishDictionaryGame.Controller to javafx.fxml; // Export package to JavaFX
+    exports EnglishDictionaryGame.Controller; // Export main module package
 }
