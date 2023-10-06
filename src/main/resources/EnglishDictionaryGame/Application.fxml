@@ -11,7 +11,7 @@
       <Pane layoutX="-2.0" layoutY="2.0" prefHeight="594.0" prefWidth="1086.0">
          <children>
             <Pane layoutX="14.0" layoutY="11.0" prefHeight="573.0" prefWidth="80.0" />
-            <TextField fx:id="inputText" layoutX="157.0" layoutY="6.0" prefHeight="40.0" prefWidth="255.0" promptText="Let's find your word..." />
+            <TextField fx:id="inputText" layoutX="157.0" layoutY="6.0" onAction="#findWord" prefHeight="40.0" prefWidth="255.0" promptText="Let's find your word..." />
             <ListView fx:id="searchList" layoutX="157.0" layoutY="58.0" prefHeight="508.0" prefWidth="255.0" />
             <WebView fx:id="webView" layoutX="466.0" layoutY="58.0" prefHeight="508.0" prefWidth="600.0" />
          </children>

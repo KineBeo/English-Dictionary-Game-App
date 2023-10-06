@@ -28,57 +28,95 @@ public class Database {
   public ArrayList<String> getAllWordTargets() {
     final String SQL_QUERY = "SELECT * FROM dictionary";
     try {
-        PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
+      PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
+      try {
+        ResultSet rs = ps.executeQuery();
         try {
-          ResultSet rs = ps.executeQuery();
-          try {
-              ArrayList<String> targets = new ArrayList<>();
-              while (rs.next()) {
-                  targets.add(rs.getString(2));
-              }
-              return targets;
-          } finally{
-              close(rs);
+          ArrayList<String> targets = new ArrayList<>();
+          while (rs.next()) {
+            targets.add(rs.getString(2));
           }
+          return targets;
         } finally {
-            close(ps);
+          close(rs);
         }
+      } finally {
+        close(ps);
+      }
     } catch (SQLException e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
 
     return new ArrayList<>();
   }
 
-  public ArrayList<String> getAllWordFromDatabase() {
+  public ArrayList<String> getAllWordsFromDatabase() {
     final String SQL_QUERY = "SELECT * FROM dictionary";
     try {
-        PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
+      PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
+      try {
+        ResultSet rs = ps.executeQuery();
         try {
-          ResultSet rs = ps.executeQuery();
-          try {
-              ArrayList<String> targets = new ArrayList<>();
-              while (rs.next()) {
-                  targets.add(rs.getString(2));
-              }
-              return targets;
-          } finally{
-              close(rs);
+          ArrayList<String> targets = new ArrayList<>();
+          while (rs.next()) {
+            targets.add(rs.getString(2));
           }
+          return targets;
         } finally {
-            close(ps);
+          close(rs);
         }
+      } finally {
+        close(ps);
+      }
     } catch (SQLException e) {
-        e.printStackTrace();
+      e.printStackTrace();
     }
 
     return new ArrayList<>();
   }
-  private void close(ResultSet rs) {
 
+  public String lookUpWord(final String target) {
+    final String SQL_QUERY = "SELECT definition FROM dictionary WHERE target = ?";
+    try {
+      PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
+      ps.setString(1, target);
+      try {
+        ResultSet rs = ps.executeQuery();
+        try {
+          if (rs.next()) {
+            return rs.getString("definition");
+          } else {
+            return "Not found";
+          }
+        } finally {
+          close(rs);
+        }
+      } finally {
+        close(ps);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return "Not found";
+  }
+
+  private void close(ResultSet rs) {
+    try {
+      if (rs != null) {
+        rs.close();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   private void close(PreparedStatement ps) {
-
+    try {
+      if (ps != null) {
+        ps.close();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }
