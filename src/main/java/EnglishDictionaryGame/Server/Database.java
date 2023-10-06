@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Database {
 
-  public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
   public static final String URL = "jdbc:mysql://localhost:3306/EnglishDictionary";
   public static final String USE_NAME = "root";
   public static final String PASSWORD = "1392004";
@@ -86,7 +85,7 @@ public class Database {
           if (rs.next()) {
             return rs.getString("definition");
           } else {
-            return "Not found";
+            return "Not found!";
           }
         } finally {
           close(rs);
@@ -97,7 +96,7 @@ public class Database {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return "Not found";
+    return "Not found!";
   }
 
   private void close(ResultSet rs) {
