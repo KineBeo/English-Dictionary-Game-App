@@ -69,7 +69,7 @@ public class Application implements Initializable {
     if (definition.equals("Not found!")) {
       Alert alert = new Alert(Alert.AlertType.WARNING);
       alert.setTitle("CẢNH BÁO");
-      alert.setContentText("KHÔNG TÌM THẤY TỪ '" + target + "' đâu thằng ngu");
+      alert.setContentText("KHÔNG TÌM THẤY TỪ '" + target + "!");
       alert.show();
     }
     webView.getEngine().loadContent(definition, "text/html");
