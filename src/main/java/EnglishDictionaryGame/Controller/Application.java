@@ -1,5 +1,6 @@
 package EnglishDictionaryGame.Controller;
 
+import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Database;
 import java.net.URL;
 import java.sql.SQLException;
@@ -9,7 +10,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -19,6 +24,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class Application implements Initializable {
 
@@ -77,7 +84,19 @@ public class Application implements Initializable {
 
   @FXML
   public void addingWord(ActionEvent event) {
-    System.out.println("click click!!");
+    try {
+      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/AddWordScreen.fxml"));
+      Parent root = loader.load();
+      Scene scene = new Scene(root);
+      Stage addStage = new Stage();
+      Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      addStage.setTitle("Thêm từ");
+      addStage.setResizable(false);
+      stage.setScene(scene);
+      stage.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @FXML
@@ -88,9 +107,9 @@ public class Application implements Initializable {
   @FXML
   public void doubleClicktoSelectWord(MouseEvent mouseEvent) {
     if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
-        String target = searchList.getSelectionModel().getSelectedItem();
-        inputText.setText(target);
-        findWord();
+      String target = searchList.getSelectionModel().getSelectedItem();
+      inputText.setText(target);
+      findWord();
     }
   }
 
@@ -101,7 +120,7 @@ public class Application implements Initializable {
     }
     if (e.getCode() == KeyCode.ENTER) {
       String target = searchList.getSelectionModel().getSelectedItem();
-        inputText.setText(target);
+      inputText.setText(target);
       findWord();
     } else if (e.getCode() == KeyCode.UP) {
       if (searchList.getSelectionModel().getSelectedIndex() == 0 && lastIndex == 0) {

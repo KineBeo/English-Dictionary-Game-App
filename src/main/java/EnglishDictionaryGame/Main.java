@@ -8,7 +8,7 @@ public class Main extends Application {
   @Override
   public void start(Stage stage) {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Application.fxml"));
+      FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/Application.fxml"));
       Scene scene = new Scene(fxmlLoader.load());
       stage.setTitle("Dictionary!");
       stage.setResizable(false);

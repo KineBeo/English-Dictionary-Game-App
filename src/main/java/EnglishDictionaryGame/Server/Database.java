@@ -99,6 +99,27 @@ public class Database {
     return "Not found!";
   }
 
+  public boolean insertWord(final String target, final String definition) {
+    final String SQL_QUERY = "INSERT INTO dictionary (target, definition) VALUES (?, ?)";
+    try {
+      PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
+      ps.setString(1, target);
+      ps.setString(2, definition);
+      try {
+        ps.executeUpdate();
+      } catch (SQLIntegrityConstraintViolationException e) {
+        // `word` is already in database
+        return false;
+      } finally {
+        close(ps);
+      }
+      return true;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
   private void close(ResultSet rs) {
     try {
       if (rs != null) {
