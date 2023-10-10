@@ -120,6 +120,26 @@ public class Database {
     }
   }
 
+  public boolean deleteWord(final String target) {
+    final String SQL_QUERY = "DELETE FROM dictionary WHERE target = ?";
+    try {
+      PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
+      ps.setString(1, target);
+      try {
+        int deleteRows = ps.executeUpdate();
+        if (deleteRows == 0) {
+          return false;
+        }
+      } finally {
+        close(ps);
+      }
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
   private void close(ResultSet rs) {
     try {
       if (rs != null) {
