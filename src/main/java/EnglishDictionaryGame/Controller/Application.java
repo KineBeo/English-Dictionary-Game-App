@@ -6,6 +6,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import com.almasb.fxgl.app.PrimaryStageWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -89,11 +91,12 @@ public class Application implements Initializable {
       Parent root = loader.load();
       Scene scene = new Scene(root);
       Stage addStage = new Stage();
-      Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       addStage.setTitle("Thêm từ");
+      addStage.setScene(scene);
       addStage.setResizable(false);
-      stage.setScene(scene);
-      stage.show();
+      addStage.initModality(Modality.APPLICATION_MODAL);
+      addStage.initOwner(new Main().getMainStage());
+      addStage.showAndWait();
     } catch (Exception e) {
       e.printStackTrace();
     }
