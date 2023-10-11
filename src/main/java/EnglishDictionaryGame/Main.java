@@ -27,6 +27,7 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
+    TextToSpeech.playPronunciationSound("hello is it me you're looking for", TextToSpeech.LANGUAGE_ENGLISH);
     launch();
   }
 }
