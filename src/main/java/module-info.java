@@ -8,8 +8,9 @@ module dictionaryapplication.englishdictionarygameapp {
   requires org.apache.commons.lang3;
     requires java.sql;
     requires javafx.web;
+  requires jlayer;
 
-    opens EnglishDictionaryGame to javafx.fxml;
+  opens EnglishDictionaryGame to javafx.fxml;
     exports EnglishDictionaryGame;
 
     opens EnglishDictionaryGame.Controller to javafx.fxml; // Export package to JavaFX
