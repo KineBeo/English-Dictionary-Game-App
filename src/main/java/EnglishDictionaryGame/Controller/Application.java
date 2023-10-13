@@ -6,15 +6,12 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import com.almasb.fxgl.app.PrimaryStageWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -42,9 +39,11 @@ public class Application implements Initializable {
   @FXML private Button deleteButton;
   private int lastIndex = 0;
 
+  public static Database database = new Database();
+
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
-    Database database = new Database();
+
     try {
       database.connectToDatabase();
     } catch (SQLException e) {
@@ -104,6 +103,20 @@ public class Application implements Initializable {
 
   @FXML
   public void deleteWord(ActionEvent event) {
+    try {
+      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/DeleteWordScreen.fxml"));
+      Parent root = loader.load();
+      Scene scene = new Scene(root);
+      Stage addStage = new Stage();
+      addStage.setTitle("Thêm từ");
+      addStage.setScene(scene);
+      addStage.setResizable(false);
+      addStage.initModality(Modality.APPLICATION_MODAL);
+      addStage.initOwner(new Main().getMainStage());
+      addStage.showAndWait();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     System.out.println("Delete delete!!");
   }
 
