@@ -141,6 +141,27 @@ public class Database {
     }
   }
 
+  public boolean updateWordDefinition(final String target, final String definition) {
+    final String SQL_QUERY = "UPDATE dictionary SET definition = ? WHERE target = ?";
+    try {
+      PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
+      ps.setString(1, definition);
+      ps.setString(2, target);
+      try {
+        int updateRows = ps.executeUpdate();
+        if (updateRows == 0) {
+          return false;
+        }
+      } finally {
+        close(ps);
+      }
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
+
   private void close(ResultSet rs) {
     try {
       if (rs != null) {

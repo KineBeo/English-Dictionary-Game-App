@@ -21,6 +21,7 @@
                      <children>
                         <Button fx:id="addButton" layoutX="9.0" layoutY="2.0" mnemonicParsing="false" onAction="#addingWord" prefHeight="35.0" prefWidth="80.0" text="Add" />
                         <Button fx:id="deleteButton" layoutX="10.0" layoutY="88.0" mnemonicParsing="false" onAction="#deleteWord" prefHeight="35.0" prefWidth="80.0" text="Delete" />
+                        <Button layoutX="8.0" layoutY="188.0" mnemonicParsing="false" onAction="#updateWord" prefHeight="35.0" prefWidth="83.0" text="Edit" />
                      </children>
                   </Pane>
                </children>

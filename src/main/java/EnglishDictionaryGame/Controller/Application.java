@@ -108,7 +108,7 @@ public class Application implements Initializable {
       Parent root = loader.load();
       Scene scene = new Scene(root);
       Stage addStage = new Stage();
-      addStage.setTitle("Thêm từ");
+      addStage.setTitle("Xóa từ");
       addStage.setScene(scene);
       addStage.setResizable(false);
       addStage.initModality(Modality.APPLICATION_MODAL);
@@ -118,6 +118,25 @@ public class Application implements Initializable {
       e.printStackTrace();
     }
     System.out.println("Delete delete!!");
+  }
+
+  @FXML
+  public void updateWord(ActionEvent event) {
+    try {
+      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/UpdateWordScreen.fxml"));
+      Parent root = loader.load();
+      Scene scene = new Scene(root);
+      Stage addStage = new Stage();
+      addStage.setTitle("Sửa từ");
+      addStage.setScene(scene);
+      addStage.setResizable(false);
+      addStage.initModality(Modality.APPLICATION_MODAL);
+      addStage.initOwner(new Main().getMainStage());
+      addStage.showAndWait();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    System.out.println("Update update!!");
   }
 
   @FXML
