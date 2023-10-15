@@ -114,6 +114,7 @@ public class Database {
       } finally {
         close(ps);
       }
+      Trie.insert(target);
       return true;
     } catch (SQLException e) {
       e.printStackTrace();
@@ -134,6 +135,7 @@ public class Database {
       } finally {
         close(ps);
       }
+      Trie.delete(target);
       return true;
     } catch (Exception e) {
       e.printStackTrace();

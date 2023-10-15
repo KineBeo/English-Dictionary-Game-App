@@ -12,7 +12,7 @@
    <children>
       <Pane layoutX="-2.0" layoutY="2.0" prefHeight="594.0" prefWidth="1086.0">
          <children>
-            <TextField fx:id="inputText" layoutX="157.0" layoutY="6.0" onAction="#findWord" prefHeight="40.0" prefWidth="255.0" promptText="Let's find your word..." />
+            <TextField fx:id="inputText" layoutX="157.0" layoutY="6.0" onAction="#findWord" onKeyTyped="#preparedSearchList" prefHeight="40.0" prefWidth="255.0" promptText="Let's find your word..." />
             <ListView fx:id="searchList" layoutX="157.0" layoutY="58.0" onKeyPressed="#selectWordUsingKeyBoard" onMouseClicked="#doubleClicktoSelectWord" prefHeight="508.0" prefWidth="255.0" />
             <WebView fx:id="webView" layoutX="466.0" layoutY="58.0" prefHeight="508.0" prefWidth="600.0" />
             <VBox layoutX="31.0" layoutY="15.0" prefHeight="549.0" prefWidth="100.0">

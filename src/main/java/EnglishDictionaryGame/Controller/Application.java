@@ -2,22 +2,20 @@ package EnglishDictionaryGame.Controller;
 
 import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Database;
+import EnglishDictionaryGame.Server.Trie;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -41,38 +39,40 @@ public class Application implements Initializable {
 
   public static Database database = new Database();
 
+  public Application() {
+    try {
+      database.initialize();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    try {
-      database.connectToDatabase();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    ArrayList<String> words = database.getAllWordsFromDatabase();
-
-    ObservableList<String> items = FXCollections.observableArrayList(words);
+    preparedSearchList();
     inputText
         .textProperty()
         .addListener(
             (observableValue, oldValue, newValue) -> {
-              ArrayList<String> filteredWords = new ArrayList<>();
-              for (String word : words) {
-                if (word.startsWith(newValue)) {
-                  filteredWords.add(word);
-                }
-              }
-              ObservableList<String> filteredItems =
-                  FXCollections.observableArrayList(filteredWords);
-              searchList.setItems(filteredItems);
+              Platform.runLater(
+                  () -> {
+                    preparedSearchList();
+                  });
             });
-    searchList.setItems(items);
+  }
+
+  /** Refresh the list view. */
+  public void preparedSearchList() {
+    searchList.getItems().clear();
+    String target = inputText.getText().trim();
+    ArrayList<String> searchedWords =
+        target.isEmpty() ? Trie.getAllWordsFromTrie() : Trie.search(target);
+    searchList.setItems(FXCollections.observableArrayList(searchedWords));
   }
 
   @FXML
   public void findWord() {
     String target = inputText.getText();
-    Database database = new Database();
     String definition = database.lookUpWord(target);
     if (definition.equals("Not found!")) {
       Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -103,21 +103,9 @@ public class Application implements Initializable {
 
   @FXML
   public void deleteWord(ActionEvent event) {
-    try {
-      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/DeleteWordScreen.fxml"));
-      Parent root = loader.load();
-      Scene scene = new Scene(root);
-      Stage addStage = new Stage();
-      addStage.setTitle("Xóa từ");
-      addStage.setScene(scene);
-      addStage.setResizable(false);
-      addStage.initModality(Modality.APPLICATION_MODAL);
-      addStage.initOwner(new Main().getMainStage());
-      addStage.showAndWait();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    System.out.println("Delete delete!!");
+    String target = searchList.getSelectionModel().getSelectedItem();
+    database.deleteWord(target);
+    searchList.getItems().remove(target);
   }
 
   @FXML
