@@ -9,8 +9,20 @@ public class Trie {
     private static final ArrayList<String> searchedWords = new ArrayList<>();
     private static final TrieNode root = new TrieNode();
 
+
     public static ArrayList<String> getSearchedWords() {
         return searchedWords;
+    }
+
+    public static ArrayList<String> getAllWordsFromTrie() {
+        ArrayList<String> allWords = new ArrayList<>();
+        dfsGetWordsSubtree(root, "");
+        allWords.addAll(searchedWords);
+        return allWords;
+    }
+    public static void printAllWordOfTrie() {
+        TrieNode pCrawl = root;
+        dfsGetWordsSubtree(pCrawl, "");
     }
 
     /**
