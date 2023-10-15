@@ -1,5 +1,5 @@
 package EnglishDictionaryGame;
-import EnglishDictionaryGame.Server.TextToSpeech;
+import EnglishDictionaryGame.Server.PronunciationService;
 import EnglishDictionaryGame.Server.TranslationService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -28,9 +28,10 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
-//    TextToSpeech.playPronunciationSound("hello is it me you're looking for", TextToSpeech.LANGUAGE_ENGLISH);
-//    TextToSpeech.playPronunciationSound("Đã fix được bug dcu", TextToSpeech.LANGUAGE_VIETNAMESE);
+//    PronunciationService.pronounce("hello is it me you're looking for", PronunciationService.LANGUAGE_ENGLISH);
+//    PronunciationService.pronounce("Đã fix được bug dcu", PronunciationService.LANGUAGE_VIETNAMESE);
     String testText = "Hello darkness my old friend";
+    PronunciationService.pronounce(testText, PronunciationService.LANGUAGE_ENGLISH);
     String translation = TranslationService.translate(testText, "en", "vi");
     System.out.println(translation);
     launch();

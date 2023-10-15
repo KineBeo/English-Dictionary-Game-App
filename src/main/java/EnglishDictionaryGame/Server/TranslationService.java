@@ -1,10 +1,9 @@
 package EnglishDictionaryGame.Server;
 
 import EnglishDictionaryGame.Exceptions.Utils;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 public class TranslationService {
 
@@ -15,6 +14,7 @@ public class TranslationService {
     } catch (Exception e) {
       Utils.printRelevantStackTrace(e);
     }
+
     return translation;
   }
 
@@ -22,7 +22,7 @@ public class TranslationService {
   private static String getTranslation(String sourceText, String sourceLang, String targetLang)
       throws Exception {
     URL translationRequestURL = buildTranslationRequestURL(sourceText, sourceLang, targetLang);
-    String translationResponse = getURLResponse(translationRequestURL);
+    String translationResponse = getTranslationRequestResponse(translationRequestURL);
     return translationResponse;
   }
 
@@ -30,28 +30,21 @@ public class TranslationService {
       String targetLang) throws Exception {
     StringBuilder urlStringBuilder = new StringBuilder();
     urlStringBuilder.append(
-            "https://script.google.com/macros/s/AKfycbyWj4Rkeu92H3M9GLpJScoG-l5-LoZFORE4o2Kr27J6897Br1PPw0HEeDflNuqaHz3FTg/exec")
-        .append("?q=").append(URLEncoder.encode(sourceText, StandardCharsets.UTF_8))
+            "https://script.google.com/macros/s/AKfycbwCw24C-pC1vmV9dc5SJEoKE_B4bby9xRCSG7WigJpqFiCf_Zi0LmXXgohO8KNLbaFX/exec")
+        .append("?text=").append(URLEncoder.encode(sourceText, StandardCharsets.UTF_8))
         .append("&source=").append(sourceLang)
         .append("&target=").append(targetLang);
 
-    URL translationRequestURL = new URL(urlStringBuilder.toString());
+    URI translationRequestURI = new URI(urlStringBuilder.toString());
+    URL translationRequestURL = translationRequestURI.toURL();
     return translationRequestURL;
   }
 
-  private static String getURLResponse(URL url) throws Exception {
-    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-    connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+  private static String getTranslationRequestResponse(URL url) throws Exception {
+    Scanner scanner = new Scanner(url.openStream());
+    String content = scanner.useDelimiter("\\Z").next();
+    scanner.close();
 
-    BufferedReader inputReader = new BufferedReader(
-        new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-    String inputLine = "";
-    StringBuilder responseBuilder = new StringBuilder();
-    while ((inputLine = inputReader.readLine()) != null) {
-      responseBuilder.append(inputLine);
-    }
-
-    inputReader.close();
-    return responseBuilder.toString();
+    return content;
   }
 }
