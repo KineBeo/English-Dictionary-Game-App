@@ -2,7 +2,6 @@ package EnglishDictionaryGame.Server;
 
 import EnglishDictionaryGame.Exceptions.Utils;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -29,8 +28,7 @@ public class PronunciationService {
 
   private static void playPronunciationSound(String text, String language) throws Exception {
     URL sourceAudioURL = getPronunciationRequestURL(text, language);
-    InputStream audioSource = getPronunciationRequestAudio(sourceAudioURL);
-    playPronunciationAudio(audioSource);
+    playAudioFromURL(sourceAudioURL);
   }
 
   private static URL getPronunciationRequestURL(String text, String language)
@@ -47,14 +45,12 @@ public class PronunciationService {
     return pronunciationRequestURL;
   }
 
-  private static InputStream getPronunciationRequestAudio(URL sourceAudioURL) throws Exception {
-    HttpsURLConnection connection = (HttpsURLConnection) sourceAudioURL.openConnection();
+  private static void playAudioFromURL(URL audioSourceURL) throws Exception {
+    HttpsURLConnection connection = (HttpsURLConnection) audioSourceURL.openConnection();
     InputStream audioSource = connection.getInputStream();
-
-    return audioSource;
-  }
-
-  private static void playPronunciationAudio(InputStream audioSource) throws Exception {
-    new Player(audioSource).play();
+    Player audioPlayer = new Player(audioSource);
+    audioPlayer.play();
+    audioSource.close();
+    connection.disconnect();
   }
 }
