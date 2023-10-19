@@ -1,0 +1,61 @@
+
+.menuItem:hover {
+    -fx-border-color: #660099;
+    -fx-border-width: 0px 0px 3px 0px;
+}
+
+.slidebarItem:hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
+.label-title {
+    -fx-text-alignment: center;
+    -fx-text-fill: #595e62;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-font-family: "San Francisco";
+    -fx-padding: 0px 0px 0px 0px;
+}
+
+.menu {
+    -fx-text-fill: BLACK;
+}
+
+.webView {
+    -fx-text-fill: Green;
+}
+
+.search-box{
+    -fx-background-color: white;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+    -fx-effect: dropshadow(three-pass-box, #8c7ae6, 15, 0, 0, 2) ;
+}
+
+.search-field{
+  -fx-background-color: transparent;
+  -fx-text-fill: #595e62;
+  -fx-font-family: "Jetbrains Mono";
+  -fx-font-weight: bold;
+  -fx-font-size: 13;
+  -fx-border: none ;
+}
+
+.title{
+     -fx-effect: dropshadow(three-pass-box, #8c7ae6, 10, 0, 0, 0);
+     -fx-background-radius: 5;
+     -fx-border-radius: 5;
+}
+
+.menu-Title {
+    -fx-text-alignment: center;
+        -fx-text-fill: white;
+        -fx-font-size: 25px;
+        -fx-font-family: "Jetbrains Mono";
+        -fx-padding: 0px 0px 0px 0px;
+}
+
+.dropshadow-forUI {
+    -fx-effect: dropshadow(three-pass-box, #8c7ae6, 10, 0, 0, 0);
+}

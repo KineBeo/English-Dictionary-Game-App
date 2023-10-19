@@ -1,32 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.Application">
-   <children>
-      <Pane layoutX="-2.0" layoutY="2.0" prefHeight="594.0" prefWidth="1086.0">
+   <Pane prefHeight="600.0" prefWidth="1080.0">
+      <ListView fx:id="searchList" layoutX="205.0" layoutY="150.0" onKeyPressed="#selectWordUsingKeyBoard" onMouseClicked="#doubleClicktoSelectWord" prefHeight="430.0" prefWidth="240.0" styleClass="title" stylesheets="@../css/stylesheet.css" />
+      <Pane layoutX="460.0" layoutY="150.0" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
          <children>
-            <TextField fx:id="inputText" layoutX="157.0" layoutY="6.0" onAction="#findWord" onKeyTyped="#preparedSearchList" prefHeight="40.0" prefWidth="255.0" promptText="Let's find your word..." />
-            <ListView fx:id="searchList" layoutX="157.0" layoutY="58.0" onKeyPressed="#selectWordUsingKeyBoard" onMouseClicked="#doubleClicktoSelectWord" prefHeight="508.0" prefWidth="255.0" />
-            <WebView fx:id="webView" layoutX="466.0" layoutY="58.0" prefHeight="508.0" prefWidth="600.0" />
-            <VBox layoutX="31.0" layoutY="15.0" prefHeight="549.0" prefWidth="100.0">
+            <WebView fx:id="webView" prefHeight="430.0" prefWidth="590.0" />
+         </children>
+      </Pane>
+      <AnchorPane fx:id="slider" layoutX="-1.0" layoutY="80.0" prefHeight="520.0" prefWidth="170.0" style="-fx-background-color: ffffff;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
+         <children>
+            <VBox prefHeight="518.0" prefWidth="170.0" spacing="10.0">
                <children>
-                  <Pane prefHeight="289.0" prefWidth="100.0">
+                  <Pane prefHeight="60.0" prefWidth="170.0">
                      <children>
-                        <Button fx:id="addButton" layoutX="9.0" layoutY="2.0" mnemonicParsing="false" onAction="#addingWord" prefHeight="35.0" prefWidth="80.0" text="Add" />
-                        <Button fx:id="deleteButton" layoutX="10.0" layoutY="88.0" mnemonicParsing="false" onAction="#deleteWord" prefHeight="35.0" prefWidth="80.0" text="Delete" />
-                        <Button layoutX="8.0" layoutY="188.0" mnemonicParsing="false" onAction="#updateWord" prefHeight="35.0" prefWidth="83.0" text="Edit" />
+                        <Label fx:id="addButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="Add">
+                           <styleClass>
+                              <String fx:value="label-title" />
+                              <String fx:value="slidebarItem" />
+                           </styleClass>
+                        </Label>
+                        <ImageView fitHeight="45.0" fitWidth="43.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/addButton.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="60.0" prefWidth="170.0">
+                     <children>
+                        <Label fx:id="deleteButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="Delete">
+                           <styleClass>
+                              <String fx:value="slidebarItem" />
+                              <String fx:value="label-title" />
+                           </styleClass>
+                        </Label>
+                        <ImageView fitHeight="45.0" fitWidth="43.0" layoutX="9.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/deleteButton.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="60.0" prefWidth="170.0">
+                     <children>
+                        <Label fx:id="editButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="Edit">
+                           <styleClass>
+                              <String fx:value="slidebarItem" />
+                              <String fx:value="label-title" />
+                           </styleClass>
+                        </Label>
+                        <ImageView fitHeight="45.0" fitWidth="43.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/editButton.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="130.0" prefHeight="60.0" prefWidth="170.0">
+                     <children>
+                        <Label fx:id="translateButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="  Translate">
+                           <styleClass>
+                              <String fx:value="slidebarItem" />
+                              <String fx:value="label-title" />
+                           </styleClass>
+                        </Label>
+                        <ImageView fitHeight="45.0" fitWidth="43.0" layoutX="8.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/translate.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="190.0" prefHeight="60.0" prefWidth="170.0">
+                     <children>
+                        <Label fx:id="quizButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="Quiz">
+                           <styleClass>
+                              <String fx:value="slidebarItem" />
+                              <String fx:value="label-title" />
+                           </styleClass>
+                        </Label>
+                        <ImageView fitHeight="45.0" fitWidth="43.0" layoutX="8.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/quizlet.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="290.0" prefHeight="60.0" prefWidth="170.0">
+                     <children>
+                        <Label fx:id="hangmanButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="  Hangman">
+                           <styleClass>
+                              <String fx:value="slidebarItem" />
+                              <String fx:value="label-title" />
+                           </styleClass>
+                        </Label>
+                        <ImageView fitHeight="45.0" fitWidth="43.0" layoutX="7.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/Hangman.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </Pane>
                </children>
             </VBox>
          </children>
+      </AnchorPane>
+      <HBox prefHeight="80.0" prefWidth="1080.0" style="-fx-background-color: #44adfe;" styleClass="title" stylesheets="@../css/stylesheet.css">
+         <children>
+            <Pane prefHeight="90.0" prefWidth="170.0" styleClass="slidebarItem" stylesheets="@../css/stylesheet.css">
+               <children>
+                  <Label fx:id="menu" alignment="CENTER" layoutX="12.0" layoutY="20.0" prefHeight="42.0" prefWidth="144.0" styleClass="menu-Title" stylesheets="@../css/stylesheet.css" text="  Menu" textAlignment="CENTER" />
+                  <Label fx:id="menuClose" alignment="CENTER" layoutX="12.0" layoutY="20.0" prefHeight="42.0" prefWidth="144.0" styleClass="menu-Title" stylesheets="@../css/stylesheet.css" text="  Menu" />
+                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="13.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/menu.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <Pane layoutX="185.0" layoutY="94.0" prefHeight="40.0" prefWidth="281.0" styleClass="search-box" stylesheets="@../css/stylesheet.css">
+         <children>
+            <TextField fx:id="inputText" layoutX="41.0" layoutY="1.0" onAction="#findWord" onKeyTyped="#preparedSearchList" prefHeight="40.0" prefWidth="240.0" promptText="Let's find your word..." styleClass="search-field" stylesheets="@../css/stylesheet.css" />
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="6.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/findButton.png" />
+               </image>
+            </ImageView>
+         </children>
       </Pane>
-   </children>
+   </Pane>
 </AnchorPane>

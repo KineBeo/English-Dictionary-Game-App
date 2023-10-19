@@ -16,7 +16,7 @@
    <children>
       <Pane prefHeight="500.0" prefWidth="808.0">
          <children>
-            <HBox prefHeight="83.0" prefWidth="810.0" styleClass="background" stylesheets="@../style.css">
+            <HBox prefHeight="83.0" prefWidth="810.0" styleClass="background" stylesheets="@../css/style.css">
                <children>
                   <ImageView fitHeight="83.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -29,9 +29,9 @@
                   <Pane prefHeight="83.0" prefWidth="518.0">
                      <children>
                         <Separator layoutX="3.0" layoutY="3.0" orientation="VERTICAL" prefHeight="70.0" prefWidth="6.0" />
-                        <Pane layoutX="76.0" layoutY="14.0" prefHeight="47.0" prefWidth="373.0" stylesheets="@../style.css">
+                        <Pane layoutX="76.0" layoutY="14.0" prefHeight="47.0" prefWidth="373.0" stylesheets="@../css/style.css">
                            <children>
-                              <TextField layoutX="40.0" layoutY="6.0" prefHeight="35.0" prefWidth="304.0" promptText="Let's find your word" styleClass="search-field-radius" stylesheets="@../style.css">
+                              <TextField layoutX="40.0" layoutY="6.0" prefHeight="35.0" prefWidth="304.0" promptText="Let's find your word" styleClass="search-field-radius" stylesheets="@../css/style.css">
                                  <font>
                                     <Font name="System Bold Italic" size="16.0" />
                                  </font>
@@ -51,9 +51,9 @@
                <children>
                   <AnchorPane layoutX="11.0" layoutY="11.0" prefHeight="365.0" prefWidth="216.0">
                      <children>
-                        <Pane layoutX="7.0" layoutY="8.0" prefHeight="47.0" prefWidth="203.0" styleClass="background-radius" stylesheets="@../style.css">
+                        <Pane layoutX="7.0" layoutY="8.0" prefHeight="47.0" prefWidth="203.0" styleClass="background-radius" stylesheets="@../css/style.css">
                            <children>
-                              <Label alignment="CENTER" layoutX="35.0" layoutY="5.0" prefHeight="25.0" prefWidth="156.0" stylesheets="@../style.css" text="Các kết quả liên quan" textFill="#fffafa">
+                              <Label alignment="CENTER" layoutX="35.0" layoutY="5.0" prefHeight="25.0" prefWidth="156.0" stylesheets="@../css/style.css" text="Các kết quả liên quan" textFill="#fffafa">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
                                  </font>
@@ -74,7 +74,7 @@
                   </AnchorPane>
                   <AnchorPane layoutX="243.0" layoutY="6.0" prefHeight="375.0" prefWidth="561.0">
                      <children>
-                        <Pane layoutY="5.0" prefHeight="41.0" prefWidth="567.0" styleClass="background-radius" stylesheets="@../style.css">
+                        <Pane layoutY="5.0" prefHeight="41.0" prefWidth="567.0" styleClass="background-radius" stylesheets="@../css/style.css">
                            <children>
                               <Label layoutX="47.0" layoutY="2.0" prefHeight="35.0" prefWidth="114.0" text="Định nghĩa" textFill="WHITE">
                                  <font>

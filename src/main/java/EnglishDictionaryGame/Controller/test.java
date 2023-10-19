@@ -7,16 +7,17 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -27,7 +28,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class Application implements Initializable {
+public class test implements Initializable {
 
   @FXML private TextField inputText;
 
@@ -47,17 +48,14 @@ public class Application implements Initializable {
 
   @FXML private Label editButton;
 
-  @FXML private Label hangmanButton;
-
-  @FXML private Label quizButton;
-
-  @FXML private Label translateButton;
+  @FXML private AnchorPane pane1, pane2;
+  @FXML private ImageView MENU;
 
   private int lastIndex = 0;
 
   public static Database database = new Database();
 
-  public Application() {
+  public test() {
     try {
       database.initialize();
     } catch (SQLException e) {
@@ -78,9 +76,9 @@ public class Application implements Initializable {
                   });
             });
     menuSlider();
-    addingWord();
-    deleteWord();
-    updateWord();
+            addingWord();
+            deleteWord();
+            updateWord();
   }
 
   /** Refresh the list view. */
@@ -190,45 +188,48 @@ public class Application implements Initializable {
   }
 
   public void menuSlider() {
-    slider.setTranslateX(-182);
-    menu.setOnMouseClicked(
+    pane1.setVisible(false);
+
+    FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.5), pane1);
+    fadeTransition.setFromValue(1);
+    fadeTransition.setToValue(0);
+    fadeTransition.play();
+
+    TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), pane2);
+    translateTransition.setByX(-600);
+    translateTransition.play();
+
+    MENU.setOnMouseClicked(
         mouseEvent -> {
-          TranslateTransition slide = new TranslateTransition();
-          slide.setDuration(Duration.seconds(0.4));
-          slide.setNode(slider);
+          pane1.setVisible(true);
 
-          slide.setToX(0);
-          slide.play();
+          FadeTransition fadeTransition1 = new FadeTransition(Duration.seconds(0.5), pane1);
+          fadeTransition1.setFromValue(0);
+          fadeTransition1.setToValue(0.15);
+          fadeTransition1.play();
 
-          slider.setTranslateX(-182);
-
-          slide.setOnFinished(
-              (ActionEvent e) -> {
-                menu.setVisible(false);
-                menuClose.setVisible(true);
-              });
+          TranslateTransition translateTransition1 =
+              new TranslateTransition(Duration.seconds(0.5), pane2);
+          translateTransition1.setByX(+600);
+          translateTransition1.play();
         });
 
-    menuClose.setOnMouseClicked(
+    pane1.setOnMouseClicked(
         mouseEvent -> {
-          TranslateTransition slide = new TranslateTransition();
-          slide.setDuration(Duration.seconds(0.4));
-          slide.setNode(slider);
+          FadeTransition fadeTransition1 = new FadeTransition(Duration.seconds(0.5), pane1);
+          fadeTransition1.setFromValue(0.15);
+          fadeTransition1.setToValue(0);
+          fadeTransition1.play();
 
-          slide.setToX(-182);
-          slide.play();
-
-          slider.setTranslateX(0);
-
-          slide.setOnFinished(
-              (ActionEvent e) -> {
-                menu.setVisible(true);
-                menuClose.setVisible(false);
+          fadeTransition1.setOnFinished(
+              event1 -> {
+                pane1.setVisible(false);
               });
+
+          TranslateTransition translateTransition1 =
+              new TranslateTransition(Duration.seconds(0.5), pane2);
+          translateTransition1.setByX(-600);
+          translateTransition1.play();
         });
-  }
-
-  public void Hangman() {
-
   }
 }

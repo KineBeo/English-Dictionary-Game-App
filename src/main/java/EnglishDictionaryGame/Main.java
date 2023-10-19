@@ -1,4 +1,7 @@
 package EnglishDictionaryGame;
+
+import java.util.Objects;
+
 import EnglishDictionaryGame.Server.PronunciationService;
 import EnglishDictionaryGame.Server.TranslationService;
 import javafx.application.Application;
@@ -8,15 +11,23 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
   public Stage mainStage;
+
   @Override
   public void start(Stage stage) {
     try {
       mainStage = stage;
       FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("fxml/Application.fxml"));
       Scene scene = new Scene(fxmlLoader.load());
+      scene
+          .getStylesheets()
+          .add(
+              Objects.requireNonNull(Main.class.getResource("css/stylesheet.css"))
+                  .toExternalForm());
+      scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
       mainStage.setTitle("Dictionary!");
       mainStage.setResizable(false);
       mainStage.setScene(scene);
+      mainStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
       mainStage.show();
     } catch (Exception e) {
       e.printStackTrace();
@@ -28,10 +39,10 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
-    String testText = "Hello darkness my old friend";
-    PronunciationService.pronounce(testText, PronunciationService.LANGUAGE_ENGLISH);
-    String translation = TranslationService.translate(testText, "en", "vi");
-    System.out.println(translation);
+//        String testText = "Hello darkness my old friend";
+//        PronunciationService.pronounce(testText, PronunciationService.LANGUAGE_ENGLISH);
+//        String translation = TranslationService.translate(testText, "en", "vi");
+//        System.out.println(translation);
     launch();
   }
 }
