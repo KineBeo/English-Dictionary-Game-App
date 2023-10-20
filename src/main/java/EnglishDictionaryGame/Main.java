@@ -39,10 +39,12 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
-//        String testText = "Hello darkness my old friend";
-//        PronunciationService.pronounce(testText, PronunciationService.LANGUAGE_ENGLISH);
-//        String translation = TranslationService.translate(testText, "en", "vi");
-//        System.out.println(translation);
+    new Thread(() -> {
+      String testText = "Hello darkness my old friend";
+      PronunciationService.pronounce(testText, PronunciationService.LANGUAGE_ENGLISH);
+      String translation = TranslationService.translate(testText, "en", "vi");
+      System.out.println(translation);
+    }).start();
     launch();
   }
 }

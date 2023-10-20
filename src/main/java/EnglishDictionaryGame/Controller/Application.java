@@ -81,6 +81,7 @@ public class Application implements Initializable {
     addingWord();
     deleteWord();
     updateWord();
+    hangMan();
   }
 
   /** Refresh the list view. */
@@ -228,7 +229,23 @@ public class Application implements Initializable {
         });
   }
 
-  public void Hangman() {
-
+  public void hangMan() {
+    hangmanButton.setOnMouseClicked(
+        mouseEvent -> {
+          try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Hangman.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage addStage = new Stage();
+            addStage.setTitle("Hangman");
+            addStage.setScene(scene);
+            addStage.setResizable(false);
+            addStage.initModality(Modality.APPLICATION_MODAL);
+            addStage.initOwner(new Main().getMainStage());
+            addStage.showAndWait();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        });
   }
 }
