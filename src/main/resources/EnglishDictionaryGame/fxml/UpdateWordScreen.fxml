@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.web.HTMLEditor?>
 
-
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.UpdateWord">
    <children>
-      <HBox layoutX="16.0" layoutY="14.0" prefHeight="31.0" prefWidth="566.0">
-         <children>
-            <TextField fx:id="inputText" prefHeight="24.0" prefWidth="566.0" promptText="Nhập từ cần sửa..." />
-         </children>
-      </HBox>
       <HBox layoutX="17.0" layoutY="62.0" prefHeight="375.0" prefWidth="566.0">
          <children>
             <HTMLEditor fx:id="htmlEditor" htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;" prefHeight="380.0" prefWidth="566.0" />

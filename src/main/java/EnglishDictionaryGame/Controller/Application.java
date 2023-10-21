@@ -146,6 +146,8 @@ public class Application implements Initializable {
   public void updateWord() {
     editButton.setOnMouseClicked(
         mouseEvent -> {
+          String target = searchList.getSelectionModel().getSelectedItem();
+            UpdateWord.setTarget(target);
           try {
             FXMLLoader loader =
                 new FXMLLoader(Main.class.getResource("fxml/UpdateWordScreen.fxml"));
@@ -194,8 +196,9 @@ public class Application implements Initializable {
     slider.setTranslateX(-182);
     menu.setOnMouseClicked(
         mouseEvent -> {
+          System.out.println("clicked Menu");
           TranslateTransition slide = new TranslateTransition();
-          slide.setDuration(Duration.seconds(0.4));
+          slide.setDuration(Duration.seconds(0.35));
           slide.setNode(slider);
 
           slide.setToX(0);
@@ -212,8 +215,9 @@ public class Application implements Initializable {
 
     menuClose.setOnMouseClicked(
         mouseEvent -> {
+          System.out.println("Clicked Menu Close");
           TranslateTransition slide = new TranslateTransition();
-          slide.setDuration(Duration.seconds(0.4));
+          slide.setDuration(Duration.seconds(0.35));
           slide.setNode(slider);
 
           slide.setToX(-182);

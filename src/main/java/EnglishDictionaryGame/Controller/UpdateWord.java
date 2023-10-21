@@ -8,38 +8,48 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.Stage;
 
-public class UpdateWord extends WordOperation {
+import static EnglishDictionaryGame.Controller.Application.database;
 
-  @FXML private TextField inputText;
+public class UpdateWord extends WordOperation {
 
   @FXML private AnchorPane anchorPane;
 
   @FXML private HTMLEditor htmlEditor;
 
+  private static String editingWord;
+
+  private void initialize() {
+    htmlEditor.setHtmlText(database.lookUpWord(editingWord));
+  }
+  public static void setTarget(String target) {
+    UpdateWord.editingWord = target;
+  }
+
   @Override
   public void saveWord() {
-    String target = inputText.getText();
     String definition = htmlEditor.getHtmlText();
     Database database = new Database();
-    if (database.updateWordDefinition(target, definition)) {
+    if (database.updateWordDefinition(editingWord, definition)) {
       Alert alert = new Alert(Alert.AlertType.INFORMATION);
       alert.setTitle("Thông báo");
-      alert.setContentText("Cập nhật từ `" + target + "` thành công!");
+      alert.setContentText("Cập nhật từ `" + editingWord + "` thành công!");
       alert.show();
     } else {
-      if (!database.isWordExist(target)) {
+      if (!database.isWordExist(editingWord)) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Lỗi");
-        alert.setContentText("Từ `" + target + "` không tồn tại!");
+        alert.setContentText("Từ `" + editingWord + "` không tồn tại!");
         alert.show();
       } else {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Lỗi");
-        alert.setContentText("Cập nhật từ `" + target + "` không thành công!");
+        alert.setContentText("Cập nhật từ `" + editingWord + "` không thành công!");
         alert.show();
       }
     }
   }
+
+
 
   @Override
   public void quitScreen() {
