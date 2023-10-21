@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -53,6 +54,7 @@ public class Application implements Initializable {
 
   @FXML private Label translateButton;
 
+  @FXML private ImageView exitButton;
   private int lastIndex = 0;
 
   public static Database database = new Database();
@@ -82,6 +84,11 @@ public class Application implements Initializable {
     deleteWord();
     updateWord();
     hangMan();
+    exitButton.setOnMouseClicked(
+        mouseEvent -> {
+          Platform.exit();
+          System.exit(0);
+        });
   }
 
   /** Refresh the list view. */
@@ -147,7 +154,7 @@ public class Application implements Initializable {
     editButton.setOnMouseClicked(
         mouseEvent -> {
           String target = searchList.getSelectionModel().getSelectedItem();
-            UpdateWord.setTarget(target);
+          UpdateWord.setTarget(target);
           try {
             FXMLLoader loader =
                 new FXMLLoader(Main.class.getResource("fxml/UpdateWordScreen.fxml"));
