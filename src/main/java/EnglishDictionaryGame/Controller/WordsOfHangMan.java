@@ -1,20 +1,17 @@
 package EnglishDictionaryGame.Controller;
 
-import EnglishDictionaryGame.Main;
-import java.io.File;
-import java.io.FileNotFoundException;
+import EnglishDictionaryGame.Server.Trie;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class WordsOfHangMan {
-  private ArrayList<String> words;
-  private String[] letters;
+  private final ArrayList<String> words;
 
-  public WordsOfHangMan() throws FileNotFoundException {
+  public WordsOfHangMan() {
     words = new ArrayList<>();
-    Scanner sc = new Scanner(new File(Main.class.getResource("database/Words.txt").getFile()));
-    while (sc.hasNextLine()) words.add(sc.nextLine());
+    ArrayList<String> wordsFromDatabase = Trie.getAllWordsFromTrie();
+    words.addAll(wordsFromDatabase);
+    System.out.println(words.size());
   }
 
   public String getRandomWord() {

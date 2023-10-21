@@ -1,14 +1,12 @@
 package EnglishDictionaryGame.Controller;
 
+import java.util.Arrays;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-
-import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.List;
 
 public class HangmanController {
   @FXML
@@ -27,12 +25,12 @@ public class HangmanController {
 
   private int mistakes;
   private int correct;
-  private WordsOfHangMan word = new WordsOfHangMan();
+  private final WordsOfHangMan word = new WordsOfHangMan();
   private String myWord;
   private List<String> myLetters;
   private List<String> answer;
 
-  public HangmanController() throws FileNotFoundException {}
+  public HangmanController() {}
 
   public void initialize() {
     base1.setVisible(false);
@@ -59,12 +57,12 @@ public class HangmanController {
     text.setText(res);
     winStatus.setText("");
     realWord.setText("");
-    buttons.setDisable(false);
+//    buttons.setDisable(false);
   }
 
   public void onClick(ActionEvent event) {
     String letter = ((Button) event.getSource()).getText();
-    ((Button) event.getSource()).setDisable(true);
+//    ((Button) event.getSource()).setDisable(true);
     if (myLetters.contains(letter)) {
       correct++;
       int letterIndex = myLetters.indexOf(letter);
@@ -73,7 +71,7 @@ public class HangmanController {
       text.setText(res);
       if (correct == myWord.length()) {
         winStatus.setText("You Win!");
-        buttons.setDisable(true);
+//        buttons.setDisable(true);
       }
     } else {
       mistakes++;
@@ -89,7 +87,7 @@ public class HangmanController {
         man.setVisible(true);
         winStatus.setText("You Lose!");
         realWord.setText("The actual word was " + myWord);
-        buttons.setDisable(true);
+//        buttons.setDisable(true);
       }
     }
   }
