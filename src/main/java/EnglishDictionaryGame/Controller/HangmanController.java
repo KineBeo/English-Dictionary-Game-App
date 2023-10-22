@@ -57,12 +57,12 @@ public class HangmanController {
     text.setText(res);
     winStatus.setText("");
     realWord.setText("");
-//    buttons.setDisable(false);
+    buttons.setDisable(false);
   }
 
   public void onClick(ActionEvent event) {
     String letter = ((Button) event.getSource()).getText();
-//    ((Button) event.getSource()).setDisable(true);
+    ((Button) event.getSource()).setDisable(true);
     if (myLetters.contains(letter)) {
       correct++;
       int letterIndex = myLetters.indexOf(letter);
@@ -71,7 +71,7 @@ public class HangmanController {
       text.setText(res);
       if (correct == myWord.length()) {
         winStatus.setText("You Win!");
-//        buttons.setDisable(true);
+        buttons.setDisable(true);
       }
     } else {
       mistakes++;
@@ -87,7 +87,7 @@ public class HangmanController {
         man.setVisible(true);
         winStatus.setText("You Lose!");
         realWord.setText("The actual word was " + myWord);
-//        buttons.setDisable(true);
+        buttons.setDisable(true);
       }
     }
   }

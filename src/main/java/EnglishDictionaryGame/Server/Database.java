@@ -75,6 +75,7 @@ public class Database {
     return new ArrayList<>();
   }
 
+  /** Return definition of `target` word. */
   public String lookUpWord(final String target) {
     final String SQL_QUERY = "SELECT definition FROM dictionary WHERE target = ?";
     try {

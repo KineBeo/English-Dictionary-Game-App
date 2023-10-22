@@ -18,8 +18,10 @@ public class UpdateWord extends WordOperation {
 
   private static String editingWord;
 
+  @FXML
   private void initialize() {
-    htmlEditor.setHtmlText(database.lookUpWord(editingWord));
+    // Dòng code dùng để hiển thị nội dung của từ cần chỉnh sửa
+    htmlEditor.setHtmlText(database.lookUpWord(Application.editTarget));
   }
   public static void setTarget(String target) {
     UpdateWord.editingWord = target;
@@ -29,21 +31,21 @@ public class UpdateWord extends WordOperation {
   public void saveWord() {
     String definition = htmlEditor.getHtmlText();
     Database database = new Database();
-    if (database.updateWordDefinition(editingWord, definition)) {
+    if (database.updateWordDefinition(Application.editTarget, definition)) {
       Alert alert = new Alert(Alert.AlertType.INFORMATION);
       alert.setTitle("Thông báo");
-      alert.setContentText("Cập nhật từ `" + editingWord + "` thành công!");
+      alert.setContentText("Cập nhật từ `" + Application.editTarget + "` thành công!");
       alert.show();
     } else {
-      if (!database.isWordExist(editingWord)) {
+      if (!database.isWordExist(Application.editTarget)) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Lỗi");
-        alert.setContentText("Từ `" + editingWord + "` không tồn tại!");
+        alert.setContentText("Từ `" + Application.editTarget + "` không tồn tại!");
         alert.show();
       } else {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Lỗi");
-        alert.setContentText("Cập nhật từ `" + editingWord + "` không thành công!");
+        alert.setContentText("Cập nhật từ `" + Application.editTarget + "` không thành công!");
         alert.show();
       }
     }
