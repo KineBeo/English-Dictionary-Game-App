@@ -1,9 +1,6 @@
 package EnglishDictionaryGame;
 
 import java.util.Objects;
-
-import EnglishDictionaryGame.Server.PronunciationService;
-import EnglishDictionaryGame.Server.TranslationService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -39,12 +36,6 @@ public class Main extends Application {
   }
 
   public static void main(String[] args) {
-//    new Thread(() -> {
-//      String testText = "Hello darkness my old friend";
-//      PronunciationService.pronounce(testText, PronunciationService.LANGUAGE_ENGLISH);
-//      String translation = TranslationService.translate(testText, "en", "vi");
-//      System.out.println(translation);
-//    }).start();
     launch();
   }
 }

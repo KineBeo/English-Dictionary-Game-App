@@ -159,7 +159,6 @@ public class Application implements Initializable {
   @FXML
   public void updateWord() {
     editTarget = searchList.getSelectionModel().getSelectedItem();
-    String definition = database.lookUpWord(editTarget);
     editButton.setOnMouseClicked(
         mouseEvent -> {
           try {
@@ -185,7 +184,6 @@ public class Application implements Initializable {
     if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
       String target = searchList.getSelectionModel().getSelectedItem();
       editTarget = target;
-      System.out.println(editTarget);
       inputText.setText(target);
       findWord();
     }
