@@ -54,6 +54,51 @@
                         </ImageView>
                      </children>
                   </Pane>
+                  <Pane layoutX="10.0" layoutY="80.0" prefHeight="60.0" prefWidth="170.0">
+                     <children>
+                        <Label fx:id="informationButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="About">
+                           <styleClass>
+                              <String fx:value="slidebarItem" />
+                              <String fx:value="label-title" />
+                           </styleClass>
+                        </Label>
+                        <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/information.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="150.0" prefHeight="60.0" prefWidth="170.0">
+                     <children>
+                        <Label fx:id="dailyWordButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="     Daily Word">
+                           <styleClass>
+                              <String fx:value="slidebarItem" />
+                              <String fx:value="label-title" />
+                           </styleClass>
+                        </Label>
+                        <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="7.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/wordOfToday.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="170.0">
+                     <children>
+                        <Label fx:id="settingButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text=" Setting">
+                           <styleClass>
+                              <String fx:value="slidebarItem" />
+                              <String fx:value="label-title" />
+                           </styleClass>
+                        </Label>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/setting.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
                </children>
             </VBox>
          </children>

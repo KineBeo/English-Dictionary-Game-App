@@ -54,6 +54,12 @@ public class Application implements Initializable {
 
   @FXML private Label translateButton;
 
+  @FXML private Label informationButton;
+
+  @FXML private Label dailyWordButton;
+
+  @FXML private Label settingButton;
+
   @FXML private ImageView exitButton;
   private int lastIndex = 0;
 
@@ -86,6 +92,9 @@ public class Application implements Initializable {
     deleteWord();
     updateWord();
     hangMan();
+    setting();
+    about();
+    dailyWord();
     exitButton.setOnMouseClicked(
         mouseEvent -> {
           Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -98,7 +107,7 @@ public class Application implements Initializable {
         });
   }
 
-  /** Refresh the list view. */
+    /** Refresh the list view. */
   public void preparedSearchList() {
     searchList.getItems().clear();
     String target = inputText.getText().trim();
@@ -270,5 +279,17 @@ public class Application implements Initializable {
                   });
             })
         .start();
+  }
+
+  public void about() {
+
+  }
+
+  public void setting() {
+
+  }
+
+  public void dailyWord() {
+
   }
 }
