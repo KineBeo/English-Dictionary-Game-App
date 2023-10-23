@@ -30,37 +30,53 @@ import javafx.util.Duration;
 
 public class Application implements Initializable {
 
-  @FXML private TextField inputText;
+  @FXML
+  private TextField inputText;
 
-  @FXML private ListView<String> searchList;
+  @FXML
+  private ListView<String> searchList;
 
-  @FXML private WebView webView;
+  @FXML
+  private WebView webView;
 
-  @FXML private Label menu;
+  @FXML
+  private Label menu;
 
-  @FXML private Label menuClose;
+  @FXML
+  private Label menuClose;
 
-  @FXML private AnchorPane slider;
+  @FXML
+  private AnchorPane slider;
 
-  @FXML private Label addButton;
+  @FXML
+  private Label addButton;
 
-  @FXML private Label deleteButton;
+  @FXML
+  private Label deleteButton;
 
-  @FXML private Label editButton;
+  @FXML
+  private Label editButton;
 
-  @FXML private Label hangmanButton;
+  @FXML
+  private Label hangmanButton;
 
-  @FXML private Label quizButton;
+  @FXML
+  private Label quizButton;
 
-  @FXML private Label translateButton;
+  @FXML
+  private Label translateButton;
 
-  @FXML private Label informationButton;
+  @FXML
+  private Label informationButton;
 
-  @FXML private Label dailyWordButton;
+  @FXML
+  private Label dailyWordButton;
 
-  @FXML private Label settingButton;
+  @FXML
+  private Label settingButton;
 
-  @FXML private ImageView exitButton;
+  @FXML
+  private ImageView exitButton;
   private int lastIndex = 0;
 
   public static Database database = new Database();
@@ -91,6 +107,7 @@ public class Application implements Initializable {
     addingWord();
     deleteWord();
     updateWord();
+    translateWord();
     hangMan();
     setting();
     about();
@@ -107,7 +124,9 @@ public class Application implements Initializable {
         });
   }
 
-    /** Refresh the list view. */
+  /**
+   * Refresh the list view.
+   */
   public void preparedSearchList() {
     searchList.getItems().clear();
     String target = inputText.getText().trim();
@@ -188,6 +207,27 @@ public class Application implements Initializable {
         });
   }
 
+  public void translateWord() {
+    translateButton.setOnMouseClicked(
+        mouseEvent -> {
+          try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/TranslateWord.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage addStage = new Stage();
+            addStage.setTitle("Dịch từ");
+            addStage.setScene(scene);
+            addStage.setResizable(false);
+            addStage.initModality(Modality.APPLICATION_MODAL);
+            addStage.initOwner(new Main().getMainStage());
+            addStage.showAndWait();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+    );
+  }
+
   @FXML
   public void doubleClicktoSelectWord(MouseEvent mouseEvent) {
     if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
@@ -258,26 +298,26 @@ public class Application implements Initializable {
 
   public void hangMan() {
     new Thread(
-            () -> {
-              hangmanButton.setOnMouseClicked(
-                  mouseEvent -> {
-                    try {
-                      FXMLLoader loader =
-                          new FXMLLoader(Main.class.getResource("fxml/Hangman.fxml"));
-                      Parent root = loader.load();
-                      Scene scene = new Scene(root);
-                      Stage addStage = new Stage();
-                      addStage.setTitle("Hangman");
-                      addStage.setScene(scene);
-                      addStage.setResizable(false);
-                      addStage.initModality(Modality.APPLICATION_MODAL);
-                      addStage.initOwner(new Main().getMainStage());
-                      addStage.showAndWait();
-                    } catch (Exception e) {
-                      e.printStackTrace();
-                    }
-                  });
-            })
+        () -> {
+          hangmanButton.setOnMouseClicked(
+              mouseEvent -> {
+                try {
+                  FXMLLoader loader =
+                      new FXMLLoader(Main.class.getResource("fxml/Hangman.fxml"));
+                  Parent root = loader.load();
+                  Scene scene = new Scene(root);
+                  Stage addStage = new Stage();
+                  addStage.setTitle("Hangman");
+                  addStage.setScene(scene);
+                  addStage.setResizable(false);
+                  addStage.initModality(Modality.APPLICATION_MODAL);
+                  addStage.initOwner(new Main().getMainStage());
+                  addStage.showAndWait();
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+              });
+        })
         .start();
   }
 
