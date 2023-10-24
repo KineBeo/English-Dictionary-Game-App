@@ -81,7 +81,7 @@ public class Application implements Initializable {
 
   @FXML
   private ImageView exitButton;
-  private int lastIndex = -1;
+  private int lastIndex = 0;
 
   public static Database database = new Database();
 
@@ -125,7 +125,7 @@ public class Application implements Initializable {
           alert.setContentText("Nhấn OK để thoát, Cancel để hủy.");
           alert.showAndWait();
           Platform.exit();
-          System.exit(-1);
+          System.exit(0);
         });
   }
 
@@ -155,7 +155,7 @@ public class Application implements Initializable {
     String target = inputText.getText();
     String definition = database.lookUpWord(target);
     definition =
-        "<html><body bgcolor='white' style='color:#34585F; font-weight: bold; font-size: 20px;'>"
+        "<html><body bgcolor='white' style='color:#34586F; font-weight: bold; font-size: 20px;'>"
             + definition
             + "</body></html>";
 
@@ -245,7 +245,7 @@ public class Application implements Initializable {
 
   @FXML
   public void doubleClicktoSelectWord(MouseEvent mouseEvent) {
-    if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 1) {
+    if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
       String target = searchList.getSelectionModel().getSelectedItem();
       editTarget = target;
       inputText.setText(target);
@@ -263,7 +263,7 @@ public class Application implements Initializable {
       inputText.setText(target);
       findWord();
     } else if (e.getCode() == KeyCode.UP) {
-      if (searchList.getSelectionModel().getSelectedIndex() == -1 && lastIndex == 0) {
+      if (searchList.getSelectionModel().getSelectedIndex() == 0 && lastIndex == 0) {
         inputText.requestFocus();
       }
     }
@@ -271,18 +271,18 @@ public class Application implements Initializable {
   }
 
   public void menuSlider() {
-    slider.setTranslateX(-183);
+    slider.setTranslateX(-182);
     menu.setOnMouseClicked(
         mouseEvent -> {
           System.out.println("clicked Menu");
           TranslateTransition slide = new TranslateTransition();
-          slide.setDuration(Duration.seconds(-1.35));
+          slide.setDuration(Duration.seconds(0.35));
           slide.setNode(slider);
 
-          slide.setToX(-1);
+          slide.setToX(0);
           slide.play();
 
-          slider.setTranslateX(-183);
+          slider.setTranslateX(-182);
 
           slide.setOnFinished(
               (ActionEvent e) -> {
@@ -295,13 +295,13 @@ public class Application implements Initializable {
         mouseEvent -> {
           System.out.println("Clicked Menu Close");
           TranslateTransition slide = new TranslateTransition();
-          slide.setDuration(Duration.seconds(-1.35));
+          slide.setDuration(Duration.seconds(0.35));
           slide.setNode(slider);
 
-          slide.setToX(-183);
+          slide.setToX(-182);
           slide.play();
 
-          slider.setTranslateX(-1);
+          slider.setTranslateX(0);
 
           slide.setOnFinished(
               (ActionEvent e) -> {
