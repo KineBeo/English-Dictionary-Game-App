@@ -67,6 +67,9 @@ public class Application implements Initializable {
   private Label translateButton;
 
   @FXML
+  private Label pronounceButton;
+
+  @FXML
   private Label informationButton;
 
   @FXML
