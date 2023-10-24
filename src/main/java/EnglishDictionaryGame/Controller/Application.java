@@ -134,9 +134,7 @@ public class Application implements Initializable {
     pronounceButton.setOnMouseClicked(mouseEvent -> {
       new Thread(
           () -> {
-            String target = searchList.getSelectionModel().getSelectedItem();
-            System.out.println(target);
-            PronunciationService.pronounce(target, "en");
+            PronunciationService.pronounce(editTarget, "en");
           }).start();
     });
   }
@@ -203,9 +201,9 @@ public class Application implements Initializable {
 
   @FXML
   public void updateWord() {
+    editTarget = searchList.getSelectionModel().getSelectedItem();
     editButton.setOnMouseClicked(
         mouseEvent -> {
-          editTarget = searchList.getSelectionModel().getSelectedItem();
           try {
             FXMLLoader loader =
                 new FXMLLoader(Main.class.getResource("fxml/UpdateWordScreen.fxml"));
