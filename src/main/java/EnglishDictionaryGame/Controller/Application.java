@@ -31,56 +31,39 @@ import javafx.util.Duration;
 
 public class Application implements Initializable {
 
-  @FXML
-  private TextField inputText;
+  @FXML private TextField inputText;
 
-  @FXML
-  private ListView<String> searchList;
+  @FXML private ListView<String> searchList;
 
-  @FXML
-  private WebView webView;
+  @FXML private WebView webView;
 
-  @FXML
-  private Label menu;
+  @FXML private Label menu;
 
-  @FXML
-  private Label menuClose;
+  @FXML private Label menuClose;
 
-  @FXML
-  private AnchorPane slider;
+  @FXML private AnchorPane slider;
 
-  @FXML
-  private Label addButton;
+  @FXML private Label addButton;
 
-  @FXML
-  private Label deleteButton;
+  @FXML private Label deleteButton;
 
-  @FXML
-  private Label editButton;
+  @FXML private Label editButton;
 
-  @FXML
-  private Label hangmanButton;
+  @FXML private Label hangmanButton;
 
-  @FXML
-  private Label quizButton;
+  @FXML private Label quizButton;
 
-  @FXML
-  private Label translateButton;
+  @FXML private Label translateButton;
 
-  @FXML
-  private Label pronounceButton;
+  @FXML private Label pronounceButton;
 
-  @FXML
-  private Label informationButton;
+  @FXML private Label informationButton;
 
-  @FXML
-  private Label dailyWordButton;
+  @FXML private Label dailyWordButton;
 
-  @FXML
-  private Label settingButton;
+  @FXML private Label settingButton;
 
-  @FXML
-  private ImageView exitButton;
+  @FXML private ImageView exitButton;
   private int lastIndex = 0;
 
   public static Database database = new Database();
@@ -119,29 +102,23 @@ public class Application implements Initializable {
     dailyWord();
     exitButton.setOnMouseClicked(
         mouseEvent -> {
-          Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-          alert.setTitle("Xác nhận");
-          alert.setHeaderText("Bạn có chắc chắn muốn thoát?");
-          alert.setContentText("Nhấn OK để thoát, Cancel để hủy.");
-          alert.showAndWait();
-          Platform.exit();
           System.exit(0);
         });
   }
 
   @FXML
   private void pronounceWord() {
-    pronounceButton.setOnMouseClicked(mouseEvent -> {
-      new Thread(
-          () -> {
-            PronunciationService.pronounce(editTarget, "en");
-          }).start();
-    });
+    pronounceButton.setOnMouseClicked(
+        mouseEvent -> {
+          new Thread(
+                  () -> {
+                    PronunciationService.pronounce(editTarget, "en");
+                  })
+              .start();
+        });
   }
 
-  /**
-   * Refresh the list view.
-   */
+  /** Refresh the list view. */
   public void preparedSearchList() {
     searchList.getItems().clear();
     String target = inputText.getText().trim();
@@ -239,8 +216,7 @@ public class Application implements Initializable {
           } catch (Exception e) {
             e.printStackTrace();
           }
-        }
-    );
+        });
   }
 
   @FXML
@@ -313,38 +289,51 @@ public class Application implements Initializable {
 
   public void hangMan() {
     new Thread(
-        () -> {
-          hangmanButton.setOnMouseClicked(
-              mouseEvent -> {
-                try {
-                  FXMLLoader loader =
-                      new FXMLLoader(Main.class.getResource("fxml/Hangman.fxml"));
-                  Parent root = loader.load();
-                  Scene scene = new Scene(root);
-                  Stage addStage = new Stage();
-                  addStage.setTitle("Hangman");
-                  addStage.setScene(scene);
-                  addStage.setResizable(false);
-                  addStage.initModality(Modality.APPLICATION_MODAL);
-                  addStage.initOwner(new Main().getMainStage());
-                  addStage.showAndWait();
-                } catch (Exception e) {
-                  e.printStackTrace();
-                }
-              });
-        })
+            () -> {
+              hangmanButton.setOnMouseClicked(
+                  mouseEvent -> {
+                    try {
+                      FXMLLoader loader =
+                          new FXMLLoader(Main.class.getResource("fxml/Hangman.fxml"));
+                      Parent root = loader.load();
+                      Scene scene = new Scene(root);
+                      Stage addStage = new Stage();
+                      addStage.setTitle("Hangman");
+                      addStage.setScene(scene);
+                      addStage.setResizable(false);
+                      addStage.initModality(Modality.APPLICATION_MODAL);
+                      addStage.initOwner(new Main().getMainStage());
+                      addStage.showAndWait();
+                    } catch (Exception e) {
+                      e.printStackTrace();
+                    }
+                  });
+            })
         .start();
   }
 
-  public void about() {
-
-  }
+  public void about() {}
 
   public void setting() {
-
+    settingButton.setOnMouseClicked(
+        mouseEvent -> {
+          try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Setting.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage addStage = new Stage();
+            scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+            addStage.setScene(scene);
+            addStage.setResizable(false);
+            addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+            addStage.initModality(Modality.APPLICATION_MODAL);
+            addStage.initOwner(new Main().getMainStage());
+            addStage.showAndWait();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        });
   }
 
-  public void dailyWord() {
-
-  }
+  public void dailyWord() {}
 }
