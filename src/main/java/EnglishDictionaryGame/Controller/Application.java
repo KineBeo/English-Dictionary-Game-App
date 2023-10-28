@@ -62,6 +62,8 @@ public class Application implements Initializable {
 
   @FXML private Label dailyWordButton;
 
+  @FXML private Label flashCardButton;
+
   @FXML private Label settingButton;
 
   @FXML private ImageView exitButton;
@@ -106,9 +108,10 @@ public class Application implements Initializable {
     translateWord();
     pronounceWord();
     hangMan();
-    setting();
     about();
     dailyWord();
+    flashCard();
+    setting();
 
     exitButton.setOnMouseClicked(mouseEvent -> System.exit(0));
   }
@@ -343,4 +346,11 @@ public class Application implements Initializable {
   }
 
   public void dailyWord() {}
+
+  public void flashCard() {
+    flashCardButton.setOnMouseClicked(
+        mouseEvent -> {
+          System.out.println("Clicked Flash Card");
+        });
+  }
 }

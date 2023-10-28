@@ -1,5 +1,5 @@
 #addButton, #deleteButton, #editButton, #translateButton, #pronounceButton,
- #informationButton, #dailyWordButton, #settingButton, #hangmanButton, #quizButton {
+ #informationButton, #dailyWordButton, #settingButton, #hangmanButton, #quizButton, #flashCardButton {
     -fx-text-alignment: center;
         -fx-text-fill: black;
         -fx-font-size: 20px;
@@ -54,6 +54,11 @@
 }
 
 #quizButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #30abf3;
+}
+
+#flashCardButton: hover {
     -fx-background-color: #b2bbc2;
     -fx-text-fill: #30abf3;
 }
