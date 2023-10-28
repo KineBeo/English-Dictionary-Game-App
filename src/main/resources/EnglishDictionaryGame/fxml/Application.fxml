@@ -13,25 +13,20 @@
 <?import javafx.scene.web.WebView?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" styleClass="application-border" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.Application">
-   <Pane prefHeight="600.0" prefWidth="1100.0">
+   <Pane prefHeight="600.0" prefWidth="1100.0" styleClass="application-border" stylesheets="@../css/stylesheet.css">
       <ListView fx:id="searchList" layoutX="205.0" layoutY="150.0" onKeyPressed="#selectWordUsingKeyBoard" onMouseClicked="#doubleClicktoSelectWord" prefHeight="430.0" prefWidth="240.0" styleClass="title" stylesheets="@../css/stylesheet.css" />
       <Pane layoutX="460.0" layoutY="150.0" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
          <children>
             <WebView fx:id="webView" prefHeight="430.0" prefWidth="563.0" />
          </children>
       </Pane>
-      <AnchorPane fx:id="slider" layoutX="-1.0" layoutY="80.0" prefHeight="520.0" prefWidth="170.0" style="-fx-background-color: ffffff;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
+      <AnchorPane fx:id="slider" layoutX="1.0" layoutY="78.0" prefHeight="520.0" prefWidth="170.0" style="-fx-background-color: ffffff;" stylesheets="@../css/stylesheet.css">
          <children>
             <VBox prefHeight="518.0" prefWidth="170.0" spacing="10.0">
                <children>
                   <Pane layoutX="10.0" layoutY="190.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
-                        <Label fx:id="quizButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="Quiz">
-                           <styleClass>
-                              <String fx:value="slidebarItem" />
-                              <String fx:value="label-title" />
-                           </styleClass>
-                        </Label>
+                        <Label fx:id="quizButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text="Quiz" />
                         <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/quizlet.png" />
@@ -41,12 +36,7 @@
                   </Pane>
                   <Pane layoutX="10.0" layoutY="290.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
-                        <Label fx:id="hangmanButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="  Hangman">
-                           <styleClass>
-                              <String fx:value="slidebarItem" />
-                              <String fx:value="label-title" />
-                           </styleClass>
-                        </Label>
+                        <Label fx:id="hangmanButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text="  Hangman" />
                         <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="7.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/Hangman.png" />
@@ -56,12 +46,7 @@
                   </Pane>
                   <Pane layoutX="10.0" layoutY="80.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
-                        <Label fx:id="informationButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="About">
-                           <styleClass>
-                              <String fx:value="slidebarItem" />
-                              <String fx:value="label-title" />
-                           </styleClass>
-                        </Label>
+                        <Label fx:id="informationButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text="About" />
                         <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/information.png" />
@@ -71,12 +56,7 @@
                   </Pane>
                   <Pane layoutX="10.0" layoutY="150.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
-                        <Label fx:id="dailyWordButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text="     Daily Word">
-                           <styleClass>
-                              <String fx:value="slidebarItem" />
-                              <String fx:value="label-title" />
-                           </styleClass>
-                        </Label>
+                        <Label fx:id="dailyWordButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text="     Daily Word" />
                         <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="7.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/wordOfToday.png" />
@@ -86,12 +66,7 @@
                   </Pane>
                   <Pane layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
-                        <Label fx:id="settingButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" stylesheets="@../css/stylesheet.css" text=" Setting">
-                           <styleClass>
-                              <String fx:value="slidebarItem" />
-                              <String fx:value="label-title" />
-                           </styleClass>
-                        </Label>
+                        <Label fx:id="settingButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text=" Setting" />
                         <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/setting.png" />
@@ -102,12 +77,16 @@
                </children>
             </VBox>
          </children>
+         <styleClass>
+            <String fx:value="dropshadow-forUI" />
+            <String fx:value="slider-border" />
+         </styleClass>
       </AnchorPane>
-      <HBox fx:id="applicationBar" prefHeight="80.0" prefWidth="1100.0" styleClass="title" stylesheets="@../css/stylesheet.css">
+      <HBox fx:id="applicationBar" prefHeight="80.0" prefWidth="1100.0" stylesheets="@../css/stylesheet.css">
          <children>
-            <Pane prefHeight="90.0" prefWidth="170.0" styleClass="slidebarItem" stylesheets="@../css/stylesheet.css">
+            <Pane prefHeight="90.0" prefWidth="170.0" styleClass="menuSlider" stylesheets="@../css/stylesheet.css">
                <children>
-                  <Label fx:id="menuClose" alignment="CENTER" layoutX="12.0" layoutY="20.0" prefHeight="42.0" prefWidth="144.0" styleClass="menu-Title" stylesheets="@../css/stylesheet.css" text="  Menu" textAlignment="CENTER">
+                  <Label fx:id="menuClose" alignment="CENTER" prefHeight="90.0" prefWidth="170.0" styleClass="menu-Title" stylesheets="@../css/stylesheet.css" text="  Menu" textAlignment="CENTER">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -116,7 +95,7 @@
                         </ImageView>
                      </graphic>
                   </Label>
-                  <Label fx:id="menu" alignment="CENTER" layoutX="12.0" layoutY="20.0" prefHeight="42.0" prefWidth="144.0" styleClass="menu-Title" stylesheets="@../css/stylesheet.css" text="  Menu" textAlignment="CENTER">
+                  <Label fx:id="menu" alignment="CENTER" prefHeight="90.0" prefWidth="170.0" styleClass="menu-Title" stylesheets="@../css/stylesheet.css" text="  Menu" textAlignment="CENTER">
                      <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -129,7 +108,7 @@
             </Pane>
             <Pane prefHeight="80.0" prefWidth="930.0">
                <children>
-                  <ImageView fx:id="exitButton" fitHeight="27.0" fitWidth="27.0" layoutX="900.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="exitButton" fitHeight="27.0" fitWidth="27.0" layoutX="892.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../image/xIcon.png" />
                      </image>
@@ -137,6 +116,10 @@
                </children>
             </Pane>
          </children>
+         <styleClass>
+            <String fx:value="title" />
+            <String fx:value="menu-border" />
+         </styleClass>
       </HBox>
       <Pane layoutX="185.0" layoutY="94.0" prefHeight="40.0" prefWidth="281.0" styleClass="search-box" stylesheets="@../css/stylesheet.css">
          <children>
@@ -152,11 +135,7 @@
          <children>
             <Pane prefHeight="40.0" prefWidth="100.0">
                <children>
-                  <Label fx:id="addButton" alignment="CENTER" prefHeight="40.0" prefWidth="100.0" stylesheets="@../css/stylesheet.css" text="Add">
-                     <styleClass>
-                        <String fx:value="label-title" />
-                        <String fx:value="slidebarItem" />
-                     </styleClass>
+                  <Label fx:id="addButton" alignment="CENTER" prefHeight="40.0" prefWidth="100.0" text="Add">
                      <graphic>
                         <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -169,11 +148,7 @@
             </Pane>
             <Pane layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="100.0">
                <children>
-                  <Label fx:id="deleteButton" alignment="CENTER" prefHeight="40.0" prefWidth="100.0" stylesheets="@../css/stylesheet.css" text="Delete">
-                     <styleClass>
-                        <String fx:value="label-title" />
-                        <String fx:value="slidebarItem" />
-                     </styleClass>
+                  <Label fx:id="deleteButton" alignment="CENTER" prefHeight="40.0" prefWidth="100.0" text="Delete">
                      <graphic>
                         <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -186,11 +161,7 @@
             </Pane>
             <Pane layoutX="130.0" layoutY="10.0" prefHeight="40.0" prefWidth="100.0">
                <children>
-                  <Label fx:id="editButton" alignment="CENTER" prefHeight="40.0" prefWidth="100.0" stylesheets="@../css/stylesheet.css" text="Edit">
-                     <styleClass>
-                        <String fx:value="label-title" />
-                        <String fx:value="slidebarItem" />
-                     </styleClass>
+                  <Label fx:id="editButton" alignment="CENTER" prefHeight="40.0" prefWidth="100.0" text="Edit">
                      <graphic>
                         <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -203,11 +174,7 @@
             </Pane>
             <Pane layoutX="250.0" layoutY="10.0" prefHeight="40.0" prefWidth="120.0">
                <children>
-                  <Label fx:id="translateButton" alignment="CENTER" prefHeight="40.0" prefWidth="120.0" stylesheets="@../css/stylesheet.css" text="Translate">
-                     <styleClass>
-                        <String fx:value="label-title" />
-                        <String fx:value="slidebarItem" />
-                     </styleClass>
+                  <Label fx:id="translateButton" alignment="CENTER" prefHeight="40.0" prefWidth="120.0" text="Translate">
                      <graphic>
                         <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -220,11 +187,7 @@
             </Pane>
             <Pane layoutX="370.0" layoutY="10.0" prefHeight="40.0" prefWidth="150.0">
                <children>
-                  <Label fx:id="pronounceButton" alignment="CENTER" prefHeight="40.0" prefWidth="150.0" stylesheets="@../css/stylesheet.css" text="Pronounce">
-                     <styleClass>
-                        <String fx:value="label-title" />
-                        <String fx:value="slidebarItem" />
-                     </styleClass>
+                  <Label fx:id="pronounceButton" alignment="CENTER" prefHeight="40.0" prefWidth="150.0" text="Pronounce">
                      <graphic>
                         <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>

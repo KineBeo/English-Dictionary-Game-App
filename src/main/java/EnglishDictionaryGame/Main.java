@@ -18,10 +18,9 @@ public class Main extends Application {
       scene
           .getStylesheets()
           .add(
-              Objects.requireNonNull(Main.class.getResource("css/stylesheet.css"))
+              Objects.requireNonNull(Main.class.getResource("css/blueTheme.css"))
                   .toExternalForm());
       scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
-      mainStage.setTitle("Dictionary!");
       mainStage.setResizable(false);
       mainStage.setScene(scene);
       mainStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);

@@ -1,0 +1,60 @@
+#addButton, #deleteButton, #editButton, #translateButton, #pronounceButton,
+ #informationButton, #dailyWordButton, #settingButton, #hangmanButton, #quizButton {
+    -fx-text-alignment: center;
+        -fx-text-fill: black;
+        -fx-font-size: 20px;
+        -fx-font-weight: bold;
+        -fx-font-family: "San Francisco";
+        -fx-padding: 0px 0px 0px 0px;
+}
+
+#addButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
+#deleteButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
+#editButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
+#translateButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
+#pronounceButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
+#informationButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
+#dailyWordButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
+#settingButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
+#hangmanButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
+#quizButton: hover {
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+

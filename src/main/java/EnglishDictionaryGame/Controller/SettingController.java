@@ -1,5 +1,8 @@
 package EnglishDictionaryGame.Controller;
 
+import EnglishDictionaryGame.Main;
+import java.util.ArrayList;
+import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -30,17 +33,65 @@ public class SettingController extends WordOperation {
   public void quitScreen() {}
 
   /** Set color theme. */
-  public void setBarTheme(HBox temp) {
+  public void setBarTheme(HBox temp, ArrayList<Label> buttons) {
     redTheme.setOnMouseClicked(
-        mouseEvent -> temp.setStyle("-fx-background-color: #df4147"));
+        mouseEvent -> {
+          temp.setStyle("-fx-background-color: #df4147");
+          Application.definitionColor = "#df4147";
+          buttons.forEach(
+              button -> {
+                button.getStylesheets().clear();
+                button
+                    .getStylesheets()
+                    .add(
+                        Objects.requireNonNull(Main.class.getResource("css/redTheme.css"))
+                            .toExternalForm());
+              });
+        });
 
     whiteBlueTheme.setOnMouseClicked(
-        mouseEvent -> temp.setStyle("-fx-background-color: #30abf3"));
+        mouseEvent -> {
+          temp.setStyle("-fx-background-color: #30abf3");
+          Application.definitionColor = "#30abf3";
+          buttons.forEach(
+              button -> {
+                button.getStylesheets().clear();
+                button
+                    .getStylesheets()
+                    .add(
+                        Objects.requireNonNull(Main.class.getResource("css/whiteBlueTheme.css"))
+                            .toExternalForm());
+              });
+        });
 
     blueTheme.setOnMouseClicked(
-        mouseEvent -> temp.setStyle("-fx-background-color: #0768ad"));
+        mouseEvent -> {
+          temp.setStyle("-fx-background-color: #0768ad");
+          Application.definitionColor = "#0768ad";
+          buttons.forEach(
+              button -> {
+                button.getStylesheets().clear();
+                button
+                    .getStylesheets()
+                    .add(
+                        Objects.requireNonNull(Main.class.getResource("css/blueTheme.css"))
+                            .toExternalForm());
+              });
+        });
 
     yellowTheme.setOnMouseClicked(
-        mouseEvent -> temp.setStyle("-fx-background-color: #f79410"));
+        mouseEvent -> {
+          temp.setStyle("-fx-background-color: #f79410");
+          Application.definitionColor = "#f79410";
+          buttons.forEach(
+              button -> {
+                button.getStylesheets().clear();
+                button
+                    .getStylesheets()
+                    .add(
+                        Objects.requireNonNull(Main.class.getResource("css/yellowTheme.css"))
+                            .toExternalForm());
+              });
+        });
   }
 }

@@ -9,6 +9,13 @@
     -fx-text-fill: #31abf3;
 }
 
+.menuSlider: hover {
+    -fx-background-radius: 30 0 0 0;
+    -fx-border-radius: 30 0 0 0;
+    -fx-background-color: #b2bbc2;
+    -fx-text-fill: #31abf3;
+}
+
 .label-title {
     -fx-text-alignment: center;
     -fx-text-fill: #595e62;
@@ -16,14 +23,6 @@
     -fx-font-weight: bold;
     -fx-font-family: "San Francisco";
     -fx-padding: 0px 0px 0px 0px;
-}
-
-.menu {
-    -fx-text-fill: BLACK;
-}
-
-.webView {
-    -fx-text-fill: Green;
 }
 
 .search-box{
@@ -67,9 +66,17 @@
 }
 
 .application-border {
-    -fx-border-color: black;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
 }
 
+.slider-border {
+    -fx-background-radius: 0 0 0 30;
+    -fx-border-radius: 0 0 0 30;
+}
+
+.menu-border {
+    -fx-background-radius: 30 30 0 0;
+    -fx-border-radius: 30 30 0 0 ;
+}
 

@@ -70,6 +70,8 @@ public class Application implements Initializable {
   private int lastIndex = 0;
   public static Database database = new Database();
   public static String editTarget;
+  public static String definitionColor = "#34586F";
+  public static ArrayList<Label> buttons = new ArrayList<>();
 
   public Application() {
     try {
@@ -85,13 +87,18 @@ public class Application implements Initializable {
     inputText
         .textProperty()
         .addListener(
-            (observableValue, oldValue, newValue) -> {
-              Platform.runLater(
-                  () -> {
-                    preparedSearchList();
-                  });
-            });
+            (observableValue, oldValue, newValue) -> Platform.runLater(this::preparedSearchList));
     applicationBar.setStyle("-fx-background-color: #44adfe");
+    buttons.add(addButton);
+    buttons.add(deleteButton);
+    buttons.add(editButton);
+    buttons.add(hangmanButton);
+    buttons.add(quizButton);
+    buttons.add(translateButton);
+    buttons.add(pronounceButton);
+    buttons.add(informationButton);
+    buttons.add(dailyWordButton);
+    buttons.add(settingButton);
     menuSlider();
     addingWord();
     deleteWord();
@@ -103,22 +110,13 @@ public class Application implements Initializable {
     about();
     dailyWord();
 
-    exitButton.setOnMouseClicked(
-        mouseEvent -> {
-          System.exit(0);
-        });
+    exitButton.setOnMouseClicked(mouseEvent -> System.exit(0));
   }
 
   @FXML
   private void pronounceWord() {
     pronounceButton.setOnMouseClicked(
-        mouseEvent -> {
-          new Thread(
-                  () -> {
-                    PronunciationService.pronounce(editTarget, "en");
-                  })
-              .start();
-        });
+        mouseEvent -> new Thread(() -> PronunciationService.pronounce(editTarget, "en")).start());
   }
 
   /** Refresh the list view. */
@@ -135,7 +133,9 @@ public class Application implements Initializable {
     String target = inputText.getText();
     String definition = database.lookUpWord(target);
     definition =
-        "<html><body bgcolor='white' style='color:#34586F; font-weight: bold; font-size: 20px;'>"
+        "<html><body bgcolor='white' style='color:"
+            + definitionColor
+            + "; font-weight: bold; font-size: 20px;'>"
             + definition
             + "</body></html>";
 
@@ -329,7 +329,7 @@ public class Application implements Initializable {
             scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
             addStage.setTitle("Setting");
             SettingController st = loader.getController();
-            st.setBarTheme(applicationBar);
+            st.setBarTheme(applicationBar, buttons);
             addStage.setScene(scene);
             addStage.setResizable(false);
             addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
