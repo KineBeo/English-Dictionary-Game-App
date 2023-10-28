@@ -318,7 +318,26 @@ public class Application implements Initializable {
         .start();
   }
 
-  public void about() {}
+  public void about() {
+    informationButton.setOnMouseClicked(
+        mouseEvent -> {
+          try {
+            FXMLLoader loader =
+                new FXMLLoader(Main.class.getResource("fxml/InformationScreen.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage addStage = new Stage();
+            addStage.setTitle("About");
+            addStage.setScene(scene);
+            addStage.setResizable(false);
+            addStage.initModality(Modality.APPLICATION_MODAL);
+            addStage.initOwner(new Main().getMainStage());
+            addStage.showAndWait();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        });
+  }
 
   /** Open the setting screen. */
   public void setting() {
@@ -348,9 +367,6 @@ public class Application implements Initializable {
   public void dailyWord() {}
 
   public void flashCard() {
-    flashCardButton.setOnMouseClicked(
-        mouseEvent -> {
-          System.out.println("Clicked Flash Card");
-        });
+    flashCardButton.setOnMouseClicked(mouseEvent -> System.out.println("Clicked Flash Card"));
   }
 }
