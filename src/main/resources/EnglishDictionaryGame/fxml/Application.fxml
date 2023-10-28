@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.Application">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" styleClass="application-border" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.Application">
    <Pane prefHeight="600.0" prefWidth="1100.0">
       <ListView fx:id="searchList" layoutX="205.0" layoutY="150.0" onKeyPressed="#selectWordUsingKeyBoard" onMouseClicked="#doubleClicktoSelectWord" prefHeight="430.0" prefWidth="240.0" styleClass="title" stylesheets="@../css/stylesheet.css" />
       <Pane layoutX="460.0" layoutY="150.0" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
@@ -103,7 +103,7 @@
             </VBox>
          </children>
       </AnchorPane>
-      <HBox prefHeight="80.0" prefWidth="1100.0" style="-fx-background-color: #44adfe;" styleClass="title" stylesheets="@../css/stylesheet.css">
+      <HBox fx:id="applicationBar" prefHeight="80.0" prefWidth="1100.0" styleClass="title" stylesheets="@../css/stylesheet.css">
          <children>
             <Pane prefHeight="90.0" prefWidth="170.0" styleClass="slidebarItem" stylesheets="@../css/stylesheet.css">
                <children>

@@ -7,34 +7,33 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.SettingController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" styleClass="setting-border" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.SettingController">
    <children>
       <Label layoutX="11.0" layoutY="70.0" stylesheets="@../css/stylesheet.css" text="Choose a theme color: ">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <VBox layoutY="97.0" prefHeight="200.0" prefWidth="500.0" spacing="2.0">
+      <VBox layoutY="95.0" prefHeight="200.0" prefWidth="500.0" spacing="2.0">
          <children>
-            <HBox layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: f79410;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
+            <HBox fx:id="yellowTheme" layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: f79410;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
                <VBox.margin>
-                  <Insets left="3.0" right="3.0" />
+                  <Insets left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox layoutX="10.0" layoutY="110.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #0768ad;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
+            <HBox fx:id="blueTheme" layoutX="10.0" layoutY="110.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #0768ad;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
                <VBox.margin>
-                  <Insets left="3.0" right="3.0" />
+                  <Insets left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox layoutX="10.0" layoutY="60.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #30abf3;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
+            <HBox fx:id="whiteBlueTheme" layoutX="10.0" layoutY="60.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #30abf3;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
                <VBox.margin>
-                  <Insets left="3.0" right="3.0" />
+                  <Insets left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: df4147;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
+            <HBox fx:id="redTheme" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: df4147;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
                <VBox.margin>
-                  <Insets left="3.0" right="3.0" />
+                  <Insets left="5.0" right="5.0" />
                </VBox.margin>
             </HBox>
          </children>

@@ -24,6 +24,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -64,10 +65,10 @@ public class Application implements Initializable {
   @FXML private Label settingButton;
 
   @FXML private ImageView exitButton;
+
+  @FXML private HBox applicationBar;
   private int lastIndex = 0;
-
   public static Database database = new Database();
-
   public static String editTarget;
 
   public Application() {
@@ -90,6 +91,7 @@ public class Application implements Initializable {
                     preparedSearchList();
                   });
             });
+    applicationBar.setStyle("-fx-background-color: #44adfe");
     menuSlider();
     addingWord();
     deleteWord();
@@ -100,6 +102,7 @@ public class Application implements Initializable {
     setting();
     about();
     dailyWord();
+
     exitButton.setOnMouseClicked(
         mouseEvent -> {
           System.exit(0);
@@ -147,6 +150,7 @@ public class Application implements Initializable {
 
   @FXML
   public void addingWord() {
+
     addButton.setOnMouseClicked(
         mouseEvent -> {
           try {
@@ -289,31 +293,31 @@ public class Application implements Initializable {
 
   public void hangMan() {
     new Thread(
-            () -> {
-              hangmanButton.setOnMouseClicked(
-                  mouseEvent -> {
-                    try {
-                      FXMLLoader loader =
-                          new FXMLLoader(Main.class.getResource("fxml/Hangman.fxml"));
-                      Parent root = loader.load();
-                      Scene scene = new Scene(root);
-                      Stage addStage = new Stage();
-                      addStage.setTitle("Hangman");
-                      addStage.setScene(scene);
-                      addStage.setResizable(false);
-                      addStage.initModality(Modality.APPLICATION_MODAL);
-                      addStage.initOwner(new Main().getMainStage());
-                      addStage.showAndWait();
-                    } catch (Exception e) {
-                      e.printStackTrace();
-                    }
-                  });
-            })
+            () ->
+                hangmanButton.setOnMouseClicked(
+                    mouseEvent -> {
+                      try {
+                        FXMLLoader loader =
+                            new FXMLLoader(Main.class.getResource("fxml/Hangman.fxml"));
+                        Parent root = loader.load();
+                        Scene scene = new Scene(root);
+                        Stage addStage = new Stage();
+                        addStage.setTitle("Hangman");
+                        addStage.setScene(scene);
+                        addStage.setResizable(false);
+                        addStage.initModality(Modality.APPLICATION_MODAL);
+                        addStage.initOwner(new Main().getMainStage());
+                        addStage.showAndWait();
+                      } catch (Exception e) {
+                        e.printStackTrace();
+                      }
+                    }))
         .start();
   }
 
   public void about() {}
 
+  /** Open the setting screen. */
   public void setting() {
     settingButton.setOnMouseClicked(
         mouseEvent -> {
@@ -323,6 +327,9 @@ public class Application implements Initializable {
             Scene scene = new Scene(root);
             Stage addStage = new Stage();
             scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+            addStage.setTitle("Setting");
+            SettingController st = loader.getController();
+            st.setBarTheme(applicationBar);
             addStage.setScene(scene);
             addStage.setResizable(false);
             addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
