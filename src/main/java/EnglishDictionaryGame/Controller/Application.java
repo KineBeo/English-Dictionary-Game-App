@@ -7,6 +7,7 @@ import EnglishDictionaryGame.Server.Trie;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -135,6 +136,29 @@ public class Application implements Initializable {
   public void findWord() {
     String target = inputText.getText();
     String definition = database.lookUpWord(target);
+
+    if (definition.equals("Not found!")) {
+      try {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Alert.fxml"));
+        Parent root = loader.load();
+        AlertController alertController = loader.getController();
+        alertController.setMessage("Cannot find word: " + target + "!");
+        Scene scene = new Scene(root);
+        setAlertPopUpCss(scene);
+        scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        Stage addStage = new Stage();
+        addStage.setTitle("Not Found");
+        addStage.setScene(scene);
+        addStage.setResizable(false);
+        addStage.initModality(Modality.APPLICATION_MODAL);
+        addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+        addStage.initOwner(new Main().getMainStage());
+        addStage.showAndWait();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
     definition =
         "<html><body bgcolor='white' style='color:"
             + definitionColor
@@ -142,12 +166,6 @@ public class Application implements Initializable {
             + definition
             + "</body></html>";
 
-    if (definition.equals("Not found!")) {
-      Alert alert = new Alert(Alert.AlertType.WARNING);
-      alert.setTitle("CẢNH BÁO");
-      alert.setContentText("KHÔNG TÌM THẤY TỪ '" + target + "!");
-      alert.show();
-    }
     webView.getEngine().loadContent(definition, "text/html");
   }
 
@@ -368,5 +386,11 @@ public class Application implements Initializable {
 
   public void flashCard() {
     flashCardButton.setOnMouseClicked(mouseEvent -> System.out.println("Clicked Flash Card"));
+  }
+
+  public void setAlertPopUpCss(Scene scene) {
+    scene
+        .getStylesheets()
+        .add(Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
   }
 }

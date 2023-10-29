@@ -48,6 +48,5 @@ public class AddWord extends WordOperation{
   public void quitScreen() {
     Stage stage = (Stage) anchorPane.getScene().getWindow();
     stage.close();
-
   }
 }
