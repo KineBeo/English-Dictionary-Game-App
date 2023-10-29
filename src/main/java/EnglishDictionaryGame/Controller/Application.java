@@ -320,8 +320,8 @@ public class Application implements Initializable {
     quizButton.setOnMouseClicked(
         mouseEvent -> {
           FlashcardController flashcardController = new FlashcardController();
-          flashcardController.createFlashcard("Kien beo vai ca lon", "A the a"); // Test flashcard
-          flashcardController.showFlashcardStage();
+          flashcardController.addFlashcard("Kien beo vai ca lon", "A the a"); // Test flashcard
+          flashcardController.createFlashcardWindow();
         });
   }
 

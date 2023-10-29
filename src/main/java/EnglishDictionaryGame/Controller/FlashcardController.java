@@ -7,12 +7,10 @@ import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
@@ -32,32 +30,24 @@ public class FlashcardController {
     this.flashcard = controlledFlashcard;
   }
 
-  public void createFlashcard(String frontText, String backText) {
+  public void addFlashcard(String frontText, String backText) {
     this.flashcard = new Flashcard(frontText, backText);
   }
 
-  public void showFlashcardStage() {
+  public void createFlashcardWindow() {
     this.stage = createFlashcardStage();
     this.stage.showAndWait();
   }
 
-  public void flipFlashcard() {
-    RotateTransition rotator = createRotator();
-    PauseTransition ptChangeCardFace = changeCardFace();
-
-    ParallelTransition parallelTransition = new ParallelTransition(rotator, ptChangeCardFace);
-    parallelTransition.play();
-  }
-
-  private void setFlipFlashcardButtonBehavior(Button flipFlashcardButton) {
-    flipFlashcardButton.setOnMouseClicked(e -> {
-      flipFlashcard();
-    });
-  }
-
   private Stage createFlashcardStage() {
-    Stage flashcardStage = new Stage();
-    StackPane root = new StackPane(); // Initalize root in case of exception
+    StackPane root = createRoot();
+    Scene scene = createScene(root);
+    setAllButtonsBehaviors(root);
+    return createStage(scene);
+  }
+
+  private StackPane createRoot() {
+    StackPane root = new StackPane(); // Initialize root in case of an exception
 
     // Loading the buttons in the FXML file.
     FXMLLoader loader = new FXMLLoader(Main.class.getResource(FLASHCARD_SCREEN_FXML_PATH));
@@ -67,7 +57,6 @@ public class FlashcardController {
       Utils.printRelevantStackTrace(e);
     }
 
-
     // Loading the current controller's flashcard.
     try {
       root.getChildren().addAll(flashcard.getCardView());
@@ -76,19 +65,39 @@ public class FlashcardController {
       Utils.printRelevantStackTrace(e);
     }
 
-    // Setting the scene.
+    return root;
+  }
+
+  private Scene createScene(Parent root) {
     Scene flashcardScene = new Scene(root);
     flashcardScene.setCamera(new PerspectiveCamera());
+    return flashcardScene;
+  }
 
-    // Setting the stage.
-    flashcardStage.setScene(flashcardScene);
+  private Stage createStage(Scene scene) {
+    Stage flashcardStage = new Stage();
+    flashcardStage.setScene(scene);
     flashcardStage.setTitle("Flashcard");
+    return flashcardStage;
+  }
 
-    // Setting the button's behaviors
+  private void setAllButtonsBehaviors(Parent root) {
     Button flipFlashcardButton = (Button) root.lookup("#flipFlashcardButton");
     setFlipFlashcardButtonBehavior(flipFlashcardButton);
+  }
 
-    return flashcardStage;
+  private void setFlipFlashcardButtonBehavior(Button flipFlashcardButton) {
+    flipFlashcardButton.setOnMouseClicked(e -> {
+      flipFlashcard();
+    });
+  }
+
+  public void flipFlashcard() {
+    RotateTransition rotator = createRotator();
+    PauseTransition ptChangeCardFace = changeCardFace();
+
+    ParallelTransition parallelTransition = new ParallelTransition(rotator, ptChangeCardFace);
+    parallelTransition.play();
   }
 
   private RotateTransition createRotator() {
