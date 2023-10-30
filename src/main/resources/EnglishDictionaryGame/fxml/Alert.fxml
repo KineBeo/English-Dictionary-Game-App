@@ -7,7 +7,7 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.AlertController">
     <children>
-          <Label fx:id="messageLabel" layoutX="10.0" layoutY="20.0" text="Cannot find word: " />
+          <Label fx:id="messageLabel" layoutX="10.0" layoutY="20.0" text="" />
           <Button layoutX="255.0" layoutY="63.0" mnemonicParsing="false" onAction="#quitScreen" text="OK">
          <font>
             <Font name="System Bold" size="13.0" />

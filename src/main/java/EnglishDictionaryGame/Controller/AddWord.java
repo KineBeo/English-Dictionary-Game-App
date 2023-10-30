@@ -1,16 +1,19 @@
 package EnglishDictionaryGame.Controller;
 
+import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Database;
-import javafx.event.ActionEvent;
+import java.util.Objects;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.HTMLEditor;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AddWord extends WordOperation{
+public class AddWord extends WordOperation {
   @FXML private AnchorPane anchorPane;
 
   @FXML private HTMLEditor htmlEditor;
@@ -25,21 +28,77 @@ public class AddWord extends WordOperation{
     String definition = htmlEditor.getHtmlText();
     Database database = new Database();
     if (database.insertWord(target, definition)) {
-      Alert alert = new Alert(Alert.AlertType.INFORMATION);
-      alert.setTitle("Thông báo");
-      alert.setContentText("Thêm từ `" + target + "` thành công!");
-      alert.show();
+      try {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Alert.fxml"));
+        Parent root = loader.load();
+        AlertController alertController = loader.getController();
+        alertController.setMessage("Thêm từ `" + target + "` thành công!");
+        Scene scene = new Scene(root);
+        scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        Stage addStage = new Stage();
+        scene
+            .getStylesheets()
+            .add(Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
+        addStage.setTitle("Thông báo");
+        addStage.setScene(scene);
+        addStage.setResizable(false);
+        addStage.initModality(Modality.APPLICATION_MODAL);
+        addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+        addStage.initOwner(new Main().getMainStage());
+        addStage.showAndWait();
+        addStage.close();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     } else {
       if (database.isWordExist(target)) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Lỗi");
-        alert.setContentText("Từ `" + target + "` đã tồn tại!");
-        alert.show();
+        try {
+          FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Alert.fxml"));
+          Parent root = loader.load();
+          AlertController alertController = loader.getController();
+          alertController.setMessage("Từ `" + target + "` đã tồn tại!");
+          Scene scene = new Scene(root);
+          scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+          Stage addStage = new Stage();
+          scene
+              .getStylesheets()
+              .add(
+                  Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
+          addStage.setTitle("Error");
+          addStage.setScene(scene);
+          addStage.setResizable(false);
+          addStage.initModality(Modality.APPLICATION_MODAL);
+          addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+          addStage.initOwner(new Main().getMainStage());
+          addStage.showAndWait();
+          addStage.close();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       } else {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Lỗi");
-        alert.setContentText("Thêm từ `" + target + "` không thành công!");
-        alert.show();
+        try {
+          FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Alert.fxml"));
+          Parent root = loader.load();
+          AlertController alertController = loader.getController();
+          alertController.setMessage("Thêm từ `" + target + "` không thành công!");
+          Scene scene = new Scene(root);
+          scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+          Stage addStage = new Stage();
+          scene
+              .getStylesheets()
+              .add(
+                  Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
+          addStage.setTitle("Error");
+          addStage.setScene(scene);
+          addStage.setResizable(false);
+          addStage.initModality(Modality.APPLICATION_MODAL);
+          addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+          addStage.initOwner(new Main().getMainStage());
+          addStage.showAndWait();
+          addStage.close();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       }
     }
   }

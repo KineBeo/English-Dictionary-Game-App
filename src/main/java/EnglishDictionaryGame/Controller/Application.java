@@ -154,6 +154,7 @@ public class Application implements Initializable {
         addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
         addStage.initOwner(new Main().getMainStage());
         addStage.showAndWait();
+        addStage.close();
       } catch (Exception e) {
         e.printStackTrace();
       }
