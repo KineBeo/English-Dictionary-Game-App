@@ -3,6 +3,7 @@ package EnglishDictionaryGame.Controller;
 import EnglishDictionaryGame.Exceptions.Utils;
 import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Flashcard;
+import EnglishDictionaryGame.Server.FlashcardDatabase;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PauseTransition;
@@ -19,19 +20,25 @@ import javafx.util.Duration;
 
 public class FlashcardController {
 
+  private FlashcardDatabase flashcardDatabase = new FlashcardDatabase();
   private Stage stage = null;
   private Flashcard currentFlashcard = null;
   private static final String FLASHCARD_SCREEN_FXML_PATH = "fxml/FlashcardScreen.fxml";
 
   public FlashcardController() {
-  }
-  public FlashcardController(Stage stage, Flashcard controlledFlashcard) {
-    this.stage = stage;
-    this.currentFlashcard = controlledFlashcard;
+    // Add 2 flashcards to the database for testing.
+    Flashcard testFlashcard1 = new Flashcard("Test front 1", "Test back 1");
+    Flashcard testFlashcard2 = new Flashcard("Test front 2", "Test back 2");
+    Flashcard testFlashcard3 = new Flashcard("Test front 3", "Test back 3");
+    flashcardDatabase.addFlashcard(testFlashcard1);
+    flashcardDatabase.addFlashcard(testFlashcard2);
+    flashcardDatabase.addFlashcard(testFlashcard3);
+    this.currentFlashcard = flashcardDatabase.getFlashcard(0);
   }
 
   public void addFlashcard(String frontText, String backText) {
-    this.currentFlashcard = new Flashcard(frontText, backText);
+    Flashcard newFlashcard = new Flashcard(frontText, backText);
+    flashcardDatabase.addFlashcard(newFlashcard);
   }
 
   public void createFlashcardWindow() {
@@ -87,6 +94,9 @@ public class FlashcardController {
 
     Button nextFlashcardButton = (Button) root.lookup("#nextFlashcardButton");
     setNextFlashcardButtonBehavior(nextFlashcardButton);
+
+    Button previousFlashcardButton = (Button) root.lookup("#previousFlashcardButton");
+    setPreviousFlashcardButtonBehavior(previousFlashcardButton);
   }
 
   private void setFlipFlashcardButtonBehavior(Button flipFlashcardButton) {
@@ -94,10 +104,27 @@ public class FlashcardController {
       flipFlashcard();
     });
   }
+
   private void setNextFlashcardButtonBehavior(Button nextFlashcardButton) {
     nextFlashcardButton.setOnMouseClicked(e -> {
-      Flashcard testFlashcard = new Flashcard("Test front", "Test back");
-      changeFlashcard(testFlashcard);
+      int currentFlashcardIndex = flashcardDatabase.getIndexOf(currentFlashcard);
+      int nextFlashcardIndex = currentFlashcardIndex + 1;
+      if (nextFlashcardIndex >= flashcardDatabase.size()) {
+        nextFlashcardIndex = 0;
+      }
+
+      changeFlashcard(nextFlashcardIndex);
+    });
+  }
+  private void setPreviousFlashcardButtonBehavior(Button previousFlashcardButtonBehavior) {
+    previousFlashcardButtonBehavior.setOnMouseClicked(e -> {
+      int currentFlashcardIndex = flashcardDatabase.getIndexOf(currentFlashcard);
+      int previousFlashcardIndex = currentFlashcardIndex - 1;
+      if (previousFlashcardIndex < 0) {
+        previousFlashcardIndex = flashcardDatabase.size() - 1;
+      }
+
+      changeFlashcard(previousFlashcardIndex);
     });
   }
 
@@ -150,5 +177,9 @@ public class FlashcardController {
     } catch (Exception e) {
       Utils.printRelevantStackTrace(e);
     }
+  }
+  private void changeFlashcard(int flashcardIndex) {
+    Flashcard newFlashcard = flashcardDatabase.getFlashcard(flashcardIndex);
+    changeFlashcard(newFlashcard);
   }
 }

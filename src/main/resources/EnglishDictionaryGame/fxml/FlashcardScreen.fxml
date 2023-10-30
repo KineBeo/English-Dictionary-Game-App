@@ -10,6 +10,7 @@
          <children>
             <Button fx:id="flipFlashcardButton" layoutX="516.0" layoutY="544.0" mnemonicParsing="false" text="Flip Card" />
             <Button fx:id="nextFlashcardButton" layoutX="1017.0" layoutY="544.0" mnemonicParsing="false" text="Next" />
+            <Button fx:id="previousFlashcardButton" layoutX="14.0" layoutY="545.0" mnemonicParsing="false" text="Back" />
          </children>
       </AnchorPane>
    </children>
