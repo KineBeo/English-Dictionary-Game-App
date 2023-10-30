@@ -13,6 +13,8 @@
         <Button fx:id="nextFlashcardButton" layoutX="1017.0" layoutY="544.0" mnemonicParsing="false" text="Next" />
         <Button fx:id="previousFlashcardButton" layoutX="14.0" layoutY="545.0" mnemonicParsing="false" text="Back" />
         <Label fx:id="flashcardCounter" layoutX="541.0" layoutY="24.0" text="1 / 3" />
+            <Button fx:id="editFlashcardsButton" layoutX="11.0" layoutY="20.0" mnemonicParsing="false" text="Edit" />
+            <Button fx:id="exitFlashcardsButton" layoutX="1019.0" layoutY="18.0" mnemonicParsing="false" text="Exit" />
       </children>
     </AnchorPane>
   </children>

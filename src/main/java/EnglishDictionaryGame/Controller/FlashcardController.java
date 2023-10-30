@@ -21,7 +21,7 @@ import javafx.util.Duration;
 
 public class FlashcardController {
 
-  private FlashcardDatabase flashcardDatabase = new FlashcardDatabase();
+  private FlashcardDatabase flashcardDatabase;
   private Stage stage = null;
   private Flashcard currentFlashcard = null;
   private int currentFlashcardCount = -1;
@@ -29,14 +29,13 @@ public class FlashcardController {
 
   public FlashcardController() {
     // Add 2 flashcards to the database for testing.
-    Flashcard testFlashcard1 = new Flashcard("Test front 1", "Test back 1");
-    Flashcard testFlashcard2 = new Flashcard("Test front 2", "Test back 2");
-    Flashcard testFlashcard3 = new Flashcard("Test front 3", "Test back 3");
-    flashcardDatabase.addFlashcard(testFlashcard1);
-    flashcardDatabase.addFlashcard(testFlashcard2);
-    flashcardDatabase.addFlashcard(testFlashcard3);
+    flashcardDatabase = new FlashcardDatabase();
     this.currentFlashcard = flashcardDatabase.getFlashcard(0);
     currentFlashcardCount = 1;
+
+    // Add flashcard test for I/O testing.
+    flashcardDatabase.addFlashcard(new Flashcard("Front text", "Back text"));
+    flashcardDatabase.addFlashcard(new Flashcard("Front text 2", "Back text 2"));
   }
 
   public void addFlashcard(String frontText, String backText) {
@@ -46,6 +45,7 @@ public class FlashcardController {
 
   public void createFlashcardWindow() {
     this.stage = createFlashcardStage();
+    updateFlashcardCount((Label) stage.getScene().getRoot().lookup("#flashcardCounter"));
     this.stage.showAndWait();
   }
 
@@ -95,6 +95,7 @@ public class FlashcardController {
     setFlipFlashcardButtonBehavior(root);
     setNextFlashcardButtonBehavior(root);
     setPreviousFlashcardButtonBehavior(root);
+    setExitFlashcardsButtonBehavior(root);
   }
 
   private void setFlipFlashcardButtonBehavior(StackPane root) {
@@ -131,6 +132,12 @@ public class FlashcardController {
       changeFlashcard(previousFlashcardIndex);
       currentFlashcardCount = previousFlashcardIndex + 1;
       updateFlashcardCount((Label) root.lookup("#flashcardCounter"));
+    });
+  }
+  private void setExitFlashcardsButtonBehavior(StackPane root) {
+    Button exitFlashcardsButton = (Button) root.lookup("#exitFlashcardsButton");
+    exitFlashcardsButton.setOnMouseClicked(e -> {
+      closeFlashcards();
     });
   }
 
@@ -193,5 +200,10 @@ public class FlashcardController {
 
   private void updateFlashcardCount(Label flashcardCounter) {
     flashcardCounter.setText(currentFlashcardCount + " / " + flashcardDatabase.size());
+  }
+
+  private void closeFlashcards() {
+    stage.close();
+    flashcardDatabase.close();
   }
 }

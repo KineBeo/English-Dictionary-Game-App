@@ -12,13 +12,22 @@ import javafx.scene.text.Text;
 
 public class Flashcard {
 
+  private ImageView cardView;
+  private String frontText;
+  private Image frontImage;
+  private String backText;
+  private Image backImage;
+  private boolean isShowingFront;
   private final int CARD_WIDTH = 400;
   private final int CARD_HEIGHT = 300;
+
 
   public Flashcard() {
   }
 
   public Flashcard(String frontText, String backText) {
+    this.frontText = frontText;
+    this.backText = backText;
     frontImage = createCardFaceImage(frontText, false);
     backImage = createCardFaceImage(backText, true);
     cardView = new ImageView(frontImage);
@@ -29,13 +38,22 @@ public class Flashcard {
     this.cardView.setImage(isShowingFront ? backImage : frontImage);
     isShowingFront = !isShowingFront;
   }
+  public String getFrontText() {
+    return frontText;
+  }
 
   public void setFrontText(String text) {
-    frontImage = createCardFaceImage(text, false);
+    this.frontText = text;
+    frontImage = createCardFaceImage(frontText, false);
+  }
+
+  public String getBackText() {
+    return backText;
   }
 
   public void setBackText(String text) {
-    backImage = createCardFaceImage(text, true);
+    this.backText = text;
+    backImage = createCardFaceImage(backText, true);
   }
 
   public Image getBackImage() {
@@ -70,7 +88,6 @@ public class Flashcard {
 
     return cardFaceImage;
   }
-
   private Image makeBackgroundImage() {
     // Create a transparent image with a specified width and height
     WritableImage writableImage = new WritableImage(CARD_WIDTH, CARD_HEIGHT);
@@ -100,6 +117,7 @@ public class Flashcard {
 
     return writableImage;
   }
+
   private ImageView addTextToImage(Image image, String text) {
     ImageView imageView = new ImageView(image);
 
@@ -122,11 +140,4 @@ public class Flashcard {
     return stackPane.snapshot(null, null);
   }
 
-
-  private ImageView cardView;
-
-  private Image frontImage;
-
-  private Image backImage;
-  private boolean isShowingFront;
 }
