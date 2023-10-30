@@ -9,6 +9,7 @@
       <AnchorPane prefHeight="600.0" prefWidth="1100.0">
          <children>
             <Button fx:id="flipFlashcardButton" layoutX="516.0" layoutY="544.0" mnemonicParsing="false" text="Flip Card" />
+            <Button fx:id="nextFlashcardButton" layoutX="1017.0" layoutY="544.0" mnemonicParsing="false" text="Next" />
          </children>
       </AnchorPane>
    </children>

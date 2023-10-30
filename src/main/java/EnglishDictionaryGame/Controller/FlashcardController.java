@@ -20,18 +20,18 @@ import javafx.util.Duration;
 public class FlashcardController {
 
   private Stage stage = null;
-  private Flashcard flashcard = null;
+  private Flashcard currentFlashcard = null;
   private static final String FLASHCARD_SCREEN_FXML_PATH = "fxml/FlashcardScreen.fxml";
 
   public FlashcardController() {
   }
   public FlashcardController(Stage stage, Flashcard controlledFlashcard) {
     this.stage = stage;
-    this.flashcard = controlledFlashcard;
+    this.currentFlashcard = controlledFlashcard;
   }
 
   public void addFlashcard(String frontText, String backText) {
-    this.flashcard = new Flashcard(frontText, backText);
+    this.currentFlashcard = new Flashcard(frontText, backText);
   }
 
   public void createFlashcardWindow() {
@@ -57,11 +57,11 @@ public class FlashcardController {
       Utils.printRelevantStackTrace(e);
     }
 
-    // Loading the current controller's flashcard.
+    // Loading the current controller's currentFlashcard.
     try {
-      root.getChildren().addAll(flashcard.getCardView());
+      root.getChildren().addAll(currentFlashcard.getCardView());
     } catch (Exception e) {
-      System.out.println("Flashcard controller's flashcard is null");
+      System.out.println("Flashcard controller's currentFlashcard is null");
       Utils.printRelevantStackTrace(e);
     }
 
@@ -84,11 +84,20 @@ public class FlashcardController {
   private void setAllButtonsBehaviors(Parent root) {
     Button flipFlashcardButton = (Button) root.lookup("#flipFlashcardButton");
     setFlipFlashcardButtonBehavior(flipFlashcardButton);
+
+    Button nextFlashcardButton = (Button) root.lookup("#nextFlashcardButton");
+    setNextFlashcardButtonBehavior(nextFlashcardButton);
   }
 
   private void setFlipFlashcardButtonBehavior(Button flipFlashcardButton) {
     flipFlashcardButton.setOnMouseClicked(e -> {
       flipFlashcard();
+    });
+  }
+  private void setNextFlashcardButtonBehavior(Button nextFlashcardButton) {
+    nextFlashcardButton.setOnMouseClicked(e -> {
+      Flashcard testFlashcard = new Flashcard("Test front", "Test back");
+      changeFlashcard(testFlashcard);
     });
   }
 
@@ -101,10 +110,10 @@ public class FlashcardController {
   }
 
   private RotateTransition createRotator() {
-    RotateTransition rotator = new RotateTransition(Duration.millis(1000), flashcard.getCardView());
+    RotateTransition rotator = new RotateTransition(Duration.millis(1000), currentFlashcard.getCardView());
     rotator.setAxis(Rotate.X_AXIS);
 
-    if (flashcard.isShowingFront()) {
+    if (currentFlashcard.isShowingFront()) {
       rotator.setFromAngle(0);
       rotator.setToAngle(180);
     } else {
@@ -121,10 +130,25 @@ public class FlashcardController {
     PauseTransition pause = new PauseTransition(Duration.millis(500));
     pause.setOnFinished(
         e -> {
-          flashcard.flipCardView();
+          currentFlashcard.flipCardView();
         }
     );
 
     return pause;
+  }
+
+  private void changeFlashcard(Flashcard newFlashcard) {
+    StackPane root = (StackPane) stage.getScene().getRoot();
+
+    try {
+      if (root.getChildren().contains(currentFlashcard.getCardView())) {
+        root.getChildren().remove(currentFlashcard.getCardView());
+      }
+
+      root.getChildren().add(newFlashcard.getCardView());
+      currentFlashcard = newFlashcard;
+    } catch (Exception e) {
+      Utils.printRelevantStackTrace(e);
+    }
   }
 }
