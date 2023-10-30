@@ -32,14 +32,14 @@ public class AddWord extends WordOperation {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Alert.fxml"));
         Parent root = loader.load();
         AlertController alertController = loader.getController();
-        alertController.setMessage("Thêm từ `" + target + "` thành công!");
+        alertController.setMessage("Thêm từ thành công!");
+        alertController.setTitle("Notification");
         Scene scene = new Scene(root);
         scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         Stage addStage = new Stage();
         scene
             .getStylesheets()
             .add(Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
-        addStage.setTitle("Thông báo");
         addStage.setScene(scene);
         addStage.setResizable(false);
         addStage.initModality(Modality.APPLICATION_MODAL);
@@ -57,6 +57,7 @@ public class AddWord extends WordOperation {
           Parent root = loader.load();
           AlertController alertController = loader.getController();
           alertController.setMessage("Từ `" + target + "` đã tồn tại!");
+          alertController.setTitle("Error");
           Scene scene = new Scene(root);
           scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
           Stage addStage = new Stage();
@@ -64,7 +65,6 @@ public class AddWord extends WordOperation {
               .getStylesheets()
               .add(
                   Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
-          addStage.setTitle("Error");
           addStage.setScene(scene);
           addStage.setResizable(false);
           addStage.initModality(Modality.APPLICATION_MODAL);
@@ -81,6 +81,7 @@ public class AddWord extends WordOperation {
           Parent root = loader.load();
           AlertController alertController = loader.getController();
           alertController.setMessage("Thêm từ `" + target + "` không thành công!");
+          alertController.setTitle("Error");
           Scene scene = new Scene(root);
           scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
           Stage addStage = new Stage();
@@ -88,7 +89,6 @@ public class AddWord extends WordOperation {
               .getStylesheets()
               .add(
                   Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
-          addStage.setTitle("Error");
           addStage.setScene(scene);
           addStage.setResizable(false);
           addStage.initModality(Modality.APPLICATION_MODAL);

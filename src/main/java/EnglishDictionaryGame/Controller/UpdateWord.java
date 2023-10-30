@@ -35,13 +35,13 @@ public class UpdateWord extends WordOperation {
         Parent root = loader.load();
         AlertController alertController = loader.getController();
         alertController.setMessage("Cập nhật từ `" + Application.editTarget + "` thành công!");
+        alertController.setTitle("Notification");
         Scene scene = new Scene(root);
         scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         Stage addStage = new Stage();
         scene
             .getStylesheets()
             .add(Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
-        addStage.setTitle("Thông báo");
         addStage.setScene(scene);
         addStage.setResizable(false);
         addStage.initModality(Modality.APPLICATION_MODAL);
@@ -59,6 +59,7 @@ public class UpdateWord extends WordOperation {
           Parent root = loader.load();
           AlertController alertController = loader.getController();
           alertController.setMessage("Từ `" + Application.editTarget + "` không tồn tại!");
+          alertController.setTitle("Error");
           Scene scene = new Scene(root);
           scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
           Stage addStage = new Stage();
@@ -66,7 +67,6 @@ public class UpdateWord extends WordOperation {
               .getStylesheets()
               .add(
                   Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
-          addStage.setTitle("Error"); // Không hiện vì ẩn thanh title rồi
           addStage.setScene(scene);
           addStage.setResizable(false);
           addStage.initModality(Modality.APPLICATION_MODAL);
@@ -83,6 +83,7 @@ public class UpdateWord extends WordOperation {
           AlertController alertController = loader.getController();
           alertController.setMessage(
               "Cập nhật từ `" + Application.editTarget + "` không thành công!");
+          alertController.setTitle("Error");
           Scene scene = new Scene(root);
           scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
           Stage addStage = new Stage();

@@ -143,11 +143,11 @@ public class Application implements Initializable {
         Parent root = loader.load();
         AlertController alertController = loader.getController();
         alertController.setMessage("Cannot find word: " + target + "!");
+        alertController.setTitle("Not found!");
         Scene scene = new Scene(root);
         setAlertPopUpCss(scene);
         scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
         Stage addStage = new Stage();
-        addStage.setTitle("Not Found");
         addStage.setScene(scene);
         addStage.setResizable(false);
         addStage.initModality(Modality.APPLICATION_MODAL);
