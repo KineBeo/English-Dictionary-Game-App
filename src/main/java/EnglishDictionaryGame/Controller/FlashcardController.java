@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
@@ -23,7 +24,8 @@ public class FlashcardController {
   private FlashcardDatabase flashcardDatabase = new FlashcardDatabase();
   private Stage stage = null;
   private Flashcard currentFlashcard = null;
-  private static final String FLASHCARD_SCREEN_FXML_PATH = "fxml/FlashcardScreen.fxml";
+  private int currentFlashcardCount = -1;
+  private final String FLASHCARD_SCREEN_FXML_PATH = "fxml/FlashcardScreen.fxml";
 
   public FlashcardController() {
     // Add 2 flashcards to the database for testing.
@@ -34,6 +36,7 @@ public class FlashcardController {
     flashcardDatabase.addFlashcard(testFlashcard2);
     flashcardDatabase.addFlashcard(testFlashcard3);
     this.currentFlashcard = flashcardDatabase.getFlashcard(0);
+    currentFlashcardCount = 1;
   }
 
   public void addFlashcard(String frontText, String backText) {
@@ -49,7 +52,7 @@ public class FlashcardController {
   private Stage createFlashcardStage() {
     StackPane root = createRoot();
     Scene scene = createScene(root);
-    setAllButtonsBehaviors(root);
+    setAllElementsBehaviors(root);
     return createStage(scene);
   }
 
@@ -75,7 +78,7 @@ public class FlashcardController {
     return root;
   }
 
-  private Scene createScene(Parent root) {
+  private Scene createScene(StackPane root) {
     Scene flashcardScene = new Scene(root);
     flashcardScene.setCamera(new PerspectiveCamera());
     return flashcardScene;
@@ -88,24 +91,21 @@ public class FlashcardController {
     return flashcardStage;
   }
 
-  private void setAllButtonsBehaviors(Parent root) {
-    Button flipFlashcardButton = (Button) root.lookup("#flipFlashcardButton");
-    setFlipFlashcardButtonBehavior(flipFlashcardButton);
-
-    Button nextFlashcardButton = (Button) root.lookup("#nextFlashcardButton");
-    setNextFlashcardButtonBehavior(nextFlashcardButton);
-
-    Button previousFlashcardButton = (Button) root.lookup("#previousFlashcardButton");
-    setPreviousFlashcardButtonBehavior(previousFlashcardButton);
+  private void setAllElementsBehaviors(StackPane root) {
+    setFlipFlashcardButtonBehavior(root);
+    setNextFlashcardButtonBehavior(root);
+    setPreviousFlashcardButtonBehavior(root);
   }
 
-  private void setFlipFlashcardButtonBehavior(Button flipFlashcardButton) {
+  private void setFlipFlashcardButtonBehavior(StackPane root) {
+    Button flipFlashcardButton = (Button) root.lookup("#flipFlashcardButton");
     flipFlashcardButton.setOnMouseClicked(e -> {
       flipFlashcard();
     });
   }
 
-  private void setNextFlashcardButtonBehavior(Button nextFlashcardButton) {
+  private void setNextFlashcardButtonBehavior(StackPane root) {
+    Button nextFlashcardButton = (Button) root.lookup("#nextFlashcardButton");
     nextFlashcardButton.setOnMouseClicked(e -> {
       int currentFlashcardIndex = flashcardDatabase.getIndexOf(currentFlashcard);
       int nextFlashcardIndex = currentFlashcardIndex + 1;
@@ -114,10 +114,14 @@ public class FlashcardController {
       }
 
       changeFlashcard(nextFlashcardIndex);
+      currentFlashcardCount = nextFlashcardIndex + 1;
+      updateFlashcardCount((Label) root.lookup("#flashcardCounter"));
     });
   }
-  private void setPreviousFlashcardButtonBehavior(Button previousFlashcardButtonBehavior) {
-    previousFlashcardButtonBehavior.setOnMouseClicked(e -> {
+
+  private void setPreviousFlashcardButtonBehavior(StackPane root) {
+    Button previousFlashcardButton = (Button) root.lookup("#previousFlashcardButton");
+    previousFlashcardButton.setOnMouseClicked(e -> {
       int currentFlashcardIndex = flashcardDatabase.getIndexOf(currentFlashcard);
       int previousFlashcardIndex = currentFlashcardIndex - 1;
       if (previousFlashcardIndex < 0) {
@@ -125,6 +129,8 @@ public class FlashcardController {
       }
 
       changeFlashcard(previousFlashcardIndex);
+      currentFlashcardCount = previousFlashcardIndex + 1;
+      updateFlashcardCount((Label) root.lookup("#flashcardCounter"));
     });
   }
 
@@ -137,7 +143,8 @@ public class FlashcardController {
   }
 
   private RotateTransition createRotator() {
-    RotateTransition rotator = new RotateTransition(Duration.millis(1000), currentFlashcard.getCardView());
+    RotateTransition rotator = new RotateTransition(Duration.millis(1000),
+        currentFlashcard.getCardView());
     rotator.setAxis(Rotate.X_AXIS);
 
     if (currentFlashcard.isShowingFront()) {
@@ -178,8 +185,13 @@ public class FlashcardController {
       Utils.printRelevantStackTrace(e);
     }
   }
+
   private void changeFlashcard(int flashcardIndex) {
     Flashcard newFlashcard = flashcardDatabase.getFlashcard(flashcardIndex);
     changeFlashcard(newFlashcard);
+  }
+
+  private void updateFlashcardCount(Label flashcardCounter) {
+    flashcardCounter.setText(currentFlashcardCount + " / " + flashcardDatabase.size());
   }
 }
