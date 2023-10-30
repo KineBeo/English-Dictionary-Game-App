@@ -26,9 +26,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class Application implements Initializable {
@@ -180,10 +182,12 @@ public class Application implements Initializable {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage addStage = new Stage();
+            scene.setFill(Color.TRANSPARENT);
             addStage.setTitle("Thêm từ");
             addStage.setScene(scene);
             addStage.setResizable(false);
             addStage.initModality(Modality.APPLICATION_MODAL);
+            addStage.initStyle(StageStyle.TRANSPARENT);
             addStage.initOwner(new Main().getMainStage());
             addStage.showAndWait();
           } catch (Exception e) {
@@ -213,11 +217,13 @@ public class Application implements Initializable {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage addStage = new Stage();
+            scene.setFill(Color.TRANSPARENT);
             addStage.setTitle("Sửa từ");
             addStage.setScene(scene);
             addStage.setResizable(false);
             addStage.initModality(Modality.APPLICATION_MODAL);
             addStage.initOwner(new Main().getMainStage());
+            addStage.initStyle(StageStyle.TRANSPARENT);
             addStage.showAndWait();
           } catch (Exception e) {
             e.printStackTrace();
@@ -233,11 +239,13 @@ public class Application implements Initializable {
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage addStage = new Stage();
+            scene.setFill(Color.TRANSPARENT);
             addStage.setTitle("Dịch từ");
             addStage.setScene(scene);
             addStage.setResizable(false);
             addStage.initModality(Modality.APPLICATION_MODAL);
             addStage.initOwner(new Main().getMainStage());
+            addStage.initStyle(StageStyle.TRANSPARENT);
             addStage.showAndWait();
           } catch (Exception e) {
             e.printStackTrace();
