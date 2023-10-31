@@ -183,6 +183,11 @@ public class Application implements Initializable {
             Scene scene = new Scene(root);
             Stage addStage = new Stage();
             scene.setFill(Color.TRANSPARENT);
+            scene
+                .getStylesheets()
+                .add(
+                    Objects.requireNonNull(Main.class.getResource("css/Alert.css"))
+                        .toExternalForm());
             addStage.setTitle("Thêm từ");
             addStage.setScene(scene);
             addStage.setResizable(false);
