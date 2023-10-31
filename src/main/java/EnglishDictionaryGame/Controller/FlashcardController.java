@@ -28,19 +28,9 @@ public class FlashcardController {
   private final String FLASHCARD_SCREEN_FXML_PATH = "fxml/FlashcardScreen.fxml";
 
   public FlashcardController() {
-    // Add 2 flashcards to the database for testing.
     flashcardDatabase = new FlashcardDatabase();
     this.currentFlashcard = flashcardDatabase.getFlashcard(0);
     currentFlashcardCount = 1;
-
-    // Add flashcard test for I/O testing.
-    flashcardDatabase.addFlashcard(new Flashcard("Front text", "Back text"));
-    flashcardDatabase.addFlashcard(new Flashcard("Front text 2", "Back text 2"));
-  }
-
-  public void addFlashcard(String frontText, String backText) {
-    Flashcard newFlashcard = new Flashcard(frontText, backText);
-    flashcardDatabase.addFlashcard(newFlashcard);
   }
 
   public void createFlashcardWindow() {
@@ -96,6 +86,7 @@ public class FlashcardController {
     setNextFlashcardButtonBehavior(root);
     setPreviousFlashcardButtonBehavior(root);
     setExitFlashcardsButtonBehavior(root);
+    setEditFlashcardsButtonBehavior(root);
   }
 
   private void setFlipFlashcardButtonBehavior(StackPane root) {
@@ -134,10 +125,19 @@ public class FlashcardController {
       updateFlashcardCount((Label) root.lookup("#flashcardCounter"));
     });
   }
+
   private void setExitFlashcardsButtonBehavior(StackPane root) {
     Button exitFlashcardsButton = (Button) root.lookup("#exitFlashcardsButton");
     exitFlashcardsButton.setOnMouseClicked(e -> {
       closeFlashcards();
+    });
+  }
+
+  private void setEditFlashcardsButtonBehavior(StackPane root) {
+    Button editFlashcardsButton = (Button) root.lookup("#editFlashcardsButton");
+    editFlashcardsButton.setOnMouseClicked(e -> {
+      AddFlashcardController addFlashcardController = createAddFlashcardController();
+      addFlashcardController.createWindow();
     });
   }
 
@@ -200,6 +200,12 @@ public class FlashcardController {
 
   private void updateFlashcardCount(Label flashcardCounter) {
     flashcardCounter.setText(currentFlashcardCount + " / " + flashcardDatabase.size());
+  }
+
+  private AddFlashcardController createAddFlashcardController() {
+    AddFlashcardController addFlashcardController = new AddFlashcardController(
+        this.flashcardDatabase);
+    return addFlashcardController;
   }
 
   private void closeFlashcards() {

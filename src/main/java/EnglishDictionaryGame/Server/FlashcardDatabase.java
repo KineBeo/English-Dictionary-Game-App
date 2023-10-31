@@ -3,13 +3,9 @@ package EnglishDictionaryGame.Server;
 import EnglishDictionaryGame.Exceptions.Utils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class FlashcardDatabase {
@@ -84,6 +80,10 @@ public class FlashcardDatabase {
     BufferedWriter writer = new BufferedWriter(new FileWriter(flashcardDatabaseFilePath));
     StringBuilder data = new StringBuilder();
 
+    // Append the file's header.
+    data.append("Word|Definition\n");
+
+    // Append the flashcard contents.
     for (Flashcard flashcard : flashcards) {
       data.append(flashcard.getFrontText()).append("|").append(flashcard.getBackText()).append("\n");
     }
