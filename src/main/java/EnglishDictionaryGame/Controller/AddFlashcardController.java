@@ -6,6 +6,7 @@ import EnglishDictionaryGame.Server.FlashcardDatabase;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -28,19 +29,38 @@ public class AddFlashcardController {
 
   public void createWindow() {
     try {
-      FXMLLoader loader =
-          new FXMLLoader(Main.class.getResource("fxml/AddFlashcardScreen.fxml"));
-      Parent root = loader.load();
-      Scene scene = new Scene(root);
-      this.stage = new Stage();
-      this.stage.setTitle("Edit Flashcards");
-      this.stage.setScene(scene);
-      this.stage.setResizable(false);
-      this.stage.initModality(Modality.APPLICATION_MODAL);
-      this.stage.initOwner(new Main().getMainStage());
+      Parent root = createRoot();
+      Scene scene = createScene(root);
+      this.stage = createStage(scene);
       this.stage.showAndWait();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
+
+  private AnchorPane createRoot() {
+    try {
+      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/AddFlashcardScreen.fxml"));
+      return (AnchorPane) loader.load();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  private Scene createScene(Parent root) {
+    Scene scene = new Scene(root);
+    return scene;
+  }
+
+  private Stage createStage(Scene scene) {
+    Stage stage = new Stage();
+    stage.setTitle("Edit Flashcards");
+    stage.setScene(scene);
+    stage.setResizable(false);
+    stage.initModality(Modality.APPLICATION_MODAL);
+    stage.initOwner(new Main().getMainStage());
+    return stage;
+  }
+
 }
