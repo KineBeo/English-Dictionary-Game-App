@@ -82,14 +82,13 @@ public class FlashcardDatabase {
 
   private void writeFlashcardDatabase(String flashcardDatabaseFilePath) throws IOException {
     BufferedWriter writer = new BufferedWriter(new FileWriter(flashcardDatabaseFilePath));
-    // Write the header.
-    writer.write("Word|Definition\n");
+    StringBuilder data = new StringBuilder();
 
     for (Flashcard flashcard : flashcards) {
-      String flashcardWord = flashcard.getFrontText();
-      String flashcardDefinition = flashcard.getBackText();
-
-      writer.write(flashcardWord + "|" + flashcardDefinition + "\n");
+      data.append(flashcard.getFrontText()).append("|").append(flashcard.getBackText()).append("\n");
     }
+
+    writer.write(data.toString());
+    writer.close();
   }
 }
