@@ -34,7 +34,7 @@ public class DailyWordController extends WordOperation {
     System.out.println(previousDate + " " + currentDate);
     if (previousDate == null || !currentDate.equals(previousDate)) {
       Random random = new Random();
-      currentRandomWord = Trie.getAllWordsFromTrie().get(random.nextInt(200));
+      currentRandomWord = Trie.getAllWordsFromTrie().get(random.nextInt(10000));
       this.randomWord.setText(currentRandomWord);
       String definition = Application.database.lookUpWord(currentRandomWord);
       definition =
