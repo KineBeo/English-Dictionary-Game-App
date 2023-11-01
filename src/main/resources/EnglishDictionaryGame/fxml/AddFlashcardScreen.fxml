@@ -5,20 +5,19 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane fx:id="saveAllFlashcardsButton" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.AddFlashcardController">
+<AnchorPane fx:id="saveAllFlashcardsButton" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="141.0" layoutY="28.0" text="Flashcard Number:" />
-      <Label fx:id="flashcardNumberCounter" layoutX="278.0" layoutY="28.0" text="[FLASHCARD NUMBER COUNTER]" />
+      <Label fx:id="flashcardCounter" layoutX="278.0" layoutY="28.0" text="[FLASHCARD NUMBER COUNTER]" />
       <Button fx:id="addFlashcardButton" layoutX="14.0" layoutY="74.0" mnemonicParsing="false" text="Add" />
       <Button fx:id="deleteFlashcardButton" layoutX="518.0" layoutY="74.0" mnemonicParsing="false" text="Delete" />
-      <TextField layoutX="17.0" layoutY="147.0" prefHeight="38.0" prefWidth="568.0" />
+      <TextField fx:id="wordTargetEditor" layoutX="17.0" layoutY="147.0" prefHeight="38.0" prefWidth="568.0" />
       <Label layoutX="278.0" layoutY="111.0" text="Word:" />
-      <TextField layoutX="17.0" layoutY="234.0" prefHeight="104.0" prefWidth="568.0" />
+      <TextField fx:id="wordDefinitionEditor" layoutX="17.0" layoutY="234.0" prefHeight="104.0" prefWidth="568.0" />
       <Label layoutX="265.0" layoutY="200.0" text="Definition:" />
       <Button layoutX="517.0" layoutY="349.0" mnemonicParsing="false" text="Next" />
       <Button layoutX="17.0" layoutY="350.0" mnemonicParsing="false" text="Back" />
-      <Button layoutX="274.0" layoutY="350.0" mnemonicParsing="false" text="Save" />
+      <Button fx:id="saveFlashcardButton" layoutX="274.0" layoutY="350.0" mnemonicParsing="false" text="Save" />
       <Button fx:id="exitAddFlashcardsButton" layoutX="529.0" layoutY="10.0" mnemonicParsing="false" text="Exit" />
       <Button layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Save All" />
    </children>

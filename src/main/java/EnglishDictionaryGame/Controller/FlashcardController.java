@@ -9,7 +9,6 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -31,12 +30,13 @@ public class FlashcardController {
     flashcardDatabase = new FlashcardDatabase();
     this.currentFlashcard = flashcardDatabase.getFlashcard(0);
     currentFlashcardCount = 1;
+
+    this.stage = createFlashcardStage();
   }
 
   public void createFlashcardWindow() {
-    this.stage = createFlashcardStage();
     updateFlashcardCount((Label) stage.getScene().getRoot().lookup("#flashcardCounter"));
-    this.stage.showAndWait();
+    this.stage.show();
   }
 
   private Stage createFlashcardStage() {
@@ -136,8 +136,8 @@ public class FlashcardController {
   private void setEditFlashcardsButtonBehavior(StackPane root) {
     Button editFlashcardsButton = (Button) root.lookup("#editFlashcardsButton");
     editFlashcardsButton.setOnMouseClicked(e -> {
-      AddFlashcardController addFlashcardController = createAddFlashcardController();
-      addFlashcardController.createWindow();
+      EditFlashcardController editFlashcardController = createAddFlashcardController();
+      editFlashcardController.createWindow();
     });
   }
 
@@ -195,6 +195,11 @@ public class FlashcardController {
 
   private void changeFlashcard(int flashcardIndex) {
     Flashcard newFlashcard = flashcardDatabase.getFlashcard(flashcardIndex);
+    if (newFlashcard == null) {
+      Flashcard emptyFlashcard = new Flashcard("Empty", "Empty");
+      newFlashcard = emptyFlashcard;
+    }
+
     changeFlashcard(newFlashcard);
   }
 
@@ -202,10 +207,10 @@ public class FlashcardController {
     flashcardCounter.setText(currentFlashcardCount + " / " + flashcardDatabase.size());
   }
 
-  private AddFlashcardController createAddFlashcardController() {
-    AddFlashcardController addFlashcardController = new AddFlashcardController(
+  private EditFlashcardController createAddFlashcardController() {
+    EditFlashcardController editFlashcardController = new EditFlashcardController(
         this.flashcardDatabase);
-    return addFlashcardController;
+    return editFlashcardController;
   }
 
   private void closeFlashcards() {
