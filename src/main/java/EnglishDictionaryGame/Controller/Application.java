@@ -406,7 +406,26 @@ public class Application implements Initializable {
         });
   }
 
-  public void dailyWord() {}
+  public void dailyWord() {
+    dailyWordButton.setOnMouseClicked(mouseEvent -> {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/DailyWord.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage addStage = new Stage();
+            scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+            addStage.setTitle("Daily Word");
+            addStage.setScene(scene);
+            addStage.setResizable(false);
+            addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+            addStage.initModality(Modality.APPLICATION_MODAL);
+            addStage.initOwner(new Main().getMainStage());
+            addStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    });
+  }
 
   public void flashCard() {
     flashCardButton.setOnMouseClicked(mouseEvent -> System.out.println("Clicked Flash Card"));

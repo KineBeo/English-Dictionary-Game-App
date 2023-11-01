@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="500.0" style="-fx-border-color: black; -fx-border-width: 1.75;" styleClass="application-border" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.DailyWordController">
+    <Label layoutX="170.0" layoutY="41.0" styleClass="label-title" stylesheets="@../css/stylesheet.css" text="Word of the day " />
+   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="456.0" layoutY="14.0" onMouseClicked="#quitScreen" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../image/xIcon.png" />
+      </image>
+   </ImageView>
+   <Pane layoutX="20.0" layoutY="76.0" prefHeight="250.0" prefWidth="460.0" style="-fx-border-color: black;" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
+      <children>
+         <WebView layoutX="1.0" layoutY="1.0" prefHeight="246.0" prefWidth="458.0" />
+      </children>
+   </Pane>
+</AnchorPane>
