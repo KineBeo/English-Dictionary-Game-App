@@ -15,10 +15,10 @@
       <Label layoutX="278.0" layoutY="111.0" text="Word:" />
       <TextField fx:id="wordDefinitionEditor" layoutX="17.0" layoutY="234.0" prefHeight="104.0" prefWidth="568.0" />
       <Label layoutX="265.0" layoutY="200.0" text="Definition:" />
-      <Button layoutX="517.0" layoutY="349.0" mnemonicParsing="false" text="Next" />
-      <Button layoutX="17.0" layoutY="350.0" mnemonicParsing="false" text="Back" />
+      <Button fx:id="nextEditFlashcardButton" layoutX="517.0" layoutY="349.0" mnemonicParsing="false" text="Next" />
+      <Button fx:id="backEditFlashcardButton" layoutX="17.0" layoutY="350.0" mnemonicParsing="false" text="Back" />
       <Button fx:id="saveFlashcardButton" layoutX="274.0" layoutY="350.0" mnemonicParsing="false" text="Save" />
-      <Button fx:id="exitAddFlashcardsButton" layoutX="529.0" layoutY="10.0" mnemonicParsing="false" text="Exit" />
-      <Button layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Save All" />
+      <Button fx:id="exitEditFlashcardsButton" layoutX="529.0" layoutY="10.0" mnemonicParsing="false" text="Exit" />
+      <Button fx:id="saveAllFlashcardsButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Save All" />
    </children>
 </AnchorPane>

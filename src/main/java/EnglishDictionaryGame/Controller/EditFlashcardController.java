@@ -5,7 +5,10 @@ import EnglishDictionaryGame.Server.Flashcard;
 import EnglishDictionaryGame.Server.FlashcardDatabase;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -112,6 +115,20 @@ public class EditFlashcardController {
 
     operatingFlashcard.setFrontText(frontText);
     operatingFlashcard.setBackText(backText);
+  }
+
+  private Alert createSaveAlert() {
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+
+    ButtonType okButtonType = alert.getButtonTypes().get(0);
+    Button saveButton = (Button) alert.getDialogPane().lookupButton(okButtonType);
+    saveButton.setText("Save and Continue");
+
+    ButtonType cancelButtonType = alert.getButtonTypes().get(1);
+    Button cancelButton = (Button) alert.getDialogPane().lookupButton(cancelButtonType);
+    cancelButton.setText("Continue without saving");
+
+    return alert;
   }
   private void updateFlashcardCounter() {
     Label flashcardCounter = (Label) stage.getScene().getRoot().lookup("#flashcardCounter");
