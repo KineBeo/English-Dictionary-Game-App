@@ -31,21 +31,6 @@ public class DailyWordController extends WordOperation {
 
   @FXML
   public void initialize() {
-    //    if (!currentDate.equals(previousDate)) {
-    //      Random random = new Random();
-    //      String randomWord = Trie.getAllWordsFromTrie().get(random.nextInt(200));
-    //      this.randomWord.setText(randomWord);
-    //      String definition = Application.database.lookUpWord(randomWord);
-    //      definition =
-    //              "<html><body bgcolor='white' style='color:"
-    //                      + "black"
-    //                      + "; font-weight: bold; font-size: 20px;'>"
-    //                      + definition
-    //                      + "</body></html>";
-    //
-    //      webView.getEngine().loadContent(definition, "text/html");
-    //      previousDate = currentDate;
-    //    }
     System.out.println(previousDate + " " + currentDate);
     if (previousDate == null || !currentDate.equals(previousDate)) {
       Random random = new Random();
