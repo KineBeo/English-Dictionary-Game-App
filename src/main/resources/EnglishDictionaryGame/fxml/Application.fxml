@@ -12,12 +12,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" styleClass="application-border" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.Application">
-   <Pane prefHeight="600.0" prefWidth="1100.0" styleClass="application-border" stylesheets="@../css/stylesheet.css">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="application-border" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.Application">
+   <Pane prefHeight="600.0" prefWidth="1000.0" styleClass="application-border" stylesheets="@../css/stylesheet.css">
       <ListView fx:id="searchList" layoutX="205.0" layoutY="150.0" onKeyPressed="#selectWordUsingKeyBoard" onMouseClicked="#doubleClicktoSelectWord" prefHeight="430.0" prefWidth="240.0" styleClass="title" stylesheets="@../css/stylesheet.css" />
       <Pane layoutX="460.0" layoutY="150.0" styleClass="dropshadow-forUI" stylesheets="@../css/stylesheet.css">
          <children>
-            <WebView fx:id="webView" prefHeight="430.0" prefWidth="563.0" />
+            <WebView fx:id="webView" prefHeight="430.0" prefWidth="510.0" />
          </children>
       </Pane>
       <AnchorPane fx:id="slider" layoutX="1.0" layoutY="78.0" prefHeight="520.0" prefWidth="170.0" style="-fx-background-color: ffffff;" stylesheets="@../css/stylesheet.css">
@@ -27,7 +27,7 @@
                   <Pane layoutX="10.0" layoutY="190.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
                         <Label fx:id="quizButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text="Quiz" />
-                        <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="13.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/quizlet.png" />
                            </image>
@@ -37,7 +37,7 @@
                   <Pane layoutX="10.0" layoutY="290.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
                         <Label fx:id="hangmanButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text="  Hangman" />
-                        <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="7.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="13.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/Hangman.png" />
                            </image>
@@ -47,7 +47,7 @@
                   <Pane layoutX="10.0" layoutY="150.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
                         <Label fx:id="dailyWordButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text="     Daily Word" />
-                        <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="7.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="13.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/wordOfToday.png" />
                            </image>
@@ -57,7 +57,7 @@
                   <Pane layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
                         <Label fx:id="flashCardButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text="  FlashCard" />
-                        <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="13.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/flashCard.png" />
                            </image>
@@ -67,7 +67,7 @@
                   <Pane layoutX="10.0" layoutY="80.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
                         <Label fx:id="informationButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text="About" />
-                        <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="13.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/information.png" />
                            </image>
@@ -77,7 +77,7 @@
                   <Pane layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="170.0">
                      <children>
                         <Label fx:id="settingButton" alignment="CENTER" prefHeight="60.0" prefWidth="182.0" text=" Setting" />
-                        <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="8.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="13.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/setting.png" />
                            </image>
@@ -92,22 +92,22 @@
             <String fx:value="slider-border" />
          </styleClass>
       </AnchorPane>
-      <HBox fx:id="applicationBar" prefHeight="80.0" prefWidth="1100.0" stylesheets="@../css/stylesheet.css">
+      <HBox fx:id="applicationBar" prefHeight="80.0" prefWidth="1000.0" stylesheets="@../css/stylesheet.css">
          <children>
-            <Pane prefHeight="90.0" prefWidth="170.0" styleClass="menuSlider" stylesheets="@../css/stylesheet.css">
+            <Pane prefHeight="80.0" prefWidth="170.0" styleClass="menuSlider" stylesheets="@../css/stylesheet.css">
                <children>
-                  <Label fx:id="menuClose" alignment="CENTER" prefHeight="90.0" prefWidth="170.0" styleClass="menu-Title" stylesheets="@../css/stylesheet.css" text="  Menu" textAlignment="CENTER">
+                  <Label fx:id="menuClose" alignment="CENTER" prefHeight="80.0" prefWidth="170.0" styleClass="menu-Title" stylesheets="@../css/stylesheet.css" text="  Menu" textAlignment="CENTER">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/menu.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Label>
-                  <Label fx:id="menu" alignment="CENTER" prefHeight="90.0" prefWidth="170.0" styleClass="menu-Title" stylesheets="@../css/stylesheet.css" text="  Menu" textAlignment="CENTER">
+                  <Label fx:id="menu" alignment="CENTER" prefHeight="80.0" prefWidth="170.0" styleClass="menu-Title" stylesheets="@../css/stylesheet.css" text="  Menu" textAlignment="CENTER">
                      <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/menu.png" />
                            </image>
@@ -116,9 +116,9 @@
                   </Label>
                </children>
             </Pane>
-            <Pane prefHeight="80.0" prefWidth="930.0">
+            <Pane prefHeight="80.0" prefWidth="830.0">
                <children>
-                  <ImageView fx:id="exitButton" fitHeight="27.0" fitWidth="27.0" layoutX="892.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="exitButton" fitHeight="27.0" fitWidth="27.0" layoutX="779.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../image/xIcon.png" />
                      </image>
@@ -141,7 +141,7 @@
             </ImageView>
          </children>
       </Pane>
-      <HBox layoutX="470.0" layoutY="93.0" prefHeight="40.0" prefWidth="630.0">
+      <HBox layoutX="470.0" layoutY="93.0" prefHeight="40.0" prefWidth="500.0">
          <children>
             <Pane prefHeight="40.0" prefWidth="100.0">
                <children>
