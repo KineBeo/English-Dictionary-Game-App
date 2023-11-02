@@ -20,4 +20,9 @@
       </children>
    </Pane>
    <Label fx:id="randomWord" layoutX="20.0" layoutY="70.0" styleClass="label-title" stylesheets="@../css/stylesheet.css" />
+   <ImageView fx:id="speaker" fitHeight="27.0" fitWidth="27.0" layoutX="200.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../image/speaker.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

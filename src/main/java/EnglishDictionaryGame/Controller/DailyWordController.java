@@ -1,10 +1,12 @@
 package EnglishDictionaryGame.Controller;
 
+import EnglishDictionaryGame.Server.PronunciationService;
 import EnglishDictionaryGame.Server.Trie;
 import java.time.LocalDate;
 import java.util.Random;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
@@ -14,6 +16,7 @@ public class DailyWordController extends WordOperation {
   @FXML private AnchorPane anchorPane;
   @FXML private WebView webView;
   @FXML private Label randomWord;
+  @FXML private ImageView speaker;
 
   private static LocalDate currentDate = LocalDate.now();
   private static LocalDate previousDate;
@@ -48,16 +51,22 @@ public class DailyWordController extends WordOperation {
       previousDate = currentDate;
       System.out.println(previousDate + " " + currentDate);
     } else if (currentDate.equals(previousDate)) {
-        this.randomWord.setText(currentRandomWord);
-        String definition = Application.database.lookUpWord(currentRandomWord);
-        definition =
-            "<html><body bgcolor='white' style='color:"
-                + "black"
-                + "; font-weight: bold; font-size: 20px;'>"
-                + definition
-                + "</body></html>";
+      this.randomWord.setText(currentRandomWord);
+      String definition = Application.database.lookUpWord(currentRandomWord);
+      definition =
+          "<html><body bgcolor='white' style='color:"
+              + "black"
+              + "; font-weight: bold; font-size: 20px;'>"
+              + definition
+              + "</body></html>";
 
-        webView.getEngine().loadContent(definition, "text/html");
+      webView.getEngine().loadContent(definition, "text/html");
     }
+    pronounceWord(currentRandomWord);
+  }
+
+  private void pronounceWord(String word) {
+    speaker.setOnMouseClicked(
+        mouseEvent -> new Thread(() -> PronunciationService.pronounce(word, "en")).start());
   }
 }

@@ -141,7 +141,7 @@
             </ImageView>
          </children>
       </Pane>
-      <HBox layoutX="470.0" layoutY="93.0" prefHeight="40.0" prefWidth="500.0">
+      <HBox layoutX="470.0" layoutY="93.0" prefHeight="40.0" prefWidth="510.0">
          <children>
             <Pane prefHeight="40.0" prefWidth="100.0">
                <children>
