@@ -41,6 +41,14 @@ public class FlashcardDatabase {
     return flashcards.indexOf(flashcard);
   }
 
+  public void remove(Flashcard flashcard) {
+    flashcards.remove(flashcard);
+  }
+
+  public void remove(int index) {
+    flashcards.remove(index);
+  }
+
   public int size() {
     return flashcards.size();
   }

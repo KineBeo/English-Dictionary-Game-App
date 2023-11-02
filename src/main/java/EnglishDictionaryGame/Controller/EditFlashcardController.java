@@ -204,6 +204,10 @@ public class EditFlashcardController {
         });
   }
 
+  /**
+   * Changes the operating flashcard to the flashcard at the given index.
+   * Updates the flashcard counter.
+   */
   private void changeOperatingFlashcard(int index) {
     saveCurrentFlashcard();
     loadFlashcard(index);
@@ -214,14 +218,33 @@ public class EditFlashcardController {
     Button deleteEditFlashcardButton = (Button) root.lookup("#deleteEditFlashcardButton");
     deleteEditFlashcardButton.setOnAction(
         event -> {
-          deleteCurrentFlashcard();
+          handleDeleteConfirmation();
         });
   }
 
-  private void deleteCurrentFlashcard() {
-    Alert deleteAlert = createDeleteAlert();
-    deleteAlert.showAndWait();
+  private void handleDeleteConfirmation() {
+    Alert deleteConfirmationAlert = createDeleteAlert();
+    deleteConfirmationAlert.showAndWait();
+    ButtonType confirmationResult = deleteConfirmationAlert.getResult();
+    ButtonType confirmDeleteButtonType = deleteConfirmationAlert.getButtonTypes().get(0);
+    ButtonType cancelDeleteButtonType = deleteConfirmationAlert.getButtonTypes().get(1);
+
+    if (confirmationResult == cancelDeleteButtonType) {
+      return;
+    } else if (confirmationResult == confirmDeleteButtonType) {
+      int previousFlashcardIndex = unsavedFlashcardDatabase.getIndexOf(operatingFlashcard) - 1;
+      deleteCurrentFlashcard();
+      // Load the previous flashcard.
+      if (unsavedFlashcardDatabase.size() == 0) {
+        createAddFlashcardPage();
+      } else if (previousFlashcardIndex < 0) {
+        previousFlashcardIndex = unsavedFlashcardDatabase.size() - 1;
+      }
+
+      changeOperatingFlashcard(previousFlashcardIndex);
+    }
   }
+
 
   private Alert createDeleteAlert() {
     Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -238,6 +261,11 @@ public class EditFlashcardController {
     cancelButton.setText("Delete");
 
     return alert;
+  }
+
+  private void deleteCurrentFlashcard() {
+    databaseChanged = true;
+    unsavedFlashcardDatabase.remove(operatingFlashcard);
   }
 
   private void updateFlashcardCounter() {
