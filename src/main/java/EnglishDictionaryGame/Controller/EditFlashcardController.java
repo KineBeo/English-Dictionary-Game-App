@@ -16,6 +16,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class EditFlashcardController {
+
+  /**
+   * All of this controller's operations are done on this database. The main database will be setted
+   * equal to this database if the user chooses to save changes, therefore saving data.
+   */
   private FlashcardDatabase unsavedFlashcardDatabase;
   private Stage stage;
   private Flashcard operatingFlashcard;
@@ -40,7 +45,7 @@ public class EditFlashcardController {
 
   public void createWindow() {
     loadFlashcard(0);
-    this.stage.showAndWait();
+    this.stage.show();
   }
 
   public boolean changedFlashcardDatabase() {
@@ -87,6 +92,8 @@ public class EditFlashcardController {
     setAddFlashcardButtonBehavior(root);
     setSaveFlashcardButtonBehavior(root);
     setExitEditFlashcardButtonBehavior(root);
+    setNextEditFlashcardButtonBehavior(root);
+    setBackEditFlashcardButtonBehavior(root);
   }
 
   private void setAddFlashcardButtonBehavior(AnchorPane root) {
@@ -94,23 +101,6 @@ public class EditFlashcardController {
     addFlashcardButton.setOnAction(
         event -> {
           createAddFlashcardPage();
-        });
-  }
-
-  private void setSaveFlashcardButtonBehavior(AnchorPane root) {
-    Button saveFlashcardButton = (Button) root.lookup("#saveFlashcardButton");
-    saveFlashcardButton.setOnAction(
-        event -> {
-          saveFlashcard();
-        });
-  }
-
-  private void setExitEditFlashcardButtonBehavior(AnchorPane root) {
-    Button exitEditFlashcardButton = (Button) root.lookup("#exitEditFlashcardsButton");
-    exitEditFlashcardButton.setOnAction(
-        event -> {
-          System.out.println("Exit edit flashcards button clicked");
-          exitEditFlashcards();
         });
   }
 
@@ -129,7 +119,15 @@ public class EditFlashcardController {
     updateFlashcardCounter();
   }
 
-  private void saveFlashcard() {
+  private void setSaveFlashcardButtonBehavior(AnchorPane root) {
+    Button saveFlashcardButton = (Button) root.lookup("#saveFlashcardButton");
+    saveFlashcardButton.setOnAction(
+        event -> {
+          saveCurrentFlashcard();
+        });
+  }
+
+  private void saveCurrentFlashcard() {
     AnchorPane root = (AnchorPane) stage.getScene().getRoot();
     TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
     TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
@@ -140,24 +138,14 @@ public class EditFlashcardController {
     operatingFlashcard.setFrontText(frontText);
     operatingFlashcard.setBackText(backText);
   }
-  private Alert createSaveAlert() {
-    Alert alert = new Alert(AlertType.CONFIRMATION);
 
-    ButtonType okButtonType = alert.getButtonTypes().get(0);
-    Button saveButton = (Button) alert.getDialogPane().lookupButton(okButtonType);
-    saveButton.setText("Save and Continue");
-
-    ButtonType cancelButtonType = alert.getButtonTypes().get(1);
-    Button cancelButton = (Button) alert.getDialogPane().lookupButton(cancelButtonType);
-    cancelButton.setText("Continue without saving");
-
-    return alert;
-  }
-
-  private void updateFlashcardCounter() {
-    Label flashcardCounter = (Label) stage.getScene().getRoot().lookup("#flashcardCounter");
-    int currentFlashcardCount = unsavedFlashcardDatabase.getIndexOf(operatingFlashcard) + 1;
-    flashcardCounter.setText(currentFlashcardCount + " / " + unsavedFlashcardDatabase.size());
+  private void setExitEditFlashcardButtonBehavior(AnchorPane root) {
+    Button exitEditFlashcardButton = (Button) root.lookup("#exitEditFlashcardsButton");
+    exitEditFlashcardButton.setOnAction(
+        event -> {
+          System.out.println("Exit edit flashcards button clicked");
+          exitEditFlashcards();
+        });
   }
 
   private void exitEditFlashcards() {
@@ -173,6 +161,55 @@ public class EditFlashcardController {
     } else {
       stage.close();
     }
+  }
+
+  private Alert createSaveAlert() {
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+
+    ButtonType okButtonType = alert.getButtonTypes().get(0);
+    Button saveButton = (Button) alert.getDialogPane().lookupButton(okButtonType);
+    saveButton.setText("Save and Continue");
+
+    ButtonType cancelButtonType = alert.getButtonTypes().get(1);
+    Button cancelButton = (Button) alert.getDialogPane().lookupButton(cancelButtonType);
+    cancelButton.setText("Continue without saving");
+
+    return alert;
+  }
+
+  private void setNextEditFlashcardButtonBehavior(AnchorPane root) {
+    Button nextEditFlashcardButton = (Button) root.lookup("#nextEditFlashcardButton");
+    nextEditFlashcardButton.setOnAction(
+        event -> {
+          int nextFlashcardIndex = unsavedFlashcardDatabase.getIndexOf(operatingFlashcard) + 1;
+          if (nextFlashcardIndex >= unsavedFlashcardDatabase.size()) {
+            nextFlashcardIndex = 0;
+          }
+          changeOperatingFlashcard(nextFlashcardIndex);
+        });
+  }
+
+  private void setBackEditFlashcardButtonBehavior(AnchorPane root) {
+    Button backEditFlashcardsButton = (Button) root.lookup("#backEditFlashcardButton");
+    backEditFlashcardsButton.setOnAction(
+        event -> {
+          int previousFlashcardIndex = unsavedFlashcardDatabase.getIndexOf(operatingFlashcard) - 1;
+          if (previousFlashcardIndex < 0) {
+            previousFlashcardIndex = unsavedFlashcardDatabase.size() - 1;
+          }
+          changeOperatingFlashcard(previousFlashcardIndex);
+        });
+  }
+  private void changeOperatingFlashcard(int index) {
+    saveCurrentFlashcard();
+    loadFlashcard(index);
+    updateFlashcardCounter();
+  }
+
+  private void updateFlashcardCounter() {
+    Label flashcardCounter = (Label) stage.getScene().getRoot().lookup("#flashcardCounter");
+    int currentFlashcardCount = unsavedFlashcardDatabase.getIndexOf(operatingFlashcard) + 1;
+    flashcardCounter.setText(currentFlashcardCount + " / " + unsavedFlashcardDatabase.size());
   }
 
   private AnchorPane createRoot() {
