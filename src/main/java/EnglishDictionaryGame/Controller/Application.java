@@ -53,9 +53,6 @@ public class Application implements Initializable {
 
   @FXML private Label quizButton;
 
-  // Flashcard screen buttons
-  @FXML private Button flipFlashcardButton;
-
   @FXML private Label translateButton;
 
   @FXML private Label pronounceButton;
@@ -100,7 +97,7 @@ public class Application implements Initializable {
     translateWord();
     pronounceWord();
     hangMan();
-    flashcardGame();
+    flashCard();
     setting();
     about();
     dailyWord();
@@ -316,7 +313,7 @@ public class Application implements Initializable {
         .start();
   }
 
-  public void flashcardGame() {
+  public void flashCard() {
     quizButton.setOnMouseClicked(
         mouseEvent -> {
           FlashcardController flashcardController = new FlashcardController();
