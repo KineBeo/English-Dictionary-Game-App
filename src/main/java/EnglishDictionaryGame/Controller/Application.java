@@ -381,6 +381,14 @@ public class Application implements Initializable {
         });
   }
 
+  public void flashCard() {
+    flashCardButton.setOnMouseClicked(
+        mouseEvent -> {
+          FlashcardController flashcardController = new FlashcardController();
+          flashcardController.createFlashcardWindow();
+        });
+  }
+
   /** Open the setting screen. */
   public void setting() {
     settingButton.setOnMouseClicked(
@@ -425,10 +433,6 @@ public class Application implements Initializable {
             e.printStackTrace();
         }
     });
-  }
-
-  public void flashCard() {
-    flashCardButton.setOnMouseClicked(mouseEvent -> System.out.println("Clicked Flash Card"));
   }
 
   public void setAlertPopUpCss(Scene scene) {
