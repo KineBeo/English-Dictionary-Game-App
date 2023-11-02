@@ -138,6 +138,15 @@ public class FlashcardController {
     editFlashcardsButton.setOnMouseClicked(e -> {
       EditFlashcardController editFlashcardController = createAddFlashcardController();
       editFlashcardController.createWindow();
+      System.out.println("Edit flashcards controller exited.");
+      if (editFlashcardController.changedFlashcardDatabase()) {
+        // Update the operating database to match the edited one.
+        this.flashcardDatabase = editFlashcardController.getUnsavedFlashcardDatabase();
+
+        // Reload the current flashcard.
+        currentFlashcard.flipCardView();
+        currentFlashcard.flipCardView();
+      }
     });
   }
 

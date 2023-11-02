@@ -16,28 +16,42 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class EditFlashcardController {
-  FlashcardDatabase flashcardDatabase;
-  Stage stage;
-  Flashcard operatingFlashcard;
+  private FlashcardDatabase unsavedFlashcardDatabase;
+  private Stage stage;
+  private Flashcard operatingFlashcard;
+  private boolean databaseChanged;
 
   public EditFlashcardController() {
     this.stage = createAddFlashcardStage();
-    this.flashcardDatabase = new FlashcardDatabase();
+    this.unsavedFlashcardDatabase = new FlashcardDatabase();
+    databaseChanged = false;
   }
 
-  public EditFlashcardController(FlashcardDatabase flashcardDatabase) {
+  public EditFlashcardController(FlashcardDatabase savedFlashcardDatabase) {
     this.stage = createAddFlashcardStage();
-    this.flashcardDatabase = flashcardDatabase;
+    this.unsavedFlashcardDatabase = new FlashcardDatabase(savedFlashcardDatabase);
+    databaseChanged = false;
   }
 
   public void addFlashcard(String frontText, String backText) {
     Flashcard newFlashcard = new Flashcard(frontText, backText);
-    this.flashcardDatabase.addFlashcard(newFlashcard);
+    this.unsavedFlashcardDatabase.addFlashcard(newFlashcard);
   }
 
   public void createWindow() {
-    this.stage.show();
     loadFlashcard(0);
+    this.stage.showAndWait();
+  }
+
+  public boolean changedFlashcardDatabase() {
+    return databaseChanged;
+  }
+
+  /**
+   * Updates the saved flashcard database with the unsaved flashcard database.
+   */
+  public FlashcardDatabase getUnsavedFlashcardDatabase() {
+    return this.unsavedFlashcardDatabase;
   }
 
   private Stage createAddFlashcardStage() {
@@ -61,7 +75,7 @@ public class EditFlashcardController {
   }
 
   private void loadFlashcard(int flashcardIndex) {
-    Flashcard flashcard = flashcardDatabase.getFlashcard(flashcardIndex);
+    Flashcard flashcard = unsavedFlashcardDatabase.getFlashcard(flashcardIndex);
     if (flashcard == null) {
       return;
     }
@@ -72,6 +86,7 @@ public class EditFlashcardController {
   private void setAllElementsBehaviors(AnchorPane root) {
     setAddFlashcardButtonBehavior(root);
     setSaveFlashcardButtonBehavior(root);
+    setExitEditFlashcardButtonBehavior(root);
   }
 
   private void setAddFlashcardButtonBehavior(AnchorPane root) {
@@ -90,6 +105,15 @@ public class EditFlashcardController {
         });
   }
 
+  private void setExitEditFlashcardButtonBehavior(AnchorPane root) {
+    Button exitEditFlashcardButton = (Button) root.lookup("#exitEditFlashcardsButton");
+    exitEditFlashcardButton.setOnAction(
+        event -> {
+          System.out.println("Exit edit flashcards button clicked");
+          exitEditFlashcards();
+        });
+  }
+
   private void createAddFlashcardPage() {
     // Clears the word target and word definition fields.
     AnchorPane root = (AnchorPane) stage.getScene().getRoot();
@@ -100,7 +124,7 @@ public class EditFlashcardController {
 
     Flashcard newFlashcard = new Flashcard("", "");
     loadFlashcard(newFlashcard);
-    flashcardDatabase.addFlashcard(newFlashcard);
+    unsavedFlashcardDatabase.addFlashcard(newFlashcard);
 
     updateFlashcardCounter();
   }
@@ -116,7 +140,6 @@ public class EditFlashcardController {
     operatingFlashcard.setFrontText(frontText);
     operatingFlashcard.setBackText(backText);
   }
-
   private Alert createSaveAlert() {
     Alert alert = new Alert(AlertType.CONFIRMATION);
 
@@ -130,10 +153,26 @@ public class EditFlashcardController {
 
     return alert;
   }
+
   private void updateFlashcardCounter() {
     Label flashcardCounter = (Label) stage.getScene().getRoot().lookup("#flashcardCounter");
-    int currentFlashcardCount = flashcardDatabase.getIndexOf(operatingFlashcard) + 1;
-    flashcardCounter.setText(currentFlashcardCount + " / " + flashcardDatabase.size());
+    int currentFlashcardCount = unsavedFlashcardDatabase.getIndexOf(operatingFlashcard) + 1;
+    flashcardCounter.setText(currentFlashcardCount + " / " + unsavedFlashcardDatabase.size());
+  }
+
+  private void exitEditFlashcards() {
+    Alert alert = createSaveAlert();
+    alert.setTitle("Save Changes");
+    alert.setHeaderText("Do you want to save changes?");
+    alert.setContentText("Choose your option.");
+
+    alert.showAndWait();
+    if (alert.getResult() == alert.getButtonTypes().get(0)) {
+      databaseChanged = true;
+      stage.close();
+    } else {
+      stage.close();
+    }
   }
 
   private AnchorPane createRoot() {

@@ -22,6 +22,10 @@ public class FlashcardDatabase {
     }
   }
 
+  public FlashcardDatabase(FlashcardDatabase flashcardDatabase) {
+    this.flashcards = new ArrayList<Flashcard>(flashcardDatabase.flashcards);
+  }
+
   public void addFlashcard(Flashcard flashcard) {
     flashcards.add(flashcard);
   }
