@@ -89,16 +89,17 @@ public class EditFlashcardController {
   }
 
   private void setAllElementsBehaviors(AnchorPane root) {
-    setAddFlashcardButtonBehavior(root);
-    setSaveFlashcardButtonBehavior(root);
+    setAddEditFlashcardButtonBehavior(root);
+    setSaveEditFlashcardButtonBehavior(root);
     setExitEditFlashcardButtonBehavior(root);
     setNextEditFlashcardButtonBehavior(root);
     setBackEditFlashcardButtonBehavior(root);
+    setDeleteEditFlashcardButtonBehavior(root);
   }
 
-  private void setAddFlashcardButtonBehavior(AnchorPane root) {
-    Button addFlashcardButton = (Button) root.lookup("#addFlashcardButton");
-    addFlashcardButton.setOnAction(
+  private void setAddEditFlashcardButtonBehavior(AnchorPane root) {
+    Button addEditFlashcardButton = (Button) root.lookup("#addEditFlashcardButton");
+    addEditFlashcardButton.setOnAction(
         event -> {
           createAddFlashcardPage();
         });
@@ -119,9 +120,9 @@ public class EditFlashcardController {
     updateFlashcardCounter();
   }
 
-  private void setSaveFlashcardButtonBehavior(AnchorPane root) {
-    Button saveFlashcardButton = (Button) root.lookup("#saveFlashcardButton");
-    saveFlashcardButton.setOnAction(
+  private void setSaveEditFlashcardButtonBehavior(AnchorPane root) {
+    Button saveEditFlashcardButton = (Button) root.lookup("#saveEditFlashcardButton");
+    saveEditFlashcardButton.setOnAction(
         event -> {
           saveCurrentFlashcard();
         });
@@ -149,10 +150,7 @@ public class EditFlashcardController {
   }
 
   private void exitEditFlashcards() {
-    Alert alert = createSaveAlert();
-    alert.setTitle("Save Changes");
-    alert.setHeaderText("Do you want to save changes?");
-    alert.setContentText("Choose your option.");
+    Alert alert = createExitAlert();
 
     alert.showAndWait();
     if (alert.getResult() == alert.getButtonTypes().get(0)) {
@@ -161,10 +159,15 @@ public class EditFlashcardController {
     } else {
       stage.close();
     }
+
   }
 
-  private Alert createSaveAlert() {
+  private Alert createExitAlert() {
     Alert alert = new Alert(AlertType.CONFIRMATION);
+
+    alert.setTitle("Exit Alert");
+    alert.setHeaderText("Do you want to save changes?");
+    alert.setContentText("Choose your option.");
 
     ButtonType okButtonType = alert.getButtonTypes().get(0);
     Button saveButton = (Button) alert.getDialogPane().lookupButton(okButtonType);
@@ -200,10 +203,41 @@ public class EditFlashcardController {
           changeOperatingFlashcard(previousFlashcardIndex);
         });
   }
+
   private void changeOperatingFlashcard(int index) {
     saveCurrentFlashcard();
     loadFlashcard(index);
     updateFlashcardCounter();
+  }
+
+  private void setDeleteEditFlashcardButtonBehavior(AnchorPane root) {
+    Button deleteEditFlashcardButton = (Button) root.lookup("#deleteEditFlashcardButton");
+    deleteEditFlashcardButton.setOnAction(
+        event -> {
+          deleteCurrentFlashcard();
+        });
+  }
+
+  private void deleteCurrentFlashcard() {
+    Alert deleteAlert = createDeleteAlert();
+    deleteAlert.showAndWait();
+  }
+
+  private Alert createDeleteAlert() {
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+
+    alert.setTitle("Delete Confirmation");
+    alert.setHeaderText("Are you sure you want to delete this flashcard?");
+
+    ButtonType okButtonType = alert.getButtonTypes().get(0);
+    Button saveButton = (Button) alert.getDialogPane().lookupButton(okButtonType);
+    saveButton.setText("Confirm");
+
+    ButtonType cancelButtonType = alert.getButtonTypes().get(1);
+    Button cancelButton = (Button) alert.getDialogPane().lookupButton(cancelButtonType);
+    cancelButton.setText("Delete");
+
+    return alert;
   }
 
   private void updateFlashcardCounter() {

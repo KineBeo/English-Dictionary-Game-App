@@ -9,15 +9,15 @@
    <children>
       <Label layoutX="141.0" layoutY="28.0" text="Flashcard Number:" />
       <Label fx:id="flashcardCounter" layoutX="278.0" layoutY="28.0" text="[FLASHCARD NUMBER COUNTER]" />
-      <Button fx:id="addFlashcardButton" layoutX="14.0" layoutY="74.0" mnemonicParsing="false" text="Add" />
-      <Button fx:id="deleteFlashcardButton" layoutX="518.0" layoutY="74.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="addEditFlashcardButton" layoutX="14.0" layoutY="74.0" mnemonicParsing="false" text="Add" />
+      <Button fx:id="deleteEditFlashcardButton" layoutX="518.0" layoutY="74.0" mnemonicParsing="false" text="Delete" />
       <TextField fx:id="wordTargetEditor" layoutX="17.0" layoutY="147.0" prefHeight="38.0" prefWidth="568.0" />
       <Label layoutX="278.0" layoutY="111.0" text="Word:" />
       <TextField fx:id="wordDefinitionEditor" layoutX="17.0" layoutY="234.0" prefHeight="104.0" prefWidth="568.0" />
       <Label layoutX="265.0" layoutY="200.0" text="Definition:" />
       <Button fx:id="nextEditFlashcardButton" layoutX="517.0" layoutY="349.0" mnemonicParsing="false" text="Next" />
       <Button fx:id="backEditFlashcardButton" layoutX="17.0" layoutY="350.0" mnemonicParsing="false" text="Back" />
-      <Button fx:id="saveFlashcardButton" layoutX="274.0" layoutY="350.0" mnemonicParsing="false" text="Save" />
+      <Button fx:id="saveEditFlashcardButton" layoutX="274.0" layoutY="350.0" mnemonicParsing="false" text="Save" />
       <Button fx:id="exitEditFlashcardsButton" layoutX="529.0" layoutY="10.0" mnemonicParsing="false" text="Exit" />
       <Button fx:id="saveAllFlashcardsButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Save All" />
    </children>
