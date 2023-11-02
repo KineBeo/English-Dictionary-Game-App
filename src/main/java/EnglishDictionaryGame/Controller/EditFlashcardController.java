@@ -17,30 +17,34 @@ import javafx.stage.Stage;
 
 public class EditFlashcardController {
 
+  /** The initial flashcard database that is passed in. */
+  private FlashcardDatabase oldFlashcardDatabase;
+
   /**
-   * All of this controller's operations are done on this database. The main database will be setted
-   * equal to this database if the user chooses to save changes, therefore saving data.
+   * All of this controller's operations are done on this database.
    */
-  private FlashcardDatabase unsavedFlashcardDatabase;
+  private FlashcardDatabase editingFlashcardDatabase;
+
   private Stage stage;
   private Flashcard operatingFlashcard;
   private boolean databaseChanged;
 
   public EditFlashcardController() {
     this.stage = createAddFlashcardStage();
-    this.unsavedFlashcardDatabase = new FlashcardDatabase();
+    this.editingFlashcardDatabase = new FlashcardDatabase();
     databaseChanged = false;
   }
 
   public EditFlashcardController(FlashcardDatabase savedFlashcardDatabase) {
     this.stage = createAddFlashcardStage();
-    this.unsavedFlashcardDatabase = new FlashcardDatabase(savedFlashcardDatabase);
+    this.oldFlashcardDatabase = savedFlashcardDatabase;
+    this.editingFlashcardDatabase = new FlashcardDatabase(savedFlashcardDatabase);
     databaseChanged = false;
   }
 
   public void addFlashcard(String frontText, String backText) {
     Flashcard newFlashcard = new Flashcard(frontText, backText);
-    this.unsavedFlashcardDatabase.addFlashcard(newFlashcard);
+    this.editingFlashcardDatabase.addFlashcard(newFlashcard);
   }
 
   public void createWindow() {
@@ -55,8 +59,8 @@ public class EditFlashcardController {
   /**
    * Updates the saved flashcard database with the unsaved flashcard database.
    */
-  public FlashcardDatabase getUnsavedFlashcardDatabase() {
-    return this.unsavedFlashcardDatabase;
+  public FlashcardDatabase getEditingFlashcardDatabase() {
+    return this.editingFlashcardDatabase;
   }
 
   private Stage createAddFlashcardStage() {
@@ -80,7 +84,7 @@ public class EditFlashcardController {
   }
 
   private void loadFlashcard(int flashcardIndex) {
-    Flashcard flashcard = unsavedFlashcardDatabase.getFlashcard(flashcardIndex);
+    Flashcard flashcard = editingFlashcardDatabase.getFlashcard(flashcardIndex);
     if (flashcard == null) {
       return;
     }
@@ -115,7 +119,7 @@ public class EditFlashcardController {
 
     Flashcard newFlashcard = new Flashcard("", "");
     loadFlashcard(newFlashcard);
-    unsavedFlashcardDatabase.addFlashcard(newFlashcard);
+    editingFlashcardDatabase.addFlashcard(newFlashcard);
 
     updateFlashcardCounter();
   }
@@ -153,13 +157,16 @@ public class EditFlashcardController {
     Alert alert = createExitAlert();
 
     alert.showAndWait();
-    if (alert.getResult() == alert.getButtonTypes().get(0)) {
+
+    ButtonType confirmationChoice = alert.getResult();
+    ButtonType confirmSaveAndExit = alert.getButtonTypes().get(0);
+    ButtonType confirmExitWithoutSaving = alert.getButtonTypes().get(1);
+    if (confirmationChoice == confirmSaveAndExit) {
       databaseChanged = true;
       stage.close();
-    } else {
+    } else if (confirmationChoice == confirmExitWithoutSaving) {
       stage.close();
     }
-
   }
 
   private Alert createExitAlert() {
@@ -182,31 +189,32 @@ public class EditFlashcardController {
 
   private void setNextEditFlashcardButtonBehavior(AnchorPane root) {
     Button nextEditFlashcardButton = (Button) root.lookup("#nextEditFlashcardButton");
-    nextEditFlashcardButton.setOnAction(
-        event -> {
-          int nextFlashcardIndex = unsavedFlashcardDatabase.getIndexOf(operatingFlashcard) + 1;
-          if (nextFlashcardIndex >= unsavedFlashcardDatabase.size()) {
-            nextFlashcardIndex = 0;
-          }
-          changeOperatingFlashcard(nextFlashcardIndex);
-        });
+    setFlashcardNavigationButtonBehavior(root, nextEditFlashcardButton, 1);
   }
 
   private void setBackEditFlashcardButtonBehavior(AnchorPane root) {
     Button backEditFlashcardsButton = (Button) root.lookup("#backEditFlashcardButton");
-    backEditFlashcardsButton.setOnAction(
-        event -> {
-          int previousFlashcardIndex = unsavedFlashcardDatabase.getIndexOf(operatingFlashcard) - 1;
-          if (previousFlashcardIndex < 0) {
-            previousFlashcardIndex = unsavedFlashcardDatabase.size() - 1;
-          }
-          changeOperatingFlashcard(previousFlashcardIndex);
-        });
+    setFlashcardNavigationButtonBehavior(root, backEditFlashcardsButton, -1);
+  }
+
+  private void setFlashcardNavigationButtonBehavior(AnchorPane root,
+      Button flashcardNavigationButton, int direction) {
+    flashcardNavigationButton.setOnAction(event -> {
+      int currentIndex = editingFlashcardDatabase.getIndexOf(operatingFlashcard);
+      int newIndex = currentIndex + direction;
+      if (newIndex > editingFlashcardDatabase.size() - 1) {
+        newIndex = 0;
+      } else if (newIndex < 0) {
+        newIndex = editingFlashcardDatabase.size() - 1;
+      }
+
+      changeOperatingFlashcard(newIndex);
+    });
   }
 
   /**
-   * Changes the operating flashcard to the flashcard at the given index.
-   * Updates the flashcard counter.
+   * Changes the operating flashcard to the flashcard at the given index. Updates the flashcard
+   * counter.
    */
   private void changeOperatingFlashcard(int index) {
     saveCurrentFlashcard();
@@ -225,20 +233,20 @@ public class EditFlashcardController {
   private void handleDeleteConfirmation() {
     Alert deleteConfirmationAlert = createDeleteAlert();
     deleteConfirmationAlert.showAndWait();
-    ButtonType confirmationResult = deleteConfirmationAlert.getResult();
-    ButtonType confirmDeleteButtonType = deleteConfirmationAlert.getButtonTypes().get(0);
-    ButtonType cancelDeleteButtonType = deleteConfirmationAlert.getButtonTypes().get(1);
+    ButtonType confirmationChoice = deleteConfirmationAlert.getResult();
+    ButtonType confirmDelete = deleteConfirmationAlert.getButtonTypes().get(0);
+    ButtonType cancelDelete = deleteConfirmationAlert.getButtonTypes().get(1);
 
-    if (confirmationResult == cancelDeleteButtonType) {
+    if (confirmationChoice == cancelDelete) {
       return;
-    } else if (confirmationResult == confirmDeleteButtonType) {
-      int previousFlashcardIndex = unsavedFlashcardDatabase.getIndexOf(operatingFlashcard) - 1;
+    } else if (confirmationChoice == confirmDelete) {
+      int previousFlashcardIndex = editingFlashcardDatabase.getIndexOf(operatingFlashcard) - 1;
       deleteCurrentFlashcard();
       // Load the previous flashcard.
-      if (unsavedFlashcardDatabase.size() == 0) {
+      if (editingFlashcardDatabase.size() == 0) {
         createAddFlashcardPage();
       } else if (previousFlashcardIndex < 0) {
-        previousFlashcardIndex = unsavedFlashcardDatabase.size() - 1;
+        previousFlashcardIndex = editingFlashcardDatabase.size() - 1;
       }
 
       changeOperatingFlashcard(previousFlashcardIndex);
@@ -264,14 +272,13 @@ public class EditFlashcardController {
   }
 
   private void deleteCurrentFlashcard() {
-    databaseChanged = true;
-    unsavedFlashcardDatabase.remove(operatingFlashcard);
+    editingFlashcardDatabase.remove(operatingFlashcard);
   }
 
   private void updateFlashcardCounter() {
     Label flashcardCounter = (Label) stage.getScene().getRoot().lookup("#flashcardCounter");
-    int currentFlashcardCount = unsavedFlashcardDatabase.getIndexOf(operatingFlashcard) + 1;
-    flashcardCounter.setText(currentFlashcardCount + " / " + unsavedFlashcardDatabase.size());
+    int currentFlashcardCount = editingFlashcardDatabase.getIndexOf(operatingFlashcard) + 1;
+    flashcardCounter.setText(currentFlashcardCount + " / " + editingFlashcardDatabase.size());
   }
 
   private AnchorPane createRoot() {

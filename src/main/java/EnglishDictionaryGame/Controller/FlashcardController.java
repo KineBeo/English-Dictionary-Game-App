@@ -141,7 +141,7 @@ public class FlashcardController {
       System.out.println("Edit flashcards controller exited.");
       if (editFlashcardController.changedFlashcardDatabase()) {
         // Update the operating database to match the edited one.
-        this.flashcardDatabase = editFlashcardController.getUnsavedFlashcardDatabase();
+        this.flashcardDatabase = editFlashcardController.getEditingFlashcardDatabase();
 
         // Reload the current flashcard.
         currentFlashcard.flipCardView();
