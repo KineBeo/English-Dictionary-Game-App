@@ -25,7 +25,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
@@ -34,6 +36,12 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class Application implements Initializable {
+
+  @FXML private Pane homeSlider;
+
+  @FXML private BorderPane borderPane;
+
+  @FXML private Label homeButton;
 
   @FXML private TextField inputText;
 
@@ -88,6 +96,7 @@ public class Application implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
+    borderPane.setVisible(false);
     preparedSearchList();
     inputText
         .textProperty()
@@ -97,14 +106,17 @@ public class Application implements Initializable {
     buttons.add(addButton);
     buttons.add(deleteButton);
     buttons.add(editButton);
-    buttons.add(hangmanButton);
-    buttons.add(quizButton);
     buttons.add(translateButton);
     buttons.add(pronounceButton);
+    buttons.add(hangmanButton);
+    buttons.add(homeButton);
+    buttons.add(quizButton);
     buttons.add(informationButton);
     buttons.add(dailyWordButton);
     buttons.add(settingButton);
+    buttons.add(flashCardButton);
     menuSlider();
+    home();
     addingWord();
     deleteWord();
     updateWord();
@@ -296,18 +308,25 @@ public class Application implements Initializable {
   }
 
   public void menuSlider() {
-    slider.setTranslateX(-182);
+    homeSlider.setTranslateX(-75);
+    slider.setTranslateX(-142);
     menu.setOnMouseClicked(
         mouseEvent -> {
           System.out.println("clicked Menu");
           TranslateTransition slide = new TranslateTransition();
+          TranslateTransition slide2 = new TranslateTransition();
           slide.setDuration(Duration.seconds(0.35));
           slide.setNode(slider);
+          slide2.setDuration(Duration.seconds(0.35));
+          slide2.setNode(homeSlider);
 
           slide.setToX(0);
           slide.play();
+          slide2.setToX(0);
+          slide2.play();
 
-          slider.setTranslateX(-182);
+          slider.setTranslateX(-142);
+          homeSlider.setTranslateX(-75);
 
           slide.setOnFinished(
               (ActionEvent e) -> {
@@ -320,13 +339,19 @@ public class Application implements Initializable {
         mouseEvent -> {
           System.out.println("Clicked Menu Close");
           TranslateTransition slide = new TranslateTransition();
+          TranslateTransition slide2 = new TranslateTransition();
           slide.setDuration(Duration.seconds(0.35));
           slide.setNode(slider);
+          slide2.setDuration(Duration.seconds(0.35));
+          slide2.setNode(homeSlider);
 
-          slide.setToX(-182);
+          slide.setToX(-142);
           slide.play();
+          slide2.setToX(-75);
+          slide2.play();
 
           slider.setTranslateX(0);
+          homeSlider.setTranslateX(0);
 
           slide.setOnFinished(
               (ActionEvent e) -> {
@@ -342,17 +367,23 @@ public class Application implements Initializable {
                 hangmanButton.setOnMouseClicked(
                     mouseEvent -> {
                       try {
-                        FXMLLoader loader =
-                            new FXMLLoader(Main.class.getResource("fxml/Hangman.fxml"));
-                        Parent root = loader.load();
-                        Scene scene = new Scene(root);
-                        Stage addStage = new Stage();
-                        addStage.setTitle("Hangman");
-                        addStage.setScene(scene);
-                        addStage.setResizable(false);
-                        addStage.initModality(Modality.APPLICATION_MODAL);
-                        addStage.initOwner(new Main().getMainStage());
-                        addStage.showAndWait();
+                        //                        FXMLLoader loader =
+                        //                            new
+                        // FXMLLoader(Main.class.getResource("fxml/Hangman.fxml"));
+                        //                        Parent root = loader.load();
+                        //                        Scene scene = new Scene(root);
+                        //                        Stage addStage = new Stage();
+                        //                        addStage.setTitle("Hangman");
+                        //                        addStage.setScene(scene);
+                        //                        addStage.setResizable(false);
+                        //                        addStage.initModality(Modality.APPLICATION_MODAL);
+                        //                        addStage.initOwner(new Main().getMainStage());
+                        //                        addStage.showAndWait();
+                        AnchorPane view =
+                            FXMLLoader.load(Main.class.getResource("fxml/Hangman.fxml"));
+                        homeSlider.setVisible(false);
+                        borderPane.setVisible(true);
+                        borderPane.setCenter(view);
                       } catch (Exception e) {
                         e.printStackTrace();
                       }
@@ -415,8 +446,9 @@ public class Application implements Initializable {
   }
 
   public void dailyWord() {
-    dailyWordButton.setOnMouseClicked(mouseEvent -> {
-        try {
+    dailyWordButton.setOnMouseClicked(
+        mouseEvent -> {
+          try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/DailyWord.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -429,10 +461,18 @@ public class Application implements Initializable {
             addStage.initModality(Modality.APPLICATION_MODAL);
             addStage.initOwner(new Main().getMainStage());
             addStage.showAndWait();
-        } catch (Exception e) {
+          } catch (Exception e) {
             e.printStackTrace();
-        }
-    });
+          }
+        });
+  }
+
+  private void home() {
+    homeButton.setOnMouseClicked(
+        mouseEvent -> {
+          homeSlider.setVisible(true);
+          borderPane.setVisible(false);
+        });
   }
 
   public void setAlertPopUpCss(Scene scene) {
