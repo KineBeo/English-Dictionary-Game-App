@@ -3,6 +3,7 @@ package EnglishDictionaryGame.Controller;
 import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Flashcard;
 import EnglishDictionaryGame.Server.FlashcardDatabase;
+import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -17,34 +18,40 @@ import javafx.stage.Stage;
 
 public class EditFlashcardController {
 
-  /** The initial flashcard database that is passed in. */
-  private FlashcardDatabase oldFlashcardDatabase;
+  private FlashcardDatabase newFlashcardDatabase;
 
   /**
    * All of this controller's operations are done on this database.
    */
   private FlashcardDatabase editingFlashcardDatabase;
+  HashMap<Flashcard, Boolean> flashcardSaveMap;
 
   private Stage stage;
   private Flashcard operatingFlashcard;
-  private boolean databaseChanged;
 
   public EditFlashcardController() {
-    this.stage = createAddFlashcardStage();
     this.editingFlashcardDatabase = new FlashcardDatabase();
-    databaseChanged = false;
+    this.stage = createAddFlashcardStage();
   }
 
   public EditFlashcardController(FlashcardDatabase savedFlashcardDatabase) {
-    this.stage = createAddFlashcardStage();
-    this.oldFlashcardDatabase = savedFlashcardDatabase;
+    this.newFlashcardDatabase = new FlashcardDatabase(savedFlashcardDatabase);
     this.editingFlashcardDatabase = new FlashcardDatabase(savedFlashcardDatabase);
-    databaseChanged = false;
+
+    // Add all flashcards to the flashcardSaveMap HashMap.
+    this.flashcardSaveMap = new HashMap<>();
+    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
+      flashcardSaveMap.put(editingFlashcardDatabase.getFlashcard(i), true);
+    }
+
+    this.stage = createAddFlashcardStage();
   }
 
   public void addFlashcard(String frontText, String backText) {
     Flashcard newFlashcard = new Flashcard(frontText, backText);
     this.editingFlashcardDatabase.addFlashcard(newFlashcard);
+    this.newFlashcardDatabase.addFlashcard(new Flashcard("Unsaved new Flashcard", "Unsaved new Flashcard"));
+    flashcardSaveMap.put(newFlashcard, false);
   }
 
   public void createWindow() {
@@ -52,9 +59,6 @@ public class EditFlashcardController {
     this.stage.show();
   }
 
-  public boolean changedFlashcardDatabase() {
-    return databaseChanged;
-  }
 
   /**
    * Updates the saved flashcard database with the unsaved flashcard database.
@@ -99,6 +103,7 @@ public class EditFlashcardController {
     setNextEditFlashcardButtonBehavior(root);
     setBackEditFlashcardButtonBehavior(root);
     setDeleteEditFlashcardButtonBehavior(root);
+    setSaveAllEditFlashcardButtonBehavior(root);
   }
 
   private void setAddEditFlashcardButtonBehavior(AnchorPane root) {
@@ -106,6 +111,8 @@ public class EditFlashcardController {
     addEditFlashcardButton.setOnAction(
         event -> {
           createAddFlashcardPage();
+          // Test
+          printDatabase();
         });
   }
 
@@ -129,10 +136,13 @@ public class EditFlashcardController {
     saveEditFlashcardButton.setOnAction(
         event -> {
           saveCurrentFlashcard();
+          // Test
+          printDatabase();
         });
   }
 
   private void saveCurrentFlashcard() {
+    // Get the new contents of the current flashcard.
     AnchorPane root = (AnchorPane) stage.getScene().getRoot();
     TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
     TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
@@ -140,8 +150,18 @@ public class EditFlashcardController {
     String frontText = wordTargetEditor.getText();
     String backText = wordDefinitionEditor.getText();
 
+    // Update the flashcard in the editing flashcard database.
     operatingFlashcard.setFrontText(frontText);
     operatingFlashcard.setBackText(backText);
+
+    // Update the flashcard in the new flashcard database.
+    int updatedFlashcardIndex = editingFlashcardDatabase.getIndexOf(operatingFlashcard);
+    Flashcard updatedFlashcard = newFlashcardDatabase.getFlashcard(updatedFlashcardIndex);
+    updatedFlashcard.setFrontText(frontText);
+    updatedFlashcard.setBackText(backText);
+
+    // Update flashcard save state.
+    flashcardSaveMap.put(operatingFlashcard, true);
   }
 
   private void setExitEditFlashcardButtonBehavior(AnchorPane root) {
@@ -162,7 +182,7 @@ public class EditFlashcardController {
     ButtonType confirmSaveAndExit = alert.getButtonTypes().get(0);
     ButtonType confirmExitWithoutSaving = alert.getButtonTypes().get(1);
     if (confirmationChoice == confirmSaveAndExit) {
-      databaseChanged = true;
+      saveAllFlashcards();
       stage.close();
     } else if (confirmationChoice == confirmExitWithoutSaving) {
       stage.close();
@@ -200,6 +220,25 @@ public class EditFlashcardController {
   private void setFlashcardNavigationButtonBehavior(AnchorPane root,
       Button flashcardNavigationButton, int direction) {
     flashcardNavigationButton.setOnAction(event -> {
+      boolean currentFlashcardSaved = flashcardSaveMap.get(operatingFlashcard);
+      if (!currentFlashcardSaved) {
+        // Check if there are changes to the current flashcard
+        TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
+        TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
+        String currentFlashcardFrontText = wordTargetEditor.getText();
+        String currentFlashcardBackText = wordDefinitionEditor.getText();
+        String originalFlashcardFrontText = newFlashcardDatabase
+            .getFlashcard(newFlashcardDatabase.getIndexOf(operatingFlashcard)).getFrontText();
+        String originalFlashcardBackText = newFlashcardDatabase
+            .getFlashcard(newFlashcardDatabase.getIndexOf(operatingFlashcard)).getBackText();
+
+        if (!currentFlashcardFrontText.equals(originalFlashcardFrontText) || !currentFlashcardBackText.equals(originalFlashcardBackText)) {
+          // Store the unsaved changes to the editing database.
+          saveCurrentFlashcard();
+        }
+
+      }
+
       int currentIndex = editingFlashcardDatabase.getIndexOf(operatingFlashcard);
       int newIndex = currentIndex + direction;
       if (newIndex > editingFlashcardDatabase.size() - 1) {
@@ -228,6 +267,8 @@ public class EditFlashcardController {
         event -> {
           handleDeleteConfirmation();
         });
+    // Test.
+    printDatabase();
   }
 
   private void handleDeleteConfirmation() {
@@ -253,6 +294,26 @@ public class EditFlashcardController {
     }
   }
 
+  private void setSaveAllEditFlashcardButtonBehavior(AnchorPane root) {
+    Button saveAllEditFlashcardButton = (Button) root.lookup("#saveAllEditFlashcardButton");
+    saveAllEditFlashcardButton.setOnAction(
+        event -> {
+          saveAllFlashcards();
+        });
+  }
+
+  /**
+   * Sets the newFlashcardDatabase to be exactly the same as the editingFlashcardDatabase.
+   */
+  private void saveAllFlashcards() {
+    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
+      Flashcard editingFlashcard = editingFlashcardDatabase.getFlashcard(i);
+      Flashcard newFlashcard = newFlashcardDatabase.getFlashcard(i);
+      newFlashcard.setFrontText(editingFlashcard.getFrontText());
+      newFlashcard.setBackText(editingFlashcard.getBackText());
+    }
+  }
+
 
   private Alert createDeleteAlert() {
     Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -272,7 +333,9 @@ public class EditFlashcardController {
   }
 
   private void deleteCurrentFlashcard() {
-    editingFlashcardDatabase.remove(operatingFlashcard);
+    int currentIndex = editingFlashcardDatabase.getIndexOf(operatingFlashcard);
+    newFlashcardDatabase.remove(currentIndex);
+    editingFlashcardDatabase.remove(currentIndex);
   }
 
   private void updateFlashcardCounter() {
@@ -304,5 +367,13 @@ public class EditFlashcardController {
     stage.initModality(Modality.APPLICATION_MODAL);
     stage.initOwner(new Main().getMainStage());
     return stage;
+  }
+
+  private void printDatabase() {
+    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
+      Flashcard printFlashcard = editingFlashcardDatabase.getFlashcard(i);
+      System.out.print(printFlashcard.getFrontText() + "|" + printFlashcard.getBackText());
+      System.out.println();
+    }
   }
 }
