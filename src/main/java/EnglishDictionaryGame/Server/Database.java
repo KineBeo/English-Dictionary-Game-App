@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 public class Database {
 
-  public static final String URL = "jdbc:mysql://localhost:3306/EnglishDictionary";
+//  public static final String URL = "jdbc:mysql://localhost:3306/EnglishDictionary";
+public static final String URL = "jdbc:mysql://localhost:3306/CompleteDictionary";
   public static final String USE_NAME = "root";
   public static final String PASSWORD = "1392004";
 //    public static final String PASSWORD = "password";
@@ -26,7 +27,7 @@ public class Database {
   }
 
   public ArrayList<String> getAllWordTargets() {
-    final String SQL_QUERY = "SELECT * FROM dictionary";
+    final String SQL_QUERY = "SELECT * FROM english";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
       try {
@@ -51,7 +52,7 @@ public class Database {
   }
 
   public ArrayList<String> getAllWordsFromDatabase() {
-    final String SQL_QUERY = "SELECT * FROM dictionary";
+    final String SQL_QUERY = "SELECT * FROM english";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
       try {
@@ -77,7 +78,7 @@ public class Database {
 
   /** Return definition of `target` word. */
   public String lookUpWord(final String target) {
-    final String SQL_QUERY = "SELECT definition FROM dictionary WHERE target = ?";
+    final String SQL_QUERY = "SELECT meaning FROM english WHERE word = ?";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
       ps.setString(1, target);
@@ -85,7 +86,7 @@ public class Database {
         ResultSet rs = ps.executeQuery();
         try {
           if (rs.next()) {
-            return rs.getString("definition");
+            return rs.getString("meaning");
           } else {
             return "Not found!";
           }
@@ -102,7 +103,7 @@ public class Database {
   }
 
   public boolean insertWord(final String target, final String definition) {
-    final String SQL_QUERY = "INSERT INTO dictionary (target, definition) VALUES (?, ?)";
+    final String SQL_QUERY = "INSERT INTO english (word, meaning) VALUES (?, ?)";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
       ps.setString(1, target);
@@ -124,7 +125,7 @@ public class Database {
   }
 
   public boolean deleteWord(final String target) {
-    final String SQL_QUERY = "DELETE FROM dictionary WHERE target = ?";
+    final String SQL_QUERY = "DELETE FROM english WHERE word = ?";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
       ps.setString(1, target);
@@ -145,7 +146,7 @@ public class Database {
   }
 
   public boolean updateWordDefinition(final String target, final String definition) {
-    final String SQL_QUERY = "UPDATE dictionary SET definition = ? WHERE target = ?";
+    final String SQL_QUERY = "UPDATE english SET meaning = ? WHERE word = ?";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
       ps.setString(1, definition);
