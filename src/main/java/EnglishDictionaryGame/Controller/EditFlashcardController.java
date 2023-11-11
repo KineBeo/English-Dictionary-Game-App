@@ -56,15 +56,15 @@ public class EditFlashcardController {
 
   public void createWindow() {
     loadFlashcard(0);
-    this.stage.show();
+    this.stage.showAndWait();
   }
 
 
   /**
    * Updates the saved flashcard database with the unsaved flashcard database.
    */
-  public FlashcardDatabase getEditingFlashcardDatabase() {
-    return this.editingFlashcardDatabase;
+  public FlashcardDatabase getNewFlashcardDatabase() {
+    return this.newFlashcardDatabase;
   }
 
   private Stage createAddFlashcardStage() {
@@ -295,8 +295,8 @@ public class EditFlashcardController {
   }
 
   private void setSaveAllEditFlashcardButtonBehavior(AnchorPane root) {
-    Button saveAllEditFlashcardButton = (Button) root.lookup("#saveAllEditFlashcardButton");
-    saveAllEditFlashcardButton.setOnAction(
+    Button saveAllEditFlashcardsButton = (Button) root.lookup("#saveAllEditFlashcardsButton");
+    saveAllEditFlashcardsButton.setOnAction(
         event -> {
           saveAllFlashcards();
         });

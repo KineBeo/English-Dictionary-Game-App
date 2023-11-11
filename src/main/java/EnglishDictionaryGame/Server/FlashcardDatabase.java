@@ -53,7 +53,7 @@ public class FlashcardDatabase {
     return flashcards.size();
   }
 
-  public void close() {
+  public void saveToFile() {
     try {
       writeFlashcardDatabase(FLASHCARD_DATABASE_FILE_PATH);
     } catch (Exception e) {

@@ -19,6 +19,6 @@
       <Button fx:id="backEditFlashcardButton" layoutX="17.0" layoutY="350.0" mnemonicParsing="false" text="Back" />
       <Button fx:id="saveEditFlashcardButton" layoutX="274.0" layoutY="350.0" mnemonicParsing="false" text="Save" />
       <Button fx:id="exitEditFlashcardsButton" layoutX="529.0" layoutY="10.0" mnemonicParsing="false" text="Exit" />
-      <Button fx:id="saveAllFlashcardsButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Save All" />
+      <Button fx:id="saveAllEditFlashcardsButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Save All" />
    </children>
 </AnchorPane>

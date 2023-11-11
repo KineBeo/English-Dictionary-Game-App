@@ -138,15 +138,15 @@ public class FlashcardController {
     editFlashcardsButton.setOnMouseClicked(e -> {
       EditFlashcardController editFlashcardController = createAddFlashcardController();
       editFlashcardController.createWindow();
-      System.out.println("Edit flashcards controller exited.");
-      if (editFlashcardController.changedFlashcardDatabase()) {
-        // Update the operating database to match the edited one.
-        this.flashcardDatabase = editFlashcardController.getEditingFlashcardDatabase();
+      System.out.println("Edit flashcard controller exited.");
 
-        // Reload the current flashcard.
-        currentFlashcard.flipCardView();
-        currentFlashcard.flipCardView();
-      }
+      // Update the flashcard database.
+      this.flashcardDatabase = editFlashcardController.getNewFlashcardDatabase();
+      this.flashcardDatabase.saveToFile();
+
+      // Reload the current flashcard.
+      currentFlashcard.flipCardView();
+      currentFlashcard.flipCardView();
     });
   }
 
@@ -224,6 +224,5 @@ public class FlashcardController {
 
   private void closeFlashcards() {
     stage.close();
-    flashcardDatabase.close();
   }
 }
