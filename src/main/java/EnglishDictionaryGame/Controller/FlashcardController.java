@@ -2,9 +2,10 @@ package EnglishDictionaryGame.Controller;
 
 import EnglishDictionaryGame.Exceptions.Utils;
 import EnglishDictionaryGame.Server.Flashcard;
+import EnglishDictionaryGame.Server.FlashcardDataFileManager;
+import EnglishDictionaryGame.Server.FlashcardDataManager;
 import EnglishDictionaryGame.Server.FlashcardDatabase;
 import EnglishDictionaryGame.Server.FlashcardStageFactory;
-import EnglishDictionaryGame.Server.FlashcardViewController;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -19,7 +20,7 @@ public class FlashcardController {
   private int currentFlashcardCount = -1;
 
   public FlashcardController() {
-    flashcardDatabase = new FlashcardDatabase();
+    flashcardDatabase = FlashcardDataManager.getFlashcardDatabase();
     this.currentFlashcard = flashcardDatabase.getFlashcard(0);
     flashcardViewController = new FlashcardViewController(currentFlashcard);
     currentFlashcardCount = 1;
@@ -40,8 +41,6 @@ public class FlashcardController {
 
     this.stage.show();
   }
-
-
 
   private void setAllElementsBehaviors(StackPane root) {
     setFlipFlashcardButtonBehavior(root);
@@ -104,7 +103,7 @@ public class FlashcardController {
 
       // Update the flashcard database.
       this.flashcardDatabase = editFlashcardController.getNewFlashcardDatabase();
-      this.flashcardDatabase.saveToFile();
+      FlashcardDataFileManager.saveDataToFile(this.flashcardDatabase);
 
       // Reload the current flashcard.
       flashcardViewController.reloadFlashcardData();

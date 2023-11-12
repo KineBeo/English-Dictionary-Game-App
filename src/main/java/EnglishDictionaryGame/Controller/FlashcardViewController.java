@@ -1,5 +1,6 @@
-package EnglishDictionaryGame.Server;
+package EnglishDictionaryGame.Controller;
 
+import EnglishDictionaryGame.Server.Flashcard;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PauseTransition;
