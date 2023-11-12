@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FlashcardDataFileManager {
+public class FlashcardFileManager {
 
   private static final String FLASHCARD_DATABASE_FILE_PATH = "src/main/resources/EnglishDictionaryGame/database/flashcard_database.txt";
 

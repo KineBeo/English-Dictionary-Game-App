@@ -2,7 +2,7 @@ package EnglishDictionaryGame.Controller;
 
 import EnglishDictionaryGame.Exceptions.Utils;
 import EnglishDictionaryGame.Server.Flashcard;
-import EnglishDictionaryGame.Server.FlashcardDataFileManager;
+import EnglishDictionaryGame.Server.FlashcardFileManager;
 import EnglishDictionaryGame.Server.FlashcardDataManager;
 import EnglishDictionaryGame.Server.FlashcardDatabase;
 import EnglishDictionaryGame.Server.FlashcardStageFactory;
@@ -104,7 +104,7 @@ public class FlashcardController {
 
       // Update the flashcard database.
       this.flashcardDatabase = editFlashcardController.getNewFlashcardDatabase();
-      FlashcardDataFileManager.saveDataToFile(this.flashcardDatabase);
+      FlashcardFileManager.saveDataToFile(this.flashcardDatabase);
 
       // Reload the current flashcard.
       flashcardViewController.reloadFlashcardData();

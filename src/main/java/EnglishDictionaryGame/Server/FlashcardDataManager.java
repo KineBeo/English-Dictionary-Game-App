@@ -1,6 +1,5 @@
 package EnglishDictionaryGame.Server;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FlashcardDataManager {
@@ -10,8 +9,8 @@ public class FlashcardDataManager {
   private static HashMap<Flashcard, Boolean> saveMap;
 
   public static void initialize() {
-    editingFlashcardDatabase = FlashcardDataFileManager.getDataFromFile();
-    flashcardDatabase = FlashcardDataFileManager.getDataFromFile();
+    editingFlashcardDatabase = FlashcardFileManager.getDataFromFile();
+    flashcardDatabase = FlashcardFileManager.getDataFromFile();
     saveMap = new HashMap<Flashcard, Boolean>();
 
     for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
@@ -23,5 +22,56 @@ public class FlashcardDataManager {
     return flashcardDatabase;
   }
 
+  public static Flashcard getEditingFlashcard(int index) {
+    return editingFlashcardDatabase.getFlashcard(index);
+  }
 
+  public static void temporarySave(int index, String frontText, String backText) {
+    Flashcard flashcard = editingFlashcardDatabase.getFlashcard(index);
+    if (!saveMap.containsKey(flashcard)) {
+      System.out.println("Temporary save failed. Flashcard not found in database.");
+    }
+
+    flashcard.setFrontText(frontText);
+    flashcard.setBackText(backText);
+    saveMap.put(flashcard, false);
+  }
+
+  public static void hardSave(int index, String frontText, String backText) {
+    Flashcard flashcard = editingFlashcardDatabase.getFlashcard(index);
+    if (!saveMap.containsKey(flashcard)) {
+      System.out.println("Hard save failed. Flashcard not found in database.");
+    }
+
+    flashcard.setFrontText(frontText);
+    flashcard.setBackText(backText);
+    saveMap.put(flashcard, true);
+  }
+
+  public static void removeFlashcard(int index) {
+    Flashcard flashcard = editingFlashcardDatabase.getFlashcard(index);
+    editingFlashcardDatabase.remove(index);
+    flashcardDatabase.remove(index);
+    saveMap.remove(flashcard);
+  }
+
+  public static void addEmptyFlashcard() {
+    Flashcard emptyFlashcard = new Flashcard("", "");
+    editingFlashcardDatabase.addFlashcard(emptyFlashcard);
+    flashcardDatabase.addFlashcard(emptyFlashcard);
+  }
+
+  public static void updateDatabase() {
+    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
+      Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
+      boolean flashcardSaved = saveMap.get(flashcard);
+      if (flashcardSaved) {
+        Flashcard savedFlashcard = flashcardDatabase.getFlashcard(i);
+        savedFlashcard.setFrontText(flashcard.getFrontText());
+        savedFlashcard.setBackText(flashcard.getBackText());
+      }
+    }
+
+    FlashcardFileManager.saveDataToFile(flashcardDatabase);
+  }
 }
