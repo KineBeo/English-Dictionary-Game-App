@@ -98,13 +98,12 @@ public class FlashcardController {
   private void setEditFlashcardsButtonBehavior(StackPane root) {
     Button editFlashcardsButton = (Button) root.lookup("#editFlashcardsButton");
     editFlashcardsButton.setOnMouseClicked(e -> {
-      EditFlashcardController editFlashcardController = new EditFlashcardController(this.flashcardDatabase);
+      EditFlashcardController editFlashcardController = new EditFlashcardController();
       editFlashcardController.createWindow();
       System.out.println("Edit flashcard controller exited.");
 
       // Update the flashcard database.
-      this.flashcardDatabase = editFlashcardController.getNewFlashcardDatabase();
-      FlashcardFileManager.saveDataToFile(this.flashcardDatabase);
+      this.flashcardDatabase = FlashcardDataManager.getFlashcardDatabase();
 
       // Reload the current flashcard.
       flashcardViewController.reloadFlashcardData();

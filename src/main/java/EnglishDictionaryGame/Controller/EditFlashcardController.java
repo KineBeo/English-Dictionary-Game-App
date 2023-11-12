@@ -2,6 +2,7 @@ package EnglishDictionaryGame.Controller;
 
 import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Flashcard;
+import EnglishDictionaryGame.Server.FlashcardDataManager;
 import EnglishDictionaryGame.Server.FlashcardDatabase;
 import EnglishDictionaryGame.Server.FlashcardStageFactory;
 import java.util.HashMap;
@@ -19,44 +20,13 @@ import javafx.stage.Stage;
 
 public class EditFlashcardController {
 
-  private FlashcardDatabase newFlashcardDatabase;
-
-  /**
-   * All of this controller's operations are done on this database.
-   */
-  private FlashcardDatabase editingFlashcardDatabase;
-  HashMap<Flashcard, Boolean> flashcardSaveMap;
-
   private Stage stage;
   private Flashcard operatingFlashcard;
 
   public EditFlashcardController() {
-    this.editingFlashcardDatabase = new FlashcardDatabase();
     this.stage = FlashcardStageFactory.createEditFlashcardStage();
     AnchorPane root = (AnchorPane) stage.getScene().getRoot();
     setAllElementsBehaviors(root);
-  }
-
-  public EditFlashcardController(FlashcardDatabase savedFlashcardDatabase) {
-    this.newFlashcardDatabase = new FlashcardDatabase(savedFlashcardDatabase);
-    this.editingFlashcardDatabase = new FlashcardDatabase(savedFlashcardDatabase);
-
-    // Add all flashcards to the flashcardSaveMap HashMap.
-    this.flashcardSaveMap = new HashMap<>();
-    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
-      flashcardSaveMap.put(editingFlashcardDatabase.getFlashcard(i), true);
-    }
-
-    this.stage = FlashcardStageFactory.createEditFlashcardStage();
-    AnchorPane root = (AnchorPane) stage.getScene().getRoot();
-    setAllElementsBehaviors(root);
-  }
-
-  public void addFlashcard(String frontText, String backText) {
-    Flashcard newFlashcard = new Flashcard(frontText, backText);
-    this.editingFlashcardDatabase.addFlashcard(newFlashcard);
-    this.newFlashcardDatabase.addFlashcard(new Flashcard("Unsaved new Flashcard", "Unsaved new Flashcard"));
-    flashcardSaveMap.put(newFlashcard, false);
   }
 
   public void createWindow() {
@@ -64,12 +34,6 @@ public class EditFlashcardController {
     this.stage.showAndWait();
   }
 
-  /**
-   * Updates the saved flashcard database with the unsaved flashcard database.
-   */
-  public FlashcardDatabase getNewFlashcardDatabase() {
-    return this.newFlashcardDatabase;
-  }
 
   private void loadFlashcard(Flashcard flashcard) {
     operatingFlashcard = flashcard;
@@ -85,7 +49,7 @@ public class EditFlashcardController {
   }
 
   private void loadFlashcard(int flashcardIndex) {
-    Flashcard flashcard = editingFlashcardDatabase.getFlashcard(flashcardIndex);
+    Flashcard flashcard = FlashcardDataManager.getEditingFlashcard(flashcardIndex);
     if (flashcard == null) {
       return;
     }
@@ -108,23 +72,18 @@ public class EditFlashcardController {
     addEditFlashcardButton.setOnAction(
         event -> {
           createAddFlashcardPage();
-          // Test
-          printDatabase();
         });
   }
 
   private void createAddFlashcardPage() {
-    // Clears the word target and word definition fields.
     AnchorPane root = (AnchorPane) stage.getScene().getRoot();
     TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
     TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
     wordTargetEditor.setText("");
     wordDefinitionEditor.setText("");
 
-    Flashcard newFlashcard = new Flashcard("", "");
-    loadFlashcard(newFlashcard);
-    editingFlashcardDatabase.addFlashcard(newFlashcard);
-
+    FlashcardDataManager.addEmptyFlashcard();
+    loadFlashcard(FlashcardDataManager.getSize() - 1);
     updateFlashcardCounter();
   }
 
@@ -133,8 +92,6 @@ public class EditFlashcardController {
     saveEditFlashcardButton.setOnAction(
         event -> {
           saveCurrentFlashcard();
-          // Test
-          printDatabase();
         });
   }
 
@@ -143,22 +100,12 @@ public class EditFlashcardController {
     AnchorPane root = (AnchorPane) stage.getScene().getRoot();
     TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
     TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
-
     String frontText = wordTargetEditor.getText();
     String backText = wordDefinitionEditor.getText();
 
-    // Update the flashcard in the editing flashcard database.
-    operatingFlashcard.setFrontText(frontText);
-    operatingFlashcard.setBackText(backText);
-
-    // Update the flashcard in the new flashcard database.
-    int updatedFlashcardIndex = editingFlashcardDatabase.getIndexOf(operatingFlashcard);
-    Flashcard updatedFlashcard = newFlashcardDatabase.getFlashcard(updatedFlashcardIndex);
-    updatedFlashcard.setFrontText(frontText);
-    updatedFlashcard.setBackText(backText);
-
-    // Update flashcard save state.
-    flashcardSaveMap.put(operatingFlashcard, true);
+    // Hard save the new contents to the main database.
+    FlashcardDataManager.hardSave(FlashcardDataManager.getIndexOf(operatingFlashcard), frontText,
+        backText);
   }
 
   private void setExitEditFlashcardButtonBehavior(AnchorPane root) {
@@ -166,6 +113,8 @@ public class EditFlashcardController {
     exitEditFlashcardButton.setOnAction(
         event -> {
           System.out.println("Exit edit flashcards button clicked");
+          FlashcardDataManager.temporarySave(FlashcardDataManager.getIndexOf(operatingFlashcard),
+              operatingFlashcard.getFrontText(), operatingFlashcard.getBackText());
           exitEditFlashcards();
         });
   }
@@ -180,10 +129,11 @@ public class EditFlashcardController {
     ButtonType confirmExitWithoutSaving = alert.getButtonTypes().get(1);
     if (confirmationChoice == confirmSaveAndExit) {
       saveAllFlashcards();
-      stage.close();
     } else if (confirmationChoice == confirmExitWithoutSaving) {
-      stage.close();
+      FlashcardDataManager.updateDatabase();
     }
+
+    stage.close();
   }
 
   private Alert createExitAlert() {
@@ -217,33 +167,24 @@ public class EditFlashcardController {
   private void setFlashcardNavigationButtonBehavior(AnchorPane root,
       Button flashcardNavigationButton, int direction) {
     flashcardNavigationButton.setOnAction(event -> {
-      boolean currentFlashcardSaved = flashcardSaveMap.get(operatingFlashcard);
-      if (!currentFlashcardSaved) {
-        // Check if there are changes to the current flashcard
-        TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
-        TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
-        String currentFlashcardFrontText = wordTargetEditor.getText();
-        String currentFlashcardBackText = wordDefinitionEditor.getText();
-        String originalFlashcardFrontText = newFlashcardDatabase
-            .getFlashcard(newFlashcardDatabase.getIndexOf(operatingFlashcard)).getFrontText();
-        String originalFlashcardBackText = newFlashcardDatabase
-            .getFlashcard(newFlashcardDatabase.getIndexOf(operatingFlashcard)).getBackText();
+      // Get the current flashcard's contents.
+      TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
+      TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
+      String currentFlashcardFrontText = wordTargetEditor.getText();
+      String currentFlashcardBackText = wordDefinitionEditor.getText();
 
-        if (!currentFlashcardFrontText.equals(originalFlashcardFrontText) || !currentFlashcardBackText.equals(originalFlashcardBackText)) {
-          // Store the unsaved changes to the editing database.
-          saveCurrentFlashcard();
-        }
+      // Temporary save the current flashcard's contents.
+      int currentIndex = FlashcardDataManager.getIndexOf(operatingFlashcard);
+      FlashcardDataManager.temporarySave(currentIndex, currentFlashcardFrontText,
+          currentFlashcardBackText);
 
-      }
-
-      int currentIndex = editingFlashcardDatabase.getIndexOf(operatingFlashcard);
+      // Change to the next OR previous flashcard.
       int newIndex = currentIndex + direction;
-      if (newIndex > editingFlashcardDatabase.size() - 1) {
+      if (newIndex > FlashcardDataManager.getSize() - 1) {
         newIndex = 0;
       } else if (newIndex < 0) {
-        newIndex = editingFlashcardDatabase.size() - 1;
+        newIndex = FlashcardDataManager.getSize() - 1;
       }
-
       changeOperatingFlashcard(newIndex);
     });
   }
@@ -264,31 +205,6 @@ public class EditFlashcardController {
         event -> {
           handleDeleteConfirmation();
         });
-    // Test.
-    printDatabase();
-  }
-
-  private void handleDeleteConfirmation() {
-    Alert deleteConfirmationAlert = createDeleteAlert();
-    deleteConfirmationAlert.showAndWait();
-    ButtonType confirmationChoice = deleteConfirmationAlert.getResult();
-    ButtonType confirmDelete = deleteConfirmationAlert.getButtonTypes().get(0);
-    ButtonType cancelDelete = deleteConfirmationAlert.getButtonTypes().get(1);
-
-    if (confirmationChoice == cancelDelete) {
-      return;
-    } else if (confirmationChoice == confirmDelete) {
-      int previousFlashcardIndex = editingFlashcardDatabase.getIndexOf(operatingFlashcard) - 1;
-      deleteCurrentFlashcard();
-      // Load the previous flashcard.
-      if (editingFlashcardDatabase.size() == 0) {
-        createAddFlashcardPage();
-      } else if (previousFlashcardIndex < 0) {
-        previousFlashcardIndex = editingFlashcardDatabase.size() - 1;
-      }
-
-      changeOperatingFlashcard(previousFlashcardIndex);
-    }
   }
 
   private void setSaveAllEditFlashcardButtonBehavior(AnchorPane root) {
@@ -299,18 +215,38 @@ public class EditFlashcardController {
         });
   }
 
-  /**
-   * Sets the newFlashcardDatabase to be exactly the same as the editingFlashcardDatabase.
-   */
-  private void saveAllFlashcards() {
-    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
-      Flashcard editingFlashcard = editingFlashcardDatabase.getFlashcard(i);
-      Flashcard newFlashcard = newFlashcardDatabase.getFlashcard(i);
-      newFlashcard.setFrontText(editingFlashcard.getFrontText());
-      newFlashcard.setBackText(editingFlashcard.getBackText());
+  private void handleDeleteConfirmation() {
+    Alert deleteConfirmationAlert = createDeleteAlert();
+    deleteConfirmationAlert.showAndWait();
+    ButtonType confirmationChoice = deleteConfirmationAlert.getResult();
+    ButtonType confirmDelete = deleteConfirmationAlert.getButtonTypes().get(0);
+    ButtonType cancelDelete = deleteConfirmationAlert.getButtonTypes().get(1);
+
+    int previousFlashcardIndex = FlashcardDataManager.getIndexOf(operatingFlashcard) - 1;
+    if (confirmationChoice == cancelDelete) {
+      return;
+    } else if (confirmationChoice == confirmDelete) {
+      deleteCurrentFlashcard();
+      // Load the previous flashcard.
+      if (FlashcardDataManager.getSize() == 0) {
+        createAddFlashcardPage();
+      } else if (previousFlashcardIndex < 0) {
+        previousFlashcardIndex = FlashcardDataManager.getSize() - 1;
+      }
+
+      changeOperatingFlashcard(previousFlashcardIndex);
     }
   }
 
+  private void saveAllFlashcards() {
+    String frontText = "";
+    String backText = "";
+    for (int i = 0; i < FlashcardDataManager.getSize(); i++) {
+      frontText = FlashcardDataManager.getEditingFlashcard(i).getFrontText();
+      backText = FlashcardDataManager.getEditingFlashcard(i).getBackText();
+      FlashcardDataManager.hardSave(i, frontText, backText);
+    }
+  }
 
   private Alert createDeleteAlert() {
     Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -330,22 +266,13 @@ public class EditFlashcardController {
   }
 
   private void deleteCurrentFlashcard() {
-    int currentIndex = editingFlashcardDatabase.getIndexOf(operatingFlashcard);
-    newFlashcardDatabase.remove(currentIndex);
-    editingFlashcardDatabase.remove(currentIndex);
+    int currentIndex = FlashcardDataManager.getIndexOf(operatingFlashcard);
+    FlashcardDataManager.removeFlashcard(currentIndex);
   }
 
   private void updateFlashcardCounter() {
     Label flashcardCounter = (Label) stage.getScene().getRoot().lookup("#flashcardCounter");
-    int currentFlashcardCount = editingFlashcardDatabase.getIndexOf(operatingFlashcard) + 1;
-    flashcardCounter.setText(currentFlashcardCount + " / " + editingFlashcardDatabase.size());
-  }
-
-  private void printDatabase() {
-    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
-      Flashcard printFlashcard = editingFlashcardDatabase.getFlashcard(i);
-      System.out.print(printFlashcard.getFrontText() + "|" + printFlashcard.getBackText());
-      System.out.println();
-    }
+    int currentFlashcardCount = FlashcardDataManager.getIndexOf(operatingFlashcard) + 1;
+    flashcardCounter.setText(currentFlashcardCount + " / " + FlashcardDataManager.getSize());
   }
 }

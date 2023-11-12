@@ -26,6 +26,10 @@ public class FlashcardDataManager {
     return editingFlashcardDatabase.getFlashcard(index);
   }
 
+  public static int getIndexOf(Flashcard flashcard) {
+    return editingFlashcardDatabase.getIndexOf(flashcard);
+  }
+
   public static void temporarySave(int index, String frontText, String backText) {
     Flashcard flashcard = editingFlashcardDatabase.getFlashcard(index);
     if (!saveMap.containsKey(flashcard)) {
@@ -61,6 +65,9 @@ public class FlashcardDataManager {
     flashcardDatabase.addFlashcard(emptyFlashcard);
   }
 
+  public static int getSize() {
+    return editingFlashcardDatabase.size();
+  }
   public static void updateDatabase() {
     for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
       Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
@@ -73,5 +80,8 @@ public class FlashcardDataManager {
     }
 
     FlashcardFileManager.saveDataToFile(flashcardDatabase);
+
+    // Reset the editing database
+    editingFlashcardDatabase = FlashcardFileManager.getDataFromFile();
   }
 }
