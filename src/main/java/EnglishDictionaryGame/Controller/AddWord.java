@@ -9,31 +9,57 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.web.HTMLEditor;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class AddWord extends WordOperation {
   @FXML private AnchorPane anchorPane;
 
-  @FXML private HTMLEditor htmlEditor;
-
   @FXML private TextField inputText;
+
+  @FXML private TextField antonym;
+
+  @FXML private TextField definition;
+
+  @FXML private TextField example;
+
+  @FXML private TextField pronunciation;
+
+  @FXML private TextField synonym;
+
+  @FXML private TextField type;
 
   @FXML
   private void initialize() {}
 
   public void saveWord() {
-    String target = inputText.getText();
-    String definition = htmlEditor.getHtmlText();
+    String newWord = inputText.getText();
+    String newType = type.getText();
+    String newDefinition = definition.getText();
+    String newPronunciation = pronunciation.getText();
+    String newExample = example.getText();
+    String newSynonym = synonym.getText();
+    String newAntonym = antonym.getText();
     Database database = new Database();
-    if (database.insertWord(target, definition)) {
-      showAlert("Thêm từ thành công!", "Notification");
+    if (newWord.isEmpty()
+        || newType.isEmpty()
+        || newDefinition.isEmpty()
+        || newPronunciation.isEmpty()
+        || newExample.isEmpty()
+        || newSynonym.isEmpty()
+        || newAntonym.isEmpty()) {
+      showAlert("Please fill in all fields!", "Error");
+      return;
+    }
+
+    if (database.insertWord(
+        newWord, newType, newDefinition, newPronunciation, newExample, newSynonym, newAntonym)) {
+      showAlert("Successfully added a new word!", "Notification");
     } else {
-      if (database.isWordExist(target)) {
-        showAlert("Từ `" + target + "` đã tồn tại!", "Error");
+      if (database.isWordExist(newWord)) {
+        showAlert("Word `" + newWord + "` already exists!", "Error");
       } else {
-        showAlert("Thêm từ `" + target + "` không thành công!", "Error");
+        showAlert("Adding a new word failed!", "Error");
       }
     }
   }

@@ -27,7 +27,7 @@
                   </Pane>
                   <Pane layoutX="12.0" layoutY="12.0" prefHeight="40.0" prefWidth="271.0" styleClass="search-box" stylesheets="@../css/stylesheet.css">
                      <children>
-                        <TextField fx:id="inputText" layoutX="41.0" layoutY="1.0" onAction="#findWord" onKeyTyped="#preparedSearchList" prefHeight="40.0" prefWidth="230.0" promptText="Let's find your word..." styleClass="search-field" stylesheets="@../css/stylesheet.css" />
+                        <TextField fx:id="inputText" layoutX="41.0" layoutY="1.0" onKeyTyped="#preparedSearchList" prefHeight="40.0" prefWidth="230.0" promptText="Let's find your word..." styleClass="search-field" stylesheets="@../css/stylesheet.css" />
                         <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="6.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/findButton.png" />
