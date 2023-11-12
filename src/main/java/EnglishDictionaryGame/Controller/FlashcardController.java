@@ -1,35 +1,27 @@
 package EnglishDictionaryGame.Controller;
 
 import EnglishDictionaryGame.Exceptions.Utils;
-import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Flashcard;
 import EnglishDictionaryGame.Server.FlashcardDatabase;
 import EnglishDictionaryGame.Server.FlashcardStageFactory;
-import javafx.animation.Interpolator;
-import javafx.animation.ParallelTransition;
-import javafx.animation.PauseTransition;
-import javafx.animation.RotateTransition;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
+import EnglishDictionaryGame.Server.FlashcardViewController;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class FlashcardController {
 
   private FlashcardDatabase flashcardDatabase;
+  private FlashcardViewController flashcardViewController;
   private Stage stage = null;
   private Flashcard currentFlashcard = null;
   private int currentFlashcardCount = -1;
-  private final String FLASHCARD_SCREEN_FXML_PATH = "fxml/FlashcardScreen.fxml";
 
   public FlashcardController() {
     flashcardDatabase = new FlashcardDatabase();
     this.currentFlashcard = flashcardDatabase.getFlashcard(0);
+    flashcardViewController = new FlashcardViewController(currentFlashcard);
     currentFlashcardCount = 1;
 
     this.stage = FlashcardStageFactory.createFlashcardStage();
@@ -38,7 +30,7 @@ public class FlashcardController {
   public void createFlashcardWindow() {
     StackPane root = (StackPane) stage.getScene().getRoot();
     setAllElementsBehaviors(root);
-    updateFlashcardCount((Label) root.lookup("#flashcardCounter"));
+    updateFlashcardCounter((Label) root.lookup("#flashcardCounter"));
     try {
       root.getChildren().addAll(currentFlashcard.getCardView());
     } catch (Exception e) {
@@ -62,7 +54,7 @@ public class FlashcardController {
   private void setFlipFlashcardButtonBehavior(StackPane root) {
     Button flipFlashcardButton = (Button) root.lookup("#flipFlashcardButton");
     flipFlashcardButton.setOnMouseClicked(e -> {
-      flipFlashcard();
+      flashcardViewController.flipFlashcard();
     });
   }
 
@@ -77,7 +69,7 @@ public class FlashcardController {
 
       changeFlashcard(nextFlashcardIndex);
       currentFlashcardCount = nextFlashcardIndex + 1;
-      updateFlashcardCount((Label) root.lookup("#flashcardCounter"));
+      updateFlashcardCounter((Label) root.lookup("#flashcardCounter"));
     });
   }
 
@@ -92,7 +84,7 @@ public class FlashcardController {
 
       changeFlashcard(previousFlashcardIndex);
       currentFlashcardCount = previousFlashcardIndex + 1;
-      updateFlashcardCount((Label) root.lookup("#flashcardCounter"));
+      updateFlashcardCounter((Label) root.lookup("#flashcardCounter"));
     });
   }
 
@@ -106,7 +98,7 @@ public class FlashcardController {
   private void setEditFlashcardsButtonBehavior(StackPane root) {
     Button editFlashcardsButton = (Button) root.lookup("#editFlashcardsButton");
     editFlashcardsButton.setOnMouseClicked(e -> {
-      EditFlashcardController editFlashcardController = createAddFlashcardController();
+      EditFlashcardController editFlashcardController = new EditFlashcardController(this.flashcardDatabase);
       editFlashcardController.createWindow();
       System.out.println("Edit flashcard controller exited.");
 
@@ -115,31 +107,10 @@ public class FlashcardController {
       this.flashcardDatabase.saveToFile();
 
       // Reload the current flashcard.
-      currentFlashcard.flipCardView();
-      currentFlashcard.flipCardView();
+      flashcardViewController.reloadFlashcardData();
     });
   }
 
-  public void flipFlashcard() {
-    RotateTransition rotator = createRotator();
-    PauseTransition ptChangeCardFace = changeCardFace();
-
-    ParallelTransition parallelTransition = new ParallelTransition(rotator, ptChangeCardFace);
-    parallelTransition.play();
-  }
-
-
-
-  private PauseTransition changeCardFace() {
-    PauseTransition pause = new PauseTransition(Duration.millis(500));
-    pause.setOnFinished(
-        e -> {
-          currentFlashcard.flipCardView();
-        }
-    );
-
-    return pause;
-  }
 
   private void changeFlashcard(Flashcard newFlashcard) {
     StackPane root = (StackPane) stage.getScene().getRoot();
@@ -151,6 +122,7 @@ public class FlashcardController {
 
       root.getChildren().add(newFlashcard.getCardView());
       currentFlashcard = newFlashcard;
+      flashcardViewController.setFlashcard(newFlashcard);
     } catch (Exception e) {
       Utils.printRelevantStackTrace(e);
     }
@@ -166,33 +138,10 @@ public class FlashcardController {
     changeFlashcard(newFlashcard);
   }
 
-  private void updateFlashcardCount(Label flashcardCounter) {
+  private void updateFlashcardCounter(Label flashcardCounter) {
     flashcardCounter.setText(currentFlashcardCount + " / " + flashcardDatabase.size());
   }
 
-  private EditFlashcardController createAddFlashcardController() {
-    EditFlashcardController editFlashcardController = new EditFlashcardController(
-        this.flashcardDatabase);
-    return editFlashcardController;
-  }
-
-  private RotateTransition createRotator() {
-    RotateTransition rotator = new RotateTransition(Duration.millis(1000),
-        currentFlashcard.getCardView());
-    rotator.setAxis(Rotate.X_AXIS);
-
-    if (currentFlashcard.isShowingFront()) {
-      rotator.setFromAngle(0);
-      rotator.setToAngle(180);
-    } else {
-      rotator.setFromAngle(180);
-      rotator.setToAngle(360);
-    }
-    rotator.setInterpolator(Interpolator.LINEAR);
-    rotator.setCycleCount(1);
-
-    return rotator;
-  }
   private void closeFlashcards() {
     stage.close();
   }
