@@ -7,8 +7,10 @@ import javafx.animation.RotateTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -20,6 +22,18 @@ public class FlashcardStageFactory {
     StackPane root = createRoot();
     Scene scene = createScene(root);
     return createStage(scene);
+  }
+
+  public static Stage createEditFlashcardStage() {
+    Stage stage = new Stage();
+    AnchorPane root = createEditFlashcardRoot();
+    Scene scene = new Scene(root);
+    stage.setTitle("Edit Flashcards");
+    stage.setScene(scene);
+    stage.setResizable(false);
+    stage.initModality(Modality.APPLICATION_MODAL);
+    stage.initOwner(new Main().getMainStage());
+    return stage;
   }
 
   private static StackPane createRoot() {
@@ -47,5 +61,20 @@ public class FlashcardStageFactory {
     flashcardStage.setScene(scene);
     flashcardStage.setTitle("Flashcard");
     return flashcardStage;
+  }
+
+  private static AnchorPane createEditFlashcardRoot() {
+    try {
+      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/AddFlashcardScreen.fxml"));
+      return (AnchorPane) loader.load();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  private static Scene createEditFlashcardScene(AnchorPane root) {
+    Scene scene = new Scene(root);
+    return scene;
   }
 }

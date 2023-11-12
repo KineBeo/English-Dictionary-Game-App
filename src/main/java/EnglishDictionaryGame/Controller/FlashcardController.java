@@ -20,6 +20,7 @@ public class FlashcardController {
   private int currentFlashcardCount = -1;
 
   public FlashcardController() {
+    FlashcardDataManager.initialize();
     flashcardDatabase = FlashcardDataManager.getFlashcardDatabase();
     this.currentFlashcard = flashcardDatabase.getFlashcard(0);
     flashcardViewController = new FlashcardViewController(currentFlashcard);

@@ -9,10 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class FlashcardDatabase {
-  private ArrayList<Flashcard> flashcards;
+  private ArrayList<Flashcard> flashcards = new ArrayList<>();
 
   public FlashcardDatabase() {
-    this.flashcards = new ArrayList<>();
   }
 
   public FlashcardDatabase(FlashcardDatabase flashcardDatabase) {

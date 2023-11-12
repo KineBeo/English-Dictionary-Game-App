@@ -3,6 +3,7 @@ package EnglishDictionaryGame.Controller;
 import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Flashcard;
 import EnglishDictionaryGame.Server.FlashcardDatabase;
+import EnglishDictionaryGame.Server.FlashcardStageFactory;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -31,7 +32,9 @@ public class EditFlashcardController {
 
   public EditFlashcardController() {
     this.editingFlashcardDatabase = new FlashcardDatabase();
-    this.stage = createAddFlashcardStage();
+    this.stage = FlashcardStageFactory.createEditFlashcardStage();
+    AnchorPane root = (AnchorPane) stage.getScene().getRoot();
+    setAllElementsBehaviors(root);
   }
 
   public EditFlashcardController(FlashcardDatabase savedFlashcardDatabase) {
@@ -44,7 +47,9 @@ public class EditFlashcardController {
       flashcardSaveMap.put(editingFlashcardDatabase.getFlashcard(i), true);
     }
 
-    this.stage = createAddFlashcardStage();
+    this.stage = FlashcardStageFactory.createEditFlashcardStage();
+    AnchorPane root = (AnchorPane) stage.getScene().getRoot();
+    setAllElementsBehaviors(root);
   }
 
   public void addFlashcard(String frontText, String backText) {
@@ -59,19 +64,11 @@ public class EditFlashcardController {
     this.stage.showAndWait();
   }
 
-
   /**
    * Updates the saved flashcard database with the unsaved flashcard database.
    */
   public FlashcardDatabase getNewFlashcardDatabase() {
     return this.newFlashcardDatabase;
-  }
-
-  private Stage createAddFlashcardStage() {
-    AnchorPane root = createRoot();
-    Scene scene = createScene(root);
-    setAllElementsBehaviors(root);
-    return createStage(scene);
   }
 
   private void loadFlashcard(Flashcard flashcard) {
@@ -342,31 +339,6 @@ public class EditFlashcardController {
     Label flashcardCounter = (Label) stage.getScene().getRoot().lookup("#flashcardCounter");
     int currentFlashcardCount = editingFlashcardDatabase.getIndexOf(operatingFlashcard) + 1;
     flashcardCounter.setText(currentFlashcardCount + " / " + editingFlashcardDatabase.size());
-  }
-
-  private AnchorPane createRoot() {
-    try {
-      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/AddFlashcardScreen.fxml"));
-      return (AnchorPane) loader.load();
-    } catch (Exception e) {
-      e.printStackTrace();
-      return null;
-    }
-  }
-
-  private Scene createScene(AnchorPane root) {
-    Scene scene = new Scene(root);
-    return scene;
-  }
-
-  private Stage createStage(Scene scene) {
-    Stage stage = new Stage();
-    stage.setTitle("Edit Flashcards");
-    stage.setScene(scene);
-    stage.setResizable(false);
-    stage.initModality(Modality.APPLICATION_MODAL);
-    stage.initOwner(new Main().getMainStage());
-    return stage;
   }
 
   private void printDatabase() {
