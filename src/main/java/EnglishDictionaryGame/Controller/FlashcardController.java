@@ -107,6 +107,9 @@ public class FlashcardController {
 
       // Reload the current flashcard.
       flashcardViewController.reloadFlashcardData();
+
+      // Reload the flashcard counter.
+      updateFlashcardCounter((Label) root.lookup("#flashcardCounter"));
     });
   }
 

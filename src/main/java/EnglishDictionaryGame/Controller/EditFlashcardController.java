@@ -129,9 +129,9 @@ public class EditFlashcardController {
     ButtonType confirmExitWithoutSaving = alert.getButtonTypes().get(1);
     if (confirmationChoice == confirmSaveAndExit) {
       saveAllFlashcards();
-    } else if (confirmationChoice == confirmExitWithoutSaving) {
-      FlashcardDataManager.updateDatabase();
     }
+
+    FlashcardDataManager.updateDatabase();
 
     stage.close();
   }
