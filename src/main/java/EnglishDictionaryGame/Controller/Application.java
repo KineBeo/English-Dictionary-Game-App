@@ -8,7 +8,6 @@ import EnglishDictionaryGame.Server.WordInfo;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.animation.ParallelTransition;
@@ -103,7 +102,7 @@ public class Application implements Initializable {
     inputText
         .textProperty()
         .addListener((observableValue, oldValue, newValue) -> performSearch(newValue));
-    applicationBar.setStyle("-fx-background-color: #44adfe");
+    applicationBar.setStyle("-fx-background-color: #30abf3");
     buttons.add(addButton);
     buttons.add(deleteButton);
     buttons.add(editButton);
@@ -206,11 +205,11 @@ public class Application implements Initializable {
           !wordInfo.getAntonyms().equals("") ? wordInfo.getAntonyms() : "No antonyms found";
 
       htmlContent =
-          "<html><body bgcolor='white' style='color:; font-weight: bold; font-size: 20px;'>"
+          "<html><body bgcolor='white' style='color:; font-weight: bold; font-size: 18px;'>"
               + "<p><b>Word: </b>"
               + word
               + "</p>"
-              + "<p><b>Type: </b>"
+              + "<p><i>Type: </i>"
               + type
               + "</p>"
               + "<p><b>Definition: </b>"
@@ -236,7 +235,25 @@ public class Application implements Initializable {
 
   @FXML
   public void addingWord() {
-    addButton.setOnMouseClicked(mouseEvent -> openStage("fxml/AddWordScreen.fxml", "Thêm từ"));
+    //    addButton.setOnMouseClicked(mouseEvent -> openStage("fxml/AddWordScreen.fxml", "Thêm
+    // từ"));
+    new Thread(
+            () ->
+                addButton.setOnMouseClicked(
+                    mouseEvent -> {
+                      try {
+                        AnchorPane view =
+                            FXMLLoader.load(
+                                Objects.requireNonNull(
+                                    Main.class.getResource("fxml/AddWordScreen.fxml")));
+                        homeSlider.setVisible(false);
+                        borderPane.setVisible(true);
+                        borderPane.setCenter(view);
+                      } catch (Exception e) {
+                        e.printStackTrace();
+                      }
+                    }))
+        .start();
   }
 
   @FXML
@@ -393,6 +410,7 @@ public class Application implements Initializable {
   }
 
   public void menuSlider() {
+    double duration = 0.2;
     homeSlider.setTranslateX(-75);
     borderPane.setTranslateX(-75);
     slider.setTranslateX(-142);
@@ -401,13 +419,15 @@ public class Application implements Initializable {
         mouseEvent -> {
           System.out.println("clicked Menu");
 
-          TranslateTransition slide = new TranslateTransition(Duration.seconds(0.35), slider);
+          TranslateTransition slide = new TranslateTransition(Duration.seconds(duration), slider);
           slide.setToX(0);
 
-          TranslateTransition slide2 = new TranslateTransition(Duration.seconds(0.35), homeSlider);
+          TranslateTransition slide2 =
+              new TranslateTransition(Duration.seconds(duration), homeSlider);
           slide2.setToX(0);
 
-          TranslateTransition slide3 = new TranslateTransition(Duration.seconds(0.35), borderPane);
+          TranslateTransition slide3 =
+              new TranslateTransition(Duration.seconds(duration), borderPane);
           slide3.setToX(0);
 
           ParallelTransition parallelTransition = new ParallelTransition(slide, slide2, slide3);
@@ -424,13 +444,15 @@ public class Application implements Initializable {
         mouseEvent -> {
           System.out.println("Clicked Menu Close");
 
-          TranslateTransition slide = new TranslateTransition(Duration.seconds(0.35), slider);
+          TranslateTransition slide = new TranslateTransition(Duration.seconds(duration), slider);
           slide.setToX(-142);
 
-          TranslateTransition slide2 = new TranslateTransition(Duration.seconds(0.35), homeSlider);
+          TranslateTransition slide2 =
+              new TranslateTransition(Duration.seconds(duration), homeSlider);
           slide2.setToX(-75);
 
-          TranslateTransition slide3 = new TranslateTransition(Duration.seconds(0.35), borderPane);
+          TranslateTransition slide3 =
+              new TranslateTransition(Duration.seconds(duration), borderPane);
           slide3.setToX(-75);
           ParallelTransition parallelTransition = new ParallelTransition(slide, slide2, slide3);
           parallelTransition.play();

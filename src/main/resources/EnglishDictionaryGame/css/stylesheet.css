@@ -1,6 +1,6 @@
 
 .menuItem:hover {
-    -fx-border-color: #660099;
+    -fx-border-color: #b2bbc2;
     -fx-border-width: 0px 0px 3px 0px;
 }
 
@@ -29,15 +29,16 @@
     -fx-background-color: white;
     -fx-background-radius: 30;
     -fx-border-radius: 30;
+    -fx-border-color: gray;
+    -fx-border-weight: 1.5;
     -fx-effect: dropshadow(three-pass-box, #8c7ae6, 15, 0, 0, 2) ;
 }
 
 .search-field{
   -fx-background-color: transparent;
-  -fx-text-fill: #595e62;
   -fx-font-family: "Jetbrains Mono";
   -fx-font-weight: bold;
-  -fx-font-size: 13;
+  -fx-font-size: 15;
   -fx-border: none ;
 }
 
@@ -46,7 +47,15 @@
      -fx-background-radius: 5;
      -fx-border-radius: 5;
 }
+.listViewCss {
+    -fx-border-color: gray;
+    -fx-border-width: 1.5px;
+}
 
+.webViewCss {
+    -fx-border-color: gray;
+    -fx-border-width: 1.5px;
+}
 .menu-Title {
     -fx-text-alignment: center;
         -fx-text-fill: white;
@@ -60,7 +69,7 @@
 }
 
 .setting-border {
-    -fx-border-color: black;
+    -fx-border-color: gray;
     -fx-background-radius: 10;
     -fx-border-radius: 10;
 }

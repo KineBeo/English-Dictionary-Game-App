@@ -1,0 +1,47 @@
+.button {
+   -fx-border-color: #0077ff;
+   -fx-font-family: "Arial";
+   -fx-border-radius: 20px;
+   -fx-background-radius: 20px;
+   -fx-font-size: 17px;
+   -fx-text-fill: #0077ff;
+   -fx-padding: 10 20; /* Adjust padding as needed */
+}
+
+.button:hover {
+    -fx-text-fill: white;
+    -fx-background-color: #0077ff; /* Change the background color on hover */
+}
+
+.button:pressed {
+    -fx-background-color: #0077ff; /* Change the background color when pressed */
+    -fx-translate-x: 2px; /* Adjust the translation on the x-axis as needed */
+    -fx-translate-y: 2px; /* Adjust the translation on the y-axis as needed */
+}
+
+#homeButtonPane {
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #0077ff;
+    -fx-border-width: 2px;
+}
+
+#homeButton {
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-text-fill: #0077ff;
+    -fx-font-family: "Arial";
+    -fx-font-size: 17px;
+    -fx-padding: 10 10 10 20; /* Adjust padding as needed */
+}
+
+#homeButton: hover {
+    -fx-background-color: #0077ff; /* Change the background color on hover */
+    -fx-text-fill: white;
+}
+
+#homeButton: pressed {
+    -fx-background-color: #0077ff; /* Change the background color when pressed */
+        -fx-translate-x: 2px; /* Adjust the translation on the x-axis as needed */
+        -fx-translate-y: 2px; /* Adjust the translation on the y-axis as needed */
+}

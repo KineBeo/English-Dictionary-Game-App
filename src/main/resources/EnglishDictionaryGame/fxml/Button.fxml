@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="265.0" layoutY="183.0" mnemonicParsing="false" stylesheets="@../css/button.css" text="Button">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../image/homeButton.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Pane fx:id="homeButtonPane" layoutX="51.0" layoutY="83.0" prefHeight="60.0" prefWidth="140.0" stylesheets="@../css/button.css">
+         <children>
+            <Label fx:id="homeButton" alignment="CENTER" prefHeight="60.0" prefWidth="140.0" text="Home">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/homeButton.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -7,63 +7,42 @@
         -fx-font-family: "JetBrains Mono";
         -fx-padding: 0px 0px 0px 0px;
 }
-
-#addButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
+#addButton:hover,
+#deleteButton:hover,
+#editButton:hover,
+#translateButton:hover,
+#pronounceButton:hover,
+#informationButton:hover,
+#dailyWordButton:hover,
+#settingButton:hover,
+#hangmanButton:hover,
+#quizButton:hover,
+#flashCardButton:hover,
+#homeButton:hover {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-background-color: #0077ff;
+    -fx-text-fill: white;
 }
 
-#deleteButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
+
+#testButton {
+   -fx-border-color: #0077ff;
+   -fx-font-family: "Arial";
+   -fx-border-radius: 0 20  20;
+   -fx-background-radius: 0 20 0 20;
+   -fx-font-size: 17px;
+   -fx-text-fill: #0077ff;
+   -fx-padding: 10 20; /* Adjust padding as needed */
 }
 
-#editButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
+#testButton:hover {
+    -fx-text-fill: white;
+    -fx-background-color: #0077ff; /* Change the background color on hover */
 }
 
-#translateButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
-}
-
-#pronounceButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
-}
-
-#informationButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
-}
-
-#dailyWordButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
-}
-
-#settingButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
-}
-
-#hangmanButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
-}
-
-#quizButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
-}
-
-#flashCardButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
-}
-
-#homeButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #31abf3;
+#testButton:pressed {
+    -fx-background-color: #0077ff; /* Change the background color when pressed */
+    -fx-translate-x: 2px; /* Adjust the translation on the x-axis as needed */
+    -fx-translate-y: 2px; /* Adjust the translation on the y-axis as needed */
 }

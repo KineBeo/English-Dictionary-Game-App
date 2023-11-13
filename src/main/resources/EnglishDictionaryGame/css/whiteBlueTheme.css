@@ -9,62 +9,21 @@
         -fx-padding: 0px 0px 0px 0px;
 }
 
-#addButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
+#addButton: hover,
+ #deleteButton: hover,
+ #editButton: hover,
+ #translateButton: hover,
+ #pronounceButton: hover,
+ #informationButton: hover,
+ #dailyWordButton: hover,
+ #settingButton: hover,
+ #hangmanButton: hover,
+ #quizButton: hover,
+ #flashCardButton: hover,
+ #homeButton: hover {
+ -fx-background-radius: 10;
+     -fx-border-radius: 10;
+    -fx-background-color: #0088CD;
+    -fx-text-fill: white;
 }
 
-#deleteButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}
-
-#editButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}
-
-#translateButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}
-
-#pronounceButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}
-
-#informationButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}
-
-#dailyWordButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}
-
-#settingButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}
-
-#hangmanButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}
-
-#quizButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}
-
-#flashCardButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}
-
-#homeButton: hover {
-    -fx-background-color: #b2bbc2;
-    -fx-text-fill: #30abf3;
-}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Database {
 
-  //  public static final String URL = "jdbc:mysql://localhost:3306/EnglishDictionary";
   public static final String URL = "jdbc:mysql://localhost:3306/CompleteDictionary";
   public static final String USE_NAME = "root";
   public static final String PASSWORD = "1392004";
