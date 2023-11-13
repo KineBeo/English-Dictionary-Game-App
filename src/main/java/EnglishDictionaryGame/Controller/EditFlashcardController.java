@@ -83,7 +83,7 @@ public class EditFlashcardController {
     wordDefinitionEditor.setText("");
 
     FlashcardDataManager.addEmptyFlashcard();
-    loadFlashcard(FlashcardDataManager.getSize() - 1);
+    changeOperatingFlashcard(FlashcardDataManager.getSize() - 1);
     updateFlashcardCounter();
   }
 
@@ -173,10 +173,18 @@ public class EditFlashcardController {
       String currentFlashcardFrontText = wordTargetEditor.getText();
       String currentFlashcardBackText = wordDefinitionEditor.getText();
 
+
       // Temporary save the current flashcard's contents.
       int currentIndex = FlashcardDataManager.getIndexOf(operatingFlashcard);
-      FlashcardDataManager.temporarySave(currentIndex, currentFlashcardFrontText,
-          currentFlashcardBackText);
+      boolean frontTextChanged = !currentFlashcardFrontText
+          .equals(operatingFlashcard.getFrontText());
+      boolean backTextChanged = !currentFlashcardBackText
+          .equals(operatingFlashcard.getBackText());
+      boolean flashcardChanged = frontTextChanged || backTextChanged;
+      if (flashcardChanged) {
+        FlashcardDataManager.temporarySave(currentIndex, currentFlashcardFrontText,
+            currentFlashcardBackText);
+      }
 
       // Change to the next OR previous flashcard.
       int newIndex = currentIndex + direction;
@@ -194,7 +202,6 @@ public class EditFlashcardController {
    * counter.
    */
   private void changeOperatingFlashcard(int index) {
-    saveCurrentFlashcard();
     loadFlashcard(index);
     updateFlashcardCounter();
   }

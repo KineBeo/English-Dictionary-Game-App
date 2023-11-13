@@ -60,9 +60,11 @@ public class FlashcardDataManager {
   }
 
   public static void addEmptyFlashcard() {
-    Flashcard emptyFlashcard = new Flashcard("", "");
-    editingFlashcardDatabase.addFlashcard(emptyFlashcard);
-    flashcardDatabase.addFlashcard(emptyFlashcard);
+    Flashcard editingEmptyFlashcard = new Flashcard("", "");
+    Flashcard mainEmptyFlashcard = new Flashcard("", "");
+    editingFlashcardDatabase.addFlashcard(editingEmptyFlashcard);
+    flashcardDatabase.addFlashcard(mainEmptyFlashcard);
+    saveMap.put(editingEmptyFlashcard, false);
   }
 
   public static int getSize() {
@@ -70,18 +72,24 @@ public class FlashcardDataManager {
   }
   public static void updateDatabase() {
     for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
-      Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
-      boolean flashcardSaved = saveMap.get(flashcard);
+      Flashcard editingFlashcard = editingFlashcardDatabase.getFlashcard(i);
+      Flashcard flashcard = flashcardDatabase.getFlashcard(i);
+
+      boolean flashcardSaved = saveMap.get(editingFlashcard);
+
+      // Save the flashcard, else if it's not saved and is empty, remove it.
+      // The flashcard can only be empty if the user chooses to "Add a new flashcard" and not save it.
       if (flashcardSaved) {
-        Flashcard savedFlashcard = flashcardDatabase.getFlashcard(i);
-        savedFlashcard.setFrontText(flashcard.getFrontText());
-        savedFlashcard.setBackText(flashcard.getBackText());
+        flashcard.setFrontText(editingFlashcard.getFrontText());
+        flashcard.setBackText(editingFlashcard.getBackText());
+      } else if (flashcard.getFrontText().equals("") && flashcard.getBackText().equals("")) {
+        flashcardDatabase.remove(i);
       }
     }
 
     FlashcardFileManager.saveDataToFile(flashcardDatabase);
 
     // Reset the editing database
-    editingFlashcardDatabase = FlashcardFileManager.getDataFromFile();
+    editingFlashcardDatabase = new FlashcardDatabase(flashcardDatabase);
   }
 }
