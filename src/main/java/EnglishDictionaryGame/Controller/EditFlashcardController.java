@@ -4,6 +4,7 @@ import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Flashcard;
 import EnglishDictionaryGame.Server.FlashcardDataManager;
 import EnglishDictionaryGame.Server.FlashcardDatabase;
+import EnglishDictionaryGame.Server.FlashcardFileManager;
 import EnglishDictionaryGame.Server.FlashcardStageFactory;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
@@ -129,10 +130,11 @@ public class EditFlashcardController {
     ButtonType confirmExitWithoutSaving = alert.getButtonTypes().get(1);
     if (confirmationChoice == confirmSaveAndExit) {
       saveAllFlashcards();
+    } else if (confirmationChoice == confirmExitWithoutSaving) {
+      FlashcardDataManager.updateDatabase();
     }
 
-    FlashcardDataManager.updateDatabase();
-
+    FlashcardDataManager.updateFile();
     stage.close();
   }
 
@@ -246,13 +248,7 @@ public class EditFlashcardController {
   }
 
   private void saveAllFlashcards() {
-    String frontText = "";
-    String backText = "";
-    for (int i = 0; i < FlashcardDataManager.getSize(); i++) {
-      frontText = FlashcardDataManager.getEditingFlashcard(i).getFrontText();
-      backText = FlashcardDataManager.getEditingFlashcard(i).getBackText();
-      FlashcardDataManager.hardSave(i, frontText, backText);
-    }
+    FlashcardDataManager.saveAll();
   }
 
   private Alert createDeleteAlert() {

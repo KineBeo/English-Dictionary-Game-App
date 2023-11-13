@@ -87,9 +87,22 @@ public class FlashcardDataManager {
       }
     }
 
-    FlashcardFileManager.saveDataToFile(flashcardDatabase);
-
     // Reset the editing database
     editingFlashcardDatabase = new FlashcardDatabase(flashcardDatabase);
+  }
+
+  public static void updateFile() {
+    FlashcardFileManager.saveDataToFile(flashcardDatabase);
+  }
+
+  public static void saveAll() {
+    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
+      Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
+      if (saveMap.containsKey(flashcard)) {
+        saveMap.put(flashcard, true);
+      } else {
+        System.out.println("Save all failed. Flashcard not found in save map.");
+      }
+    }
   }
 }
