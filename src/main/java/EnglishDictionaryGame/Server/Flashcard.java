@@ -123,7 +123,7 @@ public class Flashcard {
 
     Text textNode = new Text(text);
     textNode.setFont(Font.font("Verdana", 20));
-    textNode.setWrappingWidth(CARD_WIDTH - 20);
+//    textNode.setWrappingWidth(CARD_WIDTH - 20);
 
     textNode.setFill(Color.RED);
     StackPane stackPane = new StackPane();

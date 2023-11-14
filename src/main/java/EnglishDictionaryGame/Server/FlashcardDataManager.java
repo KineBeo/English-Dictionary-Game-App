@@ -70,6 +70,7 @@ public class FlashcardDataManager {
   public static int getSize() {
     return editingFlashcardDatabase.size();
   }
+
   public static void updateDatabase() {
     for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
       Flashcard editingFlashcard = editingFlashcardDatabase.getFlashcard(i);
@@ -89,10 +90,21 @@ public class FlashcardDataManager {
 
     // Reset the editing database
     editingFlashcardDatabase = new FlashcardDatabase(flashcardDatabase);
+
+    // Reset the save map.
+    saveMap = new HashMap<Flashcard, Boolean>();
+    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
+      saveMap.put(editingFlashcardDatabase.getFlashcard(i), true);
+    }
   }
 
   public static void updateFile() {
     FlashcardFileManager.saveDataToFile(flashcardDatabase);
+  }
+
+  public static boolean isSaved(int flashcardIndex) {
+    Flashcard flashcard = editingFlashcardDatabase.getFlashcard(flashcardIndex);
+    return saveMap.get(flashcard);
   }
 
   public static void saveAll() {

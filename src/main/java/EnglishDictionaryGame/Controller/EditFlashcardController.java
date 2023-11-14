@@ -16,6 +16,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -114,8 +115,6 @@ public class EditFlashcardController {
     exitEditFlashcardButton.setOnAction(
         event -> {
           System.out.println("Exit edit flashcards button clicked");
-          FlashcardDataManager.temporarySave(FlashcardDataManager.getIndexOf(operatingFlashcard),
-              operatingFlashcard.getFrontText(), operatingFlashcard.getBackText());
           exitEditFlashcards();
         });
   }
@@ -129,11 +128,31 @@ public class EditFlashcardController {
     ButtonType confirmSaveAndExit = alert.getButtonTypes().get(0);
     ButtonType confirmExitWithoutSaving = alert.getButtonTypes().get(1);
     if (confirmationChoice == confirmSaveAndExit) {
-      saveAllFlashcards();
-    } else if (confirmationChoice == confirmExitWithoutSaving) {
-      FlashcardDataManager.updateDatabase();
+      FlashcardDataManager.saveAll();
+    } else {
+//      // Get the root.
+//      AnchorPane root = (AnchorPane) stage.getScene().getRoot();
+//      // Get the current flashcard's contents.
+//      TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
+//      TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
+//      String currentFlashcardFrontText = wordTargetEditor.getText();
+//      String currentFlashcardBackText = wordDefinitionEditor.getText();
+//
+//      // Temporary save the current flashcard's contents.
+//      int currentIndex = FlashcardDataManager.getIndexOf(operatingFlashcard);
+//      boolean frontTextChanged = !currentFlashcardFrontText
+//          .equals(operatingFlashcard.getFrontText());
+//      boolean backTextChanged = !currentFlashcardBackText
+//          .equals(operatingFlashcard.getBackText());
+//      boolean flashcardChanged = frontTextChanged || backTextChanged;
+//      boolean flashcardSaved = FlashcardDataManager.isSaved(currentIndex);
+//      if (flashcardChanged && !flashcardSaved) {
+//        FlashcardDataManager.temporarySave(currentIndex, currentFlashcardFrontText,
+//            currentFlashcardBackText);
+//      }
     }
 
+    FlashcardDataManager.updateDatabase();
     FlashcardDataManager.updateFile();
     stage.close();
   }
@@ -174,7 +193,6 @@ public class EditFlashcardController {
       TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
       String currentFlashcardFrontText = wordTargetEditor.getText();
       String currentFlashcardBackText = wordDefinitionEditor.getText();
-
 
       // Temporary save the current flashcard's contents.
       int currentIndex = FlashcardDataManager.getIndexOf(operatingFlashcard);
