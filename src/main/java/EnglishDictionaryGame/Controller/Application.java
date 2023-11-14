@@ -259,12 +259,14 @@ public class Application implements Initializable {
     deleteButton.setOnMouseClicked(
         mouseEvent -> {
           String target = searchList.getSelectionModel().getSelectedItem();
-          if (!target.equals("")) {
+          if (target == null || target.equals("")) {
+            showAlert("Please choose your word", "Error");
+          } else {
             database.deleteWord(target);
             searchList.getItems().remove(target);
-            showAlert("fxml/Alert.fxml", "Delete the selected word successfully!");
-          } else {
-            showAlert("fxml/Alert.fxml", "Please choose some word!");
+            showAlert("Delete the selected word successfully!", "Notification");
+            String content = "";
+            webView.getEngine().loadContent(content);
           }
         });
   }
