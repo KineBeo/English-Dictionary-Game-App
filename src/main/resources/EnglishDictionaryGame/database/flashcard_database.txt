@@ -1,4 +1,3 @@
 Word|Definition
-Beauty|Something i don't know
-Front text|Back text
-Front text 2|Back text 2
+Persona!|A person's personality.
+Yasuo|Death is like the wind, always by my side.
