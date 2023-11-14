@@ -5,11 +5,10 @@ import java.util.ArrayList;
 
 public class Database {
 
-//  public static final String URL = "jdbc:mysql://localhost:3306/EnglishDictionary";
-public static final String URL = "jdbc:mysql://localhost:3306/CompleteDictionary";
+  public static final String URL = "jdbc:mysql://localhost:3306/CompleteDictionary";
   public static final String USE_NAME = "root";
   public static final String PASSWORD = "1392004";
-//    public static final String PASSWORD = "password";
+  //    public static final String PASSWORD = "password";
   private static Connection connection = null;
 
   public void connectToDatabase() throws SQLException {
@@ -102,12 +101,58 @@ public static final String URL = "jdbc:mysql://localhost:3306/CompleteDictionary
     return "Not found!";
   }
 
-  public boolean insertWord(final String target, final String definition) {
-    final String SQL_QUERY = "INSERT INTO english (word, meaning) VALUES (?, ?)";
+  public WordInfo findWord(final String target) {
+    final String SQL_QUERY =
+        "SELECT word, type, meaning, pronunciation, example, synonym, antonyms FROM english WHERE word = ?";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
       ps.setString(1, target);
-      ps.setString(2, definition);
+      try {
+        ResultSet rs = ps.executeQuery();
+        try {
+          if (rs.next()) {
+            return new WordInfo(
+                rs.getString("word"),
+                rs.getString("type"),
+                rs.getString("meaning"),
+                rs.getString("pronunciation"),
+                rs.getString("example"),
+                rs.getString("synonym"),
+                rs.getString("antonyms"));
+          } else {
+            return null;
+          }
+        } finally {
+          close(rs);
+        }
+      } finally {
+        close(ps);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public boolean insertWord(
+      final String target,
+      final String definition,
+      final String type,
+      final String pronunciation,
+      final String example,
+      final String synonym,
+      final String antonyms) {
+    final String SQL_QUERY =
+        "INSERT INTO english(word, type, meaning, pronunciation, example, synonym, antonyms) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    try {
+      PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
+      ps.setString(1, target);
+      ps.setString(2, type);
+      ps.setString(3, definition);
+      ps.setString(4, pronunciation);
+      ps.setString(5, example);
+      ps.setString(6, synonym);
+      ps.setString(7, antonyms);
       try {
         ps.executeUpdate();
       } catch (SQLIntegrityConstraintViolationException e) {

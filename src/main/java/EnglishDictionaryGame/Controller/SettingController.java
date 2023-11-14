@@ -36,8 +36,8 @@ public class SettingController extends WordOperation {
   public void setBarTheme(HBox temp, ArrayList<Label> buttons) {
     redTheme.setOnMouseClicked(
         mouseEvent -> {
-          temp.setStyle("-fx-background-color: #df4147");
-          Application.definitionColor = "#df4147";
+          temp.setStyle("-fx-background-color: #DA000E");
+          Application.definitionColor = "#DA000E";
           buttons.forEach(
               button -> {
                 button.getStylesheets().clear();

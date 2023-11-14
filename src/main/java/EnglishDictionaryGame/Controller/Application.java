@@ -4,14 +4,17 @@ import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Database;
 import EnglishDictionaryGame.Server.PronunciationService;
 import EnglishDictionaryGame.Server.Trie;
+import EnglishDictionaryGame.Server.WordInfo;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,11 +31,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class Application implements Initializable {
@@ -100,9 +101,8 @@ public class Application implements Initializable {
     preparedSearchList();
     inputText
         .textProperty()
-        .addListener(
-            (observableValue, oldValue, newValue) -> Platform.runLater(this::preparedSearchList));
-    applicationBar.setStyle("-fx-background-color: #44adfe");
+        .addListener((observableValue, oldValue, newValue) -> performSearch(newValue));
+    applicationBar.setStyle("-fx-background-color: #30abf3");
     buttons.add(addButton);
     buttons.add(deleteButton);
     buttons.add(editButton);
@@ -131,12 +131,6 @@ public class Application implements Initializable {
     exitButton.setOnMouseClicked(mouseEvent -> System.exit(0));
   }
 
-  @FXML
-  private void pronounceWord() {
-    pronounceButton.setOnMouseClicked(
-        mouseEvent -> new Thread(() -> PronunciationService.pronounce(editTarget, "en")).start());
-  }
-
   /** Refresh the list view. */
   public void preparedSearchList() {
     searchList.getItems().clear();
@@ -146,71 +140,120 @@ public class Application implements Initializable {
     searchList.setItems(FXCollections.observableArrayList(searchedWords));
   }
 
+  private void performSearch(String target) {
+    Task<WordInfo> searchTask =
+        new Task<>() {
+          @Override
+          protected WordInfo call() {
+            return database.findWord(target);
+          }
+        };
+
+    searchTask.setOnSucceeded(
+        event -> {
+          WordInfo wordInfo = searchTask.getValue();
+          updateWebView(wordInfo);
+        });
+
+    new Thread(searchTask).start();
+  }
+
   @FXML
   public void findWord() {
     String target = inputText.getText();
-    String definition = database.lookUpWord(target);
 
-    if (definition.equals("Not found!")) {
-      try {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Alert.fxml"));
-        Parent root = loader.load();
-        AlertController alertController = loader.getController();
-        alertController.setMessage("Cannot find word: " + target + "!");
-        alertController.setTitle("Not found!");
-        Scene scene = new Scene(root);
-        setAlertPopUpCss(scene);
-        scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
-        Stage addStage = new Stage();
-        addStage.setScene(scene);
-        addStage.setResizable(false);
-        addStage.initModality(Modality.APPLICATION_MODAL);
-        addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
-        addStage.initOwner(new Main().getMainStage());
-        addStage.showAndWait();
-        addStage.close();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+    Task<WordInfo> searchTask =
+        new Task<>() {
+          @Override
+          protected WordInfo call() {
+            return database.findWord(target);
+          }
+        };
+
+    searchTask.setOnSucceeded(
+        event -> {
+          WordInfo wordInfo = searchTask.getValue();
+          updateWebView(wordInfo);
+        });
+
+    new Thread(searchTask).start();
+  }
+
+  private void updateWebView(WordInfo wordInfo) {
+    String htmlContent;
+    if (wordInfo == null || wordInfo.getWord() == null) {
+      htmlContent =
+          "<html><body bgcolor='white' style='color:; font-weight: bold; font-size: 20px;'>"
+              + "<p>Cannot find word: "
+              + inputText.getText()
+              + "!</p>"
+              + "</body></html>";
+    } else {
+      String word = wordInfo.getWord();
+      String type = !wordInfo.getType().equals("") ? wordInfo.getType() : "Not found";
+      String meaning =
+          !wordInfo.getMeaning().equals("") ? wordInfo.getMeaning() : "No meaning found";
+      String pronunciation =
+          !wordInfo.getPronunciation().equals("")
+              ? wordInfo.getPronunciation()
+              : "Not pronunciation found";
+      String example =
+          !wordInfo.getExample().equals("") ? wordInfo.getExample() : "No example found";
+      String synonym =
+          !wordInfo.getSynonym().equals("") ? wordInfo.getSynonym() : "No synonym found";
+      String antonyms =
+          !wordInfo.getAntonyms().equals("") ? wordInfo.getAntonyms() : "No antonyms found";
+
+      htmlContent =
+          "<html><body bgcolor='white' style='color:; font-weight: bold; font-size: 18px;'>"
+              + "<p><b>Word: </b>"
+              + word
+              + "</p>"
+              + "<p><i>Type: </i>"
+              + type
+              + "</p>"
+              + "<p><b>Definition: </b>"
+              + meaning
+              + "</p>"
+              + "<p><b>Pronunciation: </b>"
+              + pronunciation
+              + "</p>"
+              + "<p><b>Example: </b>"
+              + example
+              + "</p>"
+              + "<p><b>Synonym: </b>"
+              + synonym
+              + "</p>"
+              + "<p><b>Antonyms: </b>"
+              + antonyms
+              + "</p>"
+              + "</body></html>";
     }
 
-    definition =
-        "<html><body bgcolor='white' style='color:"
-            + definitionColor
-            + "; font-weight: bold; font-size: 20px;'>"
-            + definition
-            + "</body></html>";
-
-    webView.getEngine().loadContent(definition, "text/html");
+    Platform.runLater(() -> webView.getEngine().loadContent(htmlContent, "text/html"));
   }
 
   @FXML
   public void addingWord() {
-
-    addButton.setOnMouseClicked(
-        mouseEvent -> {
-          try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/AddWordScreen.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage addStage = new Stage();
-            scene.setFill(Color.TRANSPARENT);
-            scene
-                .getStylesheets()
-                .add(
-                    Objects.requireNonNull(Main.class.getResource("css/Alert.css"))
-                        .toExternalForm());
-            addStage.setTitle("Thêm từ");
-            addStage.setScene(scene);
-            addStage.setResizable(false);
-            addStage.initModality(Modality.APPLICATION_MODAL);
-            addStage.initStyle(StageStyle.TRANSPARENT);
-            addStage.initOwner(new Main().getMainStage());
-            addStage.showAndWait();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        });
+    //    addButton.setOnMouseClicked(mouseEvent -> openStage("fxml/AddWordScreen.fxml", "Thêm
+    // từ"));
+    new Thread(
+            () ->
+                addButton.setOnMouseClicked(
+                    mouseEvent -> {
+                      try {
+                        AnchorPane view =
+                            FXMLLoader.load(
+                                Objects.requireNonNull(
+                                    Main.class.getResource("fxml/AddWordScreen.fxml")));
+                        homeSlider.setVisible(false);
+                        borderPane.setVisible(true);
+                        borderPane.setCenter(view);
+                      } catch (Exception e) {
+                        e.printStackTrace();
+                      }
+                    }))
+        .start();
   }
 
   @FXML
@@ -226,139 +269,18 @@ public class Application implements Initializable {
   @FXML
   public void updateWord() {
     editTarget = searchList.getSelectionModel().getSelectedItem();
-    editButton.setOnMouseClicked(
-        mouseEvent -> {
-          try {
-            FXMLLoader loader =
-                new FXMLLoader(Main.class.getResource("fxml/UpdateWordScreen.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage addStage = new Stage();
-            scene.setFill(Color.TRANSPARENT);
-            scene
-                .getStylesheets()
-                .add(
-                    Objects.requireNonNull(Main.class.getResource("css/Alert.css"))
-                        .toExternalForm());
-            addStage.setTitle("Sửa từ");
-            addStage.setScene(scene);
-            addStage.setResizable(false);
-            addStage.initModality(Modality.APPLICATION_MODAL);
-            addStage.initOwner(new Main().getMainStage());
-            addStage.initStyle(StageStyle.TRANSPARENT);
-            addStage.showAndWait();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        });
+    editButton.setOnMouseClicked(mouseEvent -> openStage("fxml/UpdateWordScreen.fxml", "Sửa từ"));
   }
 
   public void translateWord() {
     translateButton.setOnMouseClicked(
-        mouseEvent -> {
-          try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/TranslateWord.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage addStage = new Stage();
-            scene.setFill(Color.TRANSPARENT);
-            scene
-                .getStylesheets()
-                .add(
-                    Objects.requireNonNull(Main.class.getResource("css/Alert.css"))
-                        .toExternalForm());
-            addStage.setTitle("Dịch từ");
-            addStage.setScene(scene);
-            addStage.setResizable(false);
-            addStage.initModality(Modality.APPLICATION_MODAL);
-            addStage.initOwner(new Main().getMainStage());
-            addStage.initStyle(StageStyle.TRANSPARENT);
-            addStage.showAndWait();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        });
+        mouseEvent -> openStage("fxml/TranslateWord.fxml", "Dịch từ"));
   }
 
   @FXML
-  public void doubleClicktoSelectWord(MouseEvent mouseEvent) {
-    if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
-      String target = searchList.getSelectionModel().getSelectedItem();
-      editTarget = target;
-      inputText.setText(target);
-      findWord();
-    }
-  }
-
-  @FXML
-  public void selectWordUsingKeyBoard(KeyEvent e) {
-    if (searchList.getSelectionModel().getSelectedIndices().isEmpty()) {
-      return;
-    }
-    if (e.getCode() == KeyCode.ENTER) {
-      String target = searchList.getSelectionModel().getSelectedItem();
-      inputText.setText(target);
-      findWord();
-    } else if (e.getCode() == KeyCode.UP) {
-      if (searchList.getSelectionModel().getSelectedIndex() == 0 && lastIndex == 0) {
-        inputText.requestFocus();
-      }
-    }
-    lastIndex = searchList.getSelectionModel().getSelectedIndex();
-  }
-
-  public void menuSlider() {
-    homeSlider.setTranslateX(-75);
-    slider.setTranslateX(-142);
-    menu.setOnMouseClicked(
-        mouseEvent -> {
-          System.out.println("clicked Menu");
-          TranslateTransition slide = new TranslateTransition();
-          TranslateTransition slide2 = new TranslateTransition();
-          slide.setDuration(Duration.seconds(0.35));
-          slide.setNode(slider);
-          slide2.setDuration(Duration.seconds(0.35));
-          slide2.setNode(homeSlider);
-
-          slide.setToX(0);
-          slide.play();
-          slide2.setToX(0);
-          slide2.play();
-
-          slider.setTranslateX(-142);
-          homeSlider.setTranslateX(-75);
-
-          slide.setOnFinished(
-              (ActionEvent e) -> {
-                menu.setVisible(false);
-                menuClose.setVisible(true);
-              });
-        });
-
-    menuClose.setOnMouseClicked(
-        mouseEvent -> {
-          System.out.println("Clicked Menu Close");
-          TranslateTransition slide = new TranslateTransition();
-          TranslateTransition slide2 = new TranslateTransition();
-          slide.setDuration(Duration.seconds(0.35));
-          slide.setNode(slider);
-          slide2.setDuration(Duration.seconds(0.35));
-          slide2.setNode(homeSlider);
-
-          slide.setToX(-142);
-          slide.play();
-          slide2.setToX(-75);
-          slide2.play();
-
-          slider.setTranslateX(0);
-          homeSlider.setTranslateX(0);
-
-          slide.setOnFinished(
-              (ActionEvent e) -> {
-                menu.setVisible(true);
-                menuClose.setVisible(false);
-              });
-        });
+  public void pronounceWord() {
+    pronounceButton.setOnMouseClicked(
+        mouseEvent -> new Thread(() -> PronunciationService.pronounce(editTarget, "en")).start());
   }
 
   public void hangMan() {
@@ -367,20 +289,10 @@ public class Application implements Initializable {
                 hangmanButton.setOnMouseClicked(
                     mouseEvent -> {
                       try {
-                        //                        FXMLLoader loader =
-                        //                            new
-                        // FXMLLoader(Main.class.getResource("fxml/Hangman.fxml"));
-                        //                        Parent root = loader.load();
-                        //                        Scene scene = new Scene(root);
-                        //                        Stage addStage = new Stage();
-                        //                        addStage.setTitle("Hangman");
-                        //                        addStage.setScene(scene);
-                        //                        addStage.setResizable(false);
-                        //                        addStage.initModality(Modality.APPLICATION_MODAL);
-                        //                        addStage.initOwner(new Main().getMainStage());
-                        //                        addStage.showAndWait();
                         AnchorPane view =
-                            FXMLLoader.load(Main.class.getResource("fxml/Hangman.fxml"));
+                            FXMLLoader.load(
+                                Objects.requireNonNull(
+                                    Main.class.getResource("fxml/Hangman.fxml")));
                         homeSlider.setVisible(false);
                         borderPane.setVisible(true);
                         borderPane.setCenter(view);
@@ -393,23 +305,7 @@ public class Application implements Initializable {
 
   public void about() {
     informationButton.setOnMouseClicked(
-        mouseEvent -> {
-          try {
-            FXMLLoader loader =
-                new FXMLLoader(Main.class.getResource("fxml/InformationScreen.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage addStage = new Stage();
-            addStage.setTitle("About");
-            addStage.setScene(scene);
-            addStage.setResizable(false);
-            addStage.initModality(Modality.APPLICATION_MODAL);
-            addStage.initOwner(new Main().getMainStage());
-            addStage.showAndWait();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        });
+        mouseEvent -> openStage("fxml/InformationScreen.fxml", "About"));
   }
 
   public void flashCard() {
@@ -446,25 +342,7 @@ public class Application implements Initializable {
   }
 
   public void dailyWord() {
-    dailyWordButton.setOnMouseClicked(
-        mouseEvent -> {
-          try {
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/DailyWord.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage addStage = new Stage();
-            scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
-            addStage.setTitle("Daily Word");
-            addStage.setScene(scene);
-            addStage.setResizable(false);
-            addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
-            addStage.initModality(Modality.APPLICATION_MODAL);
-            addStage.initOwner(new Main().getMainStage());
-            addStage.showAndWait();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        });
+    dailyWordButton.setOnMouseClicked(mouseEvent -> openStage("fxml/DailyWord.fxml", "Daily Word"));
   }
 
   private void home() {
@@ -479,5 +357,111 @@ public class Application implements Initializable {
     scene
         .getStylesheets()
         .add(Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
+  }
+
+  public void openStage(String fxml, String title) {
+    try {
+      FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));
+      Parent root = loader.load();
+      Scene scene = new Scene(root);
+      Stage addStage = new Stage();
+      scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+      scene
+          .getStylesheets()
+          .add(Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
+      addStage.setTitle(title);
+      addStage.setScene(scene);
+      addStage.setResizable(false);
+      addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+      addStage.initModality(Modality.APPLICATION_MODAL);
+      addStage.initOwner(new Main().getMainStage());
+      addStage.showAndWait();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  @FXML
+  public void doubleClicktoSelectWord(MouseEvent mouseEvent) {
+    // Change to one click to select word
+    if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 1) {
+      String target = searchList.getSelectionModel().getSelectedItem();
+      editTarget = target;
+      inputText.setText(target);
+      findWord();
+    }
+  }
+
+  @FXML
+  public void selectWordUsingKeyBoard(KeyEvent e) {
+    if (searchList.getSelectionModel().getSelectedIndices().isEmpty()) {
+      return;
+    }
+    if (e.getCode() == KeyCode.ENTER) {
+      String target = searchList.getSelectionModel().getSelectedItem();
+      inputText.setText(target);
+      findWord();
+    } else if (e.getCode() == KeyCode.UP) {
+      if (searchList.getSelectionModel().getSelectedIndex() == 0 && lastIndex == 0) {
+        inputText.requestFocus();
+      }
+    }
+    lastIndex = searchList.getSelectionModel().getSelectedIndex();
+  }
+
+  public void menuSlider() {
+    double duration = 0.2;
+    homeSlider.setTranslateX(-75);
+    borderPane.setTranslateX(-75);
+    slider.setTranslateX(-142);
+
+    menu.setOnMouseClicked(
+        mouseEvent -> {
+          System.out.println("clicked Menu");
+
+          TranslateTransition slide = new TranslateTransition(Duration.seconds(duration), slider);
+          slide.setToX(0);
+
+          TranslateTransition slide2 =
+              new TranslateTransition(Duration.seconds(duration), homeSlider);
+          slide2.setToX(0);
+
+          TranslateTransition slide3 =
+              new TranslateTransition(Duration.seconds(duration), borderPane);
+          slide3.setToX(0);
+
+          ParallelTransition parallelTransition = new ParallelTransition(slide, slide2, slide3);
+          parallelTransition.play();
+
+          parallelTransition.setOnFinished(
+              (ActionEvent e) -> {
+                menu.setVisible(false);
+                menuClose.setVisible(true);
+              });
+        });
+
+    menuClose.setOnMouseClicked(
+        mouseEvent -> {
+          System.out.println("Clicked Menu Close");
+
+          TranslateTransition slide = new TranslateTransition(Duration.seconds(duration), slider);
+          slide.setToX(-142);
+
+          TranslateTransition slide2 =
+              new TranslateTransition(Duration.seconds(duration), homeSlider);
+          slide2.setToX(-75);
+
+          TranslateTransition slide3 =
+              new TranslateTransition(Duration.seconds(duration), borderPane);
+          slide3.setToX(-75);
+          ParallelTransition parallelTransition = new ParallelTransition(slide, slide2, slide3);
+          parallelTransition.play();
+
+          parallelTransition.setOnFinished(
+              (ActionEvent e) -> {
+                menu.setVisible(true);
+                menuClose.setVisible(false);
+              });
+        });
   }
 }

@@ -21,7 +21,7 @@ public class Main extends Application {
       scene
           .getStylesheets()
           .add(
-              Objects.requireNonNull(Main.class.getResource("css/blueTheme.css")).toExternalForm());
+              Objects.requireNonNull(Main.class.getResource("css/whiteBlueTheme.css")).toExternalForm());
       scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
       root.setOnMousePressed(
           mouseEvent -> {

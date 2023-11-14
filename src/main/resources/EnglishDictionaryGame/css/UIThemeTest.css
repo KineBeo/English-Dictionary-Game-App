@@ -1,0 +1,70 @@
+#addButton, #deleteButton, #editButton, #translateButton, #pronounceButton,
+ #informationButton, #dailyWordButton, #settingButton, #hangmanButton, #quizButton, #flashCardButton, #homeButton {
+    -fx-text-alignment: center;
+        -fx-text-fill: white;
+        -fx-font-size: 18px;
+        -fx-font-weight: bold;
+        -fx-font-family: "JetBrains Mono";
+        -fx-padding: 0px 0px 0px 0px;
+}
+/*
+#addButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#deleteButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#editButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#translateButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#pronounceButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#informationButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#dailyWordButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#settingButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#hangmanButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#quizButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#flashCardButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+
+#homeButton: hover {
+    -fx-background-color: #C5C6C7;
+    -fx-text-fill: #66FCF1;
+}
+*/
