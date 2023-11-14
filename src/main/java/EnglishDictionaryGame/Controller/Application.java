@@ -235,8 +235,6 @@ public class Application implements Initializable {
 
   @FXML
   public void addingWord() {
-    //    addButton.setOnMouseClicked(mouseEvent -> openStage("fxml/AddWordScreen.fxml", "Thêm
-    // từ"));
     new Thread(
             () ->
                 addButton.setOnMouseClicked(
@@ -261,8 +259,13 @@ public class Application implements Initializable {
     deleteButton.setOnMouseClicked(
         mouseEvent -> {
           String target = searchList.getSelectionModel().getSelectedItem();
-          database.deleteWord(target);
-          searchList.getItems().remove(target);
+          if (!target.equals("")) {
+            database.deleteWord(target);
+            searchList.getItems().remove(target);
+            showAlert("fxml/Alert.fxml", "Delete the selected word successfully!");
+          } else {
+            showAlert("fxml/Alert.fxml", "Please choose some word!");
+          }
         });
   }
 
@@ -280,7 +283,8 @@ public class Application implements Initializable {
   @FXML
   public void pronounceWord() {
     pronounceButton.setOnMouseClicked(
-        mouseEvent -> new Thread(() -> PronunciationService.pronounce(editTarget, "en")).start());
+        mouseEvent ->
+            new Thread(() -> PronunciationService.pronounce(inputText.getText(), "en")).start());
   }
 
   public void hangMan() {
@@ -376,6 +380,31 @@ public class Application implements Initializable {
       addStage.initModality(Modality.APPLICATION_MODAL);
       addStage.initOwner(new Main().getMainStage());
       addStage.showAndWait();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void showAlert(String message, String title) {
+    try {
+      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Alert.fxml"));
+      Parent root = loader.load();
+      AlertController alertController = loader.getController();
+      alertController.setMessage(message);
+      alertController.setTitle(title);
+      Scene scene = new Scene(root);
+      scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+      Stage addStage = new Stage();
+      scene
+          .getStylesheets()
+          .add(Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
+      addStage.setScene(scene);
+      addStage.setResizable(false);
+      addStage.initModality(Modality.APPLICATION_MODAL);
+      addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+      addStage.initOwner(new Main().getMainStage());
+      addStage.showAndWait();
+      addStage.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
