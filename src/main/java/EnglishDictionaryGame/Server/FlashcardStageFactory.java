@@ -65,7 +65,7 @@ public class FlashcardStageFactory {
 
   private static AnchorPane createEditFlashcardRoot() {
     try {
-      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/AddFlashcardScreen.fxml"));
+      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/EditFlashcardScreen.fxml"));
       return (AnchorPane) loader.load();
     } catch (Exception e) {
       e.printStackTrace();

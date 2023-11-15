@@ -9,7 +9,10 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 public class FlashcardViewController {
+
   private Flashcard flashcard;
+  private boolean isAnimationInProgress = false;
+
   public FlashcardViewController(Flashcard flashcard) {
     this.flashcard = flashcard;
   }
@@ -19,11 +22,19 @@ public class FlashcardViewController {
   }
 
   public void flipFlashcard() {
-    RotateTransition rotator = createRotator();
-    PauseTransition ptChangeCardFace = changeCardFace();
+    if (!isAnimationInProgress) {
+      isAnimationInProgress = true;
 
-    ParallelTransition parallelTransition = new ParallelTransition(rotator, ptChangeCardFace);
-    parallelTransition.play();
+      RotateTransition rotator = createRotator();
+      PauseTransition ptChangeCardFace = changeCardFace();
+
+      ParallelTransition parallelTransition = new ParallelTransition(rotator, ptChangeCardFace);
+
+      // Set an event handler to reset the flag after the animation is finished
+      parallelTransition.setOnFinished(event -> isAnimationInProgress = false);
+
+      parallelTransition.play();
+    }
   }
 
   public void reloadFlashcardData() {

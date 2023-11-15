@@ -31,6 +31,7 @@ public class FlashcardController {
   }
 
   public void createFlashcardWindow(StackPane root) {
+    this.root = root;
     setAllElementsBehaviors(root);
     updateFlashcardCounter((Label) root.lookup("#flashcardCounter"));
     try {
@@ -39,8 +40,6 @@ public class FlashcardController {
       System.out.println("Flashcard controller's currentFlashcard is null");
       Utils.printRelevantStackTrace(e);
     }
-
-//    this.stage.show();
   }
 
   private void setAllElementsBehaviors(StackPane root) {

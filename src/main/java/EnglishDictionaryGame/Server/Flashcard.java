@@ -18,9 +18,14 @@ public class Flashcard {
   private String backText;
   private Image backImage;
   private boolean isShowingFront;
-  private final int CARD_WIDTH = 400;
+  private final int CARD_WIDTH = 325;
   private final int CARD_HEIGHT = 300;
-
+  private final int BORDER_RADIUS = 30;
+  private final Color BACKGROUND_COLOR = Color.GREY;
+  private final Color BORDER_COLOR = Color.RED;
+  private final Color TEXT_COLOR = Color.WHITE;
+  private final int TEXT_SIZE = 20;
+  private final String TEXT_FONT = "Verdana";
 
   public Flashcard() {
   }
@@ -94,12 +99,16 @@ public class Flashcard {
 
     // Create a red border rectangle
     Rectangle borderRectangle = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
-    borderRectangle.setStroke(Color.RED);
     borderRectangle.setFill(Color.TRANSPARENT);
+    borderRectangle.setStroke(BORDER_COLOR);
+    borderRectangle.setArcWidth(BORDER_RADIUS);
+    borderRectangle.setArcHeight(BORDER_RADIUS);
 
     // Create a gray background rectangle
     Rectangle backgroundRectangle = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
-    backgroundRectangle.setFill(Color.GREY);
+    backgroundRectangle.setFill(BACKGROUND_COLOR);
+    backgroundRectangle.setArcWidth(BORDER_RADIUS);
+    backgroundRectangle.setArcHeight(BORDER_RADIUS);
 
     // Create a snapshot of the scene with the gray background and red border
     SnapshotParameters params = new SnapshotParameters();
@@ -122,10 +131,10 @@ public class Flashcard {
     ImageView imageView = new ImageView(image);
 
     Text textNode = new Text(text);
-    textNode.setFont(Font.font("Verdana", 20));
+    textNode.setFont(Font.font(TEXT_FONT, TEXT_SIZE));
 //    textNode.setWrappingWidth(CARD_WIDTH - 20);
 
-    textNode.setFill(Color.RED);
+    textNode.setFill(TEXT_COLOR);
     StackPane stackPane = new StackPane();
     stackPane.getChildren().addAll(imageView, textNode);
 
@@ -140,5 +149,4 @@ public class Flashcard {
     stackPane.getChildren().add(mirroredImageView);
     return stackPane.snapshot(null, null);
   }
-
 }
