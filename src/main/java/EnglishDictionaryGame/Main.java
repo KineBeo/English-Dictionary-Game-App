@@ -37,7 +37,7 @@ public class Main extends Application {
       mainStage.setResizable(false);
       Image icon =
           new Image(Objects.requireNonNull(Main.class.getResourceAsStream("image/icon.png")));
-      mainStage.getIcons().add(icon);
+      mainStage.getIcons().add(icon);`
       mainStage.setScene(scene);
       mainStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
       mainStage.show();

@@ -16,6 +16,7 @@ public class FlashcardController {
   private FlashcardDatabase flashcardDatabase;
   private FlashcardViewController flashcardViewController;
   private Stage stage = null;
+  private StackPane root;
   private Flashcard currentFlashcard = null;
   private int currentFlashcardCount = -1;
 
@@ -29,8 +30,7 @@ public class FlashcardController {
     this.stage = FlashcardStageFactory.createFlashcardStage();
   }
 
-  public void createFlashcardWindow() {
-    StackPane root = (StackPane) stage.getScene().getRoot();
+  public void createFlashcardWindow(StackPane root) {
     setAllElementsBehaviors(root);
     updateFlashcardCounter((Label) root.lookup("#flashcardCounter"));
     try {
@@ -40,7 +40,7 @@ public class FlashcardController {
       Utils.printRelevantStackTrace(e);
     }
 
-    this.stage.show();
+//    this.stage.show();
   }
 
   private void setAllElementsBehaviors(StackPane root) {

@@ -1,6 +1,7 @@
 package EnglishDictionaryGame.Server;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class FlashcardDataManager {
 

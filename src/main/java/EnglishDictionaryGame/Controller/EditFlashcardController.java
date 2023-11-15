@@ -129,27 +129,6 @@ public class EditFlashcardController {
     ButtonType confirmExitWithoutSaving = alert.getButtonTypes().get(1);
     if (confirmationChoice == confirmSaveAndExit) {
       FlashcardDataManager.saveAll();
-    } else {
-//      // Get the root.
-//      AnchorPane root = (AnchorPane) stage.getScene().getRoot();
-//      // Get the current flashcard's contents.
-//      TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
-//      TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
-//      String currentFlashcardFrontText = wordTargetEditor.getText();
-//      String currentFlashcardBackText = wordDefinitionEditor.getText();
-//
-//      // Temporary save the current flashcard's contents.
-//      int currentIndex = FlashcardDataManager.getIndexOf(operatingFlashcard);
-//      boolean frontTextChanged = !currentFlashcardFrontText
-//          .equals(operatingFlashcard.getFrontText());
-//      boolean backTextChanged = !currentFlashcardBackText
-//          .equals(operatingFlashcard.getBackText());
-//      boolean flashcardChanged = frontTextChanged || backTextChanged;
-//      boolean flashcardSaved = FlashcardDataManager.isSaved(currentIndex);
-//      if (flashcardChanged && !flashcardSaved) {
-//        FlashcardDataManager.temporarySave(currentIndex, currentFlashcardFrontText,
-//            currentFlashcardBackText);
-//      }
     }
 
     FlashcardDataManager.updateDatabase();

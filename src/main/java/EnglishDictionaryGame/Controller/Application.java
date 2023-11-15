@@ -31,6 +31,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -316,7 +317,19 @@ public class Application implements Initializable {
     flashCardButton.setOnMouseClicked(
         mouseEvent -> {
           FlashcardController flashcardController = new FlashcardController();
-          flashcardController.createFlashcardWindow();
+          StackPane root = new StackPane();
+          try {
+            root =
+                FXMLLoader.load(
+                    Objects.requireNonNull(
+                        Main.class.getResource("fxml/FlashcardScreen.fxml")));
+            homeSlider.setVisible(false);
+            borderPane.setVisible(true);
+            borderPane.setCenter(root);
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          flashcardController.createFlashcardWindow(root);
         });
   }
 
