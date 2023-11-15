@@ -37,6 +37,10 @@ public class TranslateWord extends WordOperation {
     sourceComboBox.setValue("English");
     translationComboBox.setValue("Vietnamese");
 
+    // Make the translation result uneditable.
+    translationLanguage.setEditable(false);
+    translationLanguage.setFocusTraversable(false);
+
     sourceLanguage
         .textProperty()
         .addListener(
