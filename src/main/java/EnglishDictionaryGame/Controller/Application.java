@@ -128,7 +128,6 @@ public class Application implements Initializable {
     dailyWord();
     flashCard();
     setting();
-
     exitButton.setOnMouseClicked(mouseEvent -> System.exit(0));
   }
 
@@ -383,7 +382,7 @@ public class Application implements Initializable {
             scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
             addStage.setTitle("Setting");
             SettingController st = loader.getController();
-            st.setBarTheme(applicationBar, buttons);
+            st.setBarTheme(applicationBar, buttons, searchList);
             addStage.setScene(scene);
             addStage.setResizable(false);
             addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
@@ -467,7 +466,6 @@ public class Application implements Initializable {
     if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 1) {
       String target = searchList.getSelectionModel().getSelectedItem();
       editTarget = target;
-      System.out.println(editTarget);
       inputText.setText(target);
       findWord();
     }

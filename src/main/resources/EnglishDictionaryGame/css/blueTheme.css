@@ -25,6 +25,11 @@
     -fx-text-fill: white;
 }
 
+#searchList .cell:selected {
+    -fx-background-color: #0077ff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
 
 #testButton {
    -fx-border-color: #0077ff;
