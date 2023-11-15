@@ -48,7 +48,7 @@ public class TranslateWord extends WordOperation {
     translationComboBox.setValue("Vietnamese");
 
     // Make the translation result uneditable.
-    //    translationLanguage.setEditable(false);
+    translationLanguage.setEditable(false);
 
     //    sourceLanguage
     //        .textProperty()
@@ -129,6 +129,7 @@ public class TranslateWord extends WordOperation {
       }
     };
   }
+
   @Override
   public void quitScreen() {
     Stage stage = (Stage) anchorPane.getScene().getWindow();
