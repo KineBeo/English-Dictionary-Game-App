@@ -278,8 +278,23 @@ public class Application implements Initializable {
   }
 
   public void translateWord() {
-    translateButton.setOnMouseClicked(
-        mouseEvent -> openStage("fxml/TranslateWord.fxml", "Dịch từ"));
+    new Thread(
+            () ->
+                translateButton.setOnMouseClicked(
+                    mouseEvent -> {
+                      try {
+                        AnchorPane view =
+                            FXMLLoader.load(
+                                Objects.requireNonNull(
+                                    Main.class.getResource("fxml/TranslateWord.fxml")));
+                        homeSlider.setVisible(false);
+                        borderPane.setVisible(true);
+                        borderPane.setCenter(view);
+                      } catch (Exception e) {
+                        e.printStackTrace();
+                      }
+                    }))
+        .start();
   }
 
   @FXML

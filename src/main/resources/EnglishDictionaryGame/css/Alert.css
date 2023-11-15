@@ -2,6 +2,7 @@
     -fx-background-radius: 15;
     -fx-border-radius: 15;
     -fx-border-color: black;
+    -fx-border-weight: 1.5px;
     -fx-font-weight: bold;
 }
 
@@ -14,4 +15,5 @@
 #titleLabel {
     -fx-text-fill: white;
     -fx-text-alignment: center;
+    -fx-font-family: "JetBrains Mono";
 }
