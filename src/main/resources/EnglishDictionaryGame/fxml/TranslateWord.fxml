@@ -20,16 +20,20 @@
                   <TextArea fx:id="translationLanguage" layoutX="427.5" layoutY="65.0" prefHeight="200.0" prefWidth="337.5" />
                   <ComboBox fx:id="sourceComboBox" layoutX="20.0" layoutY="20.0" prefWidth="340.0" promptText="English" />
                   <ComboBox fx:id="translationComboBox" layoutX="427.5" layoutY="20.0" prefWidth="337.5" promptText="Vietnamese" />
-                  <ImageView fx:id="sourceLanguageSpeaker" fitHeight="35.0" fitWidth="35.0" layoutX="31.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../image/speaker.png" />
-                     </image>
-                  </ImageView>
                   <Button fx:id="swapLanguage" layoutX="370.0" layoutY="20.0" mnemonicParsing="false">
                      <graphic>
                         <ImageView fitHeight="29.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/swap.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="sourceLanguageSpeaker" layoutX="28.0" layoutY="219.0" mnemonicParsing="false">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../image/speaker.png" />
                            </image>
                         </ImageView>
                      </graphic>

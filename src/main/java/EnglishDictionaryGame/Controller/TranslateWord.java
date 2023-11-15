@@ -1,5 +1,6 @@
 package EnglishDictionaryGame.Controller;
 
+import EnglishDictionaryGame.Server.PronunciationService;
 import EnglishDictionaryGame.Server.TranslationService;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -29,13 +29,13 @@ public class TranslateWord extends WordOperation {
 
   @FXML private TextArea translationLanguage;
 
-  @FXML private ImageView sourceLanguageSpeaker;
+  @FXML private Button sourceLanguageSpeaker;
 
   @FXML private Button swapLanguage;
   private final Timeline timeline = new Timeline();
 
   private final List<String> languages =
-      Arrays.asList("English", "Vietnamese", "Spanish", "French");
+      Arrays.asList("English", "Vietnamese", "Spanish", "French", "Japanese");
 
   private final Executor executor = Executors.newSingleThreadExecutor();
 
@@ -73,7 +73,7 @@ public class TranslateWord extends WordOperation {
                   .getKeyFrames()
                   .add(
                       new KeyFrame(
-                          Duration.seconds(0.2),
+                          Duration.seconds(0.1),
                           event -> {
                             // Execute translation when the timeline completes
                             Task<String> translationTask = createTranslationTask(newValue);
@@ -87,6 +87,20 @@ public class TranslateWord extends WordOperation {
             });
 
     swapLanguage.setOnAction(event -> swapLanguage());
+    sourceLanguageSpeaker.setOnAction(
+        event -> pronounceWord(sourceLanguage.getText(), sourceComboBox.getValue()));
+  }
+
+  private void pronounceWord(String text, String language) {
+    switch (language) {
+      case "English" -> language = "en";
+      case "Vietnamese" -> language = "vi";
+      case "French" -> language = "fr";
+      case "Spanish" -> language = "es";
+      case "Japanese" -> language = "ja";
+    }
+    String finalLanguage = language;
+    executor.execute(() -> PronunciationService.pronounce(text, finalLanguage));
   }
 
   public void saveWord() {}
@@ -101,7 +115,11 @@ public class TranslateWord extends WordOperation {
   private void swapLanguage() {
     String tempSourceLang = sourceComboBox.getValue();
     String tempTargetLang = translationComboBox.getValue();
+    String tempSourceText = sourceLanguage.getText();
+    String tempTargetText = translationLanguage.getText();
 
+    sourceLanguage.setText(tempTargetText);
+    translationLanguage.setText(tempSourceText);
     sourceComboBox.setValue(tempTargetLang);
     translationComboBox.setValue(tempSourceLang);
   }
@@ -117,6 +135,7 @@ public class TranslateWord extends WordOperation {
           case "Vietnamese" -> sourceLang = "vi";
           case "French" -> sourceLang = "fr";
           case "Spanish" -> sourceLang = "es";
+          case "Japanese" -> sourceLang = "ja";
         }
 
         switch (targetLang) {
@@ -124,6 +143,7 @@ public class TranslateWord extends WordOperation {
           case "Vietnamese" -> targetLang = "vi";
           case "French" -> targetLang = "fr";
           case "Spanish" -> targetLang = "es";
+          case "Japanese" -> targetLang = "ja";
         }
         return TranslationService.translate(sourceText, sourceLang, targetLang);
       }

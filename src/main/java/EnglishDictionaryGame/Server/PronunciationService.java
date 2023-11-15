@@ -18,6 +18,7 @@ public class PronunciationService {
 
   public static final String LANGUAGE_SPANISH = "es";
   public static final String LANGUAGE_FRENCH = "fr";
+  public static final String LANGUAGE_JAPANESE = "ja";
 
   public static void pronounce(String text, String language) {
     try {
