@@ -11,11 +11,13 @@ import javazoom.jl.player.Player;
 
 public class PronunciationService {
 
-  /**
-   * Play the English or Vietnamese sound of a piece of text.
-   */
+  /** Play the English or Vietnamese sound of a piece of text. */
   public static final String LANGUAGE_ENGLISH = "en";
+
   public static final String LANGUAGE_VIETNAMESE = "vi";
+
+  public static final String LANGUAGE_SPANISH = "es";
+  public static final String LANGUAGE_FRENCH = "fr";
 
   public static void pronounce(String text, String language) {
     try {
@@ -25,14 +27,12 @@ public class PronunciationService {
     }
   }
 
-
   private static void playPronunciationSound(String text, String language) throws Exception {
     URL sourceAudioURL = getPronunciationRequestURL(text, language);
     playAudioFromURL(sourceAudioURL);
   }
 
-  private static URL getPronunciationRequestURL(String text, String language)
-      throws Exception {
+  private static URL getPronunciationRequestURL(String text, String language) throws Exception {
     StringBuilder urlBuilder = new StringBuilder();
     urlBuilder.append("https://translate.google.com.vn/translate_tts?ie=UTF-8&tl=");
     urlBuilder.append(language);

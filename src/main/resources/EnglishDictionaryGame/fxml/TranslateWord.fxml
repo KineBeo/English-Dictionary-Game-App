@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.web.HTMLEditor?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-  minWidth="-Infinity" prefHeight="615.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1"
-  xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="EnglishDictionaryGame.Controller.TranslateWord">
-  <Label layoutX="219.0" layoutY="25.0" text="Nhập câu cần dịch!"/>
-  <TextField fx:id="inputText" layoutX="30.0" layoutY="71.0" prefHeight="35.0" prefWidth="547.0"
-    promptText="Kết quả dịch"/>
-  <Label layoutX="246.0" layoutY="124.0" text="Nghĩa của câu"/>
-  <HTMLEditor fx:id="htmlEditor"
-    htmlText="&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body contenteditable=&quot;true&quot;&gt;&lt;/body&gt;&lt;/html&gt;"
-    layoutX="21.0" layoutY="158.0" prefHeight="373.0" prefWidth="558.0"/>
-  <Button layoutX="517.0" layoutY="556.0" mnemonicParsing="false" onAction="#quitScreen"
-    text="Exit"/>
-  <Button layoutX="424.0" layoutY="556.0" mnemonicParsing="false" onAction="#translateWord" text="Translate"/>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.TranslateWord">
+   <children>
+      <AnchorPane fx:id="anchorPane" layoutY="130.0" prefHeight="350.0" prefWidth="895.0">
+         <children>
+            <Pane layoutX="50.0" layoutY="35.0" prefHeight="280.0" prefWidth="795.0">
+               <children>
+                  <TextArea fx:id="sourceLanguage" layoutX="20.0" layoutY="65.0" prefHeight="200.0" prefWidth="367.5" />
+                  <TextArea fx:id="translationLanguage" layoutX="407.5" layoutY="65.0" prefHeight="200.0" prefWidth="367.5" />
+                  <ComboBox fx:id="sourceComboBox" layoutX="20.0" layoutY="20.0" prefWidth="367.0" promptText="English" />
+                  <ComboBox fx:id="translationComboBox" layoutX="407.5" layoutY="20.0" prefWidth="367.0" promptText="Vietnamese" />
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+      <Pane prefHeight="130.0" prefWidth="895.0">
+         <children>
+            <Pane layoutX="220.0" layoutY="20.0" prefHeight="50.0" prefWidth="450.0">
+               <children>
+                  <Label layoutX="3.0" layoutY="10.0" text="Enter the text you need to translate here">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
 </AnchorPane>
