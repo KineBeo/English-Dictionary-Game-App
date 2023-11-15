@@ -24,7 +24,7 @@
    <HBox layoutX="14.0" layoutY="200.0" prefHeight="35.0" prefWidth="400.0">
       <children>
          <Label alignment="CENTER" prefHeight="35.0" prefWidth="88.0" text="Synonym" />
-         <TextField fx:id="synonym" prefHeight="35.0" prefWidth="332.0" promptText="New word" />
+         <TextField fx:id="synonym" prefHeight="35.0" prefWidth="332.0" promptText="Synonym" />
       </children>
    </HBox>
    <VBox layoutX="25.0" layoutY="250.0" prefHeight="170.0" prefWidth="390.0">

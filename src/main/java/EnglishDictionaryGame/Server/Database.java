@@ -8,7 +8,7 @@ public class Database {
   public static final String URL = "jdbc:mysql://localhost:3306/CompleteDictionary";
   public static final String USE_NAME = "root";
   public static final String PASSWORD = "1392004";
-//      public static final String PASSWORD = "password";
+  //      public static final String PASSWORD = "password";
   private static Connection connection = null;
 
   public void connectToDatabase() throws SQLException {
@@ -190,12 +190,27 @@ public class Database {
     }
   }
 
-  public boolean updateWordDefinition(final String target, final String definition) {
-    final String SQL_QUERY = "UPDATE english SET meaning = ? WHERE word = ?";
+  public boolean updateWordDefinition(
+      final String target,
+      final String type,
+      final String definition,
+      final String pronunciation,
+      final String example,
+      final String synonym,
+      final String antonyms) {
+    final String SQL_QUERY =
+        "UPDATE english SET word = ?, type = ?, meaning = ?, pronunciation = ?, example = ?, synonym = ?, antonyms = ? WHERE word = ?";
+
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
-      ps.setString(1, definition);
-      ps.setString(2, target);
+      ps.setString(1, target);
+      ps.setString(2, type);
+      ps.setString(3, definition);
+      ps.setString(4, pronunciation);
+      ps.setString(5, example);
+      ps.setString(6, synonym);
+      ps.setString(7, antonyms);
+      ps.setString(8, target);
       try {
         int updateRows = ps.executeUpdate();
         if (updateRows == 0) {
@@ -232,6 +247,6 @@ public class Database {
   }
 
   public boolean isWordExist(String target) {
-    return !lookUpWord(target).equals("Not found!");
+    return !findWord(target).equals("Not found!");
   }
 }

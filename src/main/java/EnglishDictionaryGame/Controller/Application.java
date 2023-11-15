@@ -275,7 +275,29 @@ public class Application implements Initializable {
   @FXML
   public void updateWord() {
     editTarget = searchList.getSelectionModel().getSelectedItem();
-    editButton.setOnMouseClicked(mouseEvent -> openStage("fxml/UpdateWordScreen.fxml", "Sửa từ"));
+    System.out.println(editTarget);
+
+    new Thread(
+            () ->
+                editButton.setOnMouseClicked(
+                    mouseEvent -> {
+                      if (editTarget == null) {
+                        showAlert("Please choose your word", "Error");
+                      } else {
+                        try {
+                          AnchorPane view =
+                              FXMLLoader.load(
+                                  Objects.requireNonNull(
+                                      Main.class.getResource("fxml/UpdateWordScreen.fxml")));
+                          homeSlider.setVisible(false);
+                          borderPane.setVisible(true);
+                          borderPane.setCenter(view);
+                        } catch (Exception e) {
+                          e.printStackTrace();
+                        }
+                      }
+                    }))
+        .start();
   }
 
   public void translateWord() {
@@ -445,6 +467,7 @@ public class Application implements Initializable {
     if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 1) {
       String target = searchList.getSelectionModel().getSelectedItem();
       editTarget = target;
+      System.out.println(editTarget);
       inputText.setText(target);
       findWord();
     }
