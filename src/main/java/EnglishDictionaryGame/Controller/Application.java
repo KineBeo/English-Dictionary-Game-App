@@ -338,8 +338,7 @@ public class Application implements Initializable {
           try {
             root =
                 FXMLLoader.load(
-                    Objects.requireNonNull(
-                        Main.class.getResource("fxml/FlashcardScreen.fxml")));
+                    Objects.requireNonNull(Main.class.getResource("fxml/FlashcardScreen.fxml")));
             homeSlider.setVisible(false);
             borderPane.setVisible(true);
             borderPane.setCenter(root);
