@@ -9,6 +9,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -23,6 +24,9 @@ public class TranslateWord extends WordOperation {
   @FXML private ComboBox<String> translationComboBox;
 
   @FXML private TextArea translationLanguage;
+
+  @FXML
+  private ImageView sourceLanguageSpeaker;
 
   private final List<String> languages =
       Arrays.asList("English", "Vietnamese", "Spanish", "French");

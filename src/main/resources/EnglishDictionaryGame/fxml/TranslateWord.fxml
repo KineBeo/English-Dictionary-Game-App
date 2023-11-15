@@ -3,14 +3,15 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.TranslateWord">
    <children>
-      <AnchorPane fx:id="anchorPane" layoutY="130.0" prefHeight="350.0" prefWidth="895.0">
+      <AnchorPane layoutY="130.0" prefHeight="350.0" prefWidth="895.0">
          <children>
             <Pane layoutX="50.0" layoutY="35.0" prefHeight="280.0" prefWidth="795.0">
                <children>
@@ -18,8 +19,22 @@
                   <TextArea fx:id="translationLanguage" layoutX="407.5" layoutY="65.0" prefHeight="200.0" prefWidth="367.5" />
                   <ComboBox fx:id="sourceComboBox" layoutX="20.0" layoutY="20.0" prefWidth="367.0" promptText="English" />
                   <ComboBox fx:id="translationComboBox" layoutX="407.5" layoutY="20.0" prefWidth="367.0" promptText="Vietnamese" />
+                  <ImageView fx:id="sourceLanguageSpeaker" fitHeight="35.0" fitWidth="35.0" layoutX="31.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/speaker.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
+            <Label layoutX="70.0" layoutY="10.0" text="Translation">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../image/translateButton.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
          </children>
       </AnchorPane>
       <Pane prefHeight="130.0" prefWidth="895.0">
@@ -33,6 +48,7 @@
                   </Label>
                </children>
             </Pane>
+            <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
    </children>
