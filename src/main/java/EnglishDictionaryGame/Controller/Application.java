@@ -127,6 +127,7 @@ public class Application implements Initializable {
     about();
     dailyWord();
     flashCard();
+    quizGame();
     setting();
     exitButton.setOnMouseClicked(mouseEvent -> System.exit(0));
   }
@@ -351,6 +352,23 @@ public class Application implements Initializable {
         mouseEvent -> openStage("fxml/InformationScreen.fxml", "About"));
   }
 
+  private void quizGame() {
+    new Thread(
+            () ->
+                quizButton.setOnMouseClicked(
+                    mouseEvent -> {
+                      try {
+                        AnchorPane view = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("fxml/Quiz.fxml")));
+                        homeSlider.setVisible(false);
+                        borderPane.setVisible(true);
+                        borderPane.setCenter(view);
+                      } catch (Exception e) {
+                        e.printStackTrace();
+                      }
+                    }))
+        .start();
+  }
+
   public void flashCard() {
     flashCardButton.setOnMouseClicked(
         mouseEvent -> {
@@ -407,13 +425,7 @@ public class Application implements Initializable {
         });
   }
 
-  public void setAlertPopUpCss(Scene scene) {
-    scene
-        .getStylesheets()
-        .add(Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
-  }
-
-  public void openStage(String fxml, String title) {
+    public void openStage(String fxml, String title) {
     try {
       FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));
       Parent root = loader.load();
