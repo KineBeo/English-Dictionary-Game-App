@@ -38,8 +38,7 @@ public class FlashcardViewController {
   }
 
   public void reloadFlashcardData() {
-    flashcard.flipCardView();
-    flashcard.flipCardView();
+    flashcard.reloadData();
   }
 
   private RotateTransition createRotator() {

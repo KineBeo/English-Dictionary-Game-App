@@ -44,6 +44,12 @@ public class Flashcard {
     this.cardView.setImage(isShowingFront ? backImage : frontImage);
     isShowingFront = !isShowingFront;
   }
+
+  public void reloadData() {
+    flipCardView();
+    flipCardView();
+  }
+
   public String getFrontText() {
     return frontText;
   }

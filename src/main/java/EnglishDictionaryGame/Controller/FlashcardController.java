@@ -93,8 +93,11 @@ public class FlashcardController {
       // Update the flashcard database.
       this.flashcardDatabase = FlashcardDataManager.getFlashcardDatabase();
 
-      // Reload the current flashcard.
-      flashcardViewController.reloadFlashcardData();
+      // Reload every flashcard in the database.
+      for (int i = 0; i < flashcardDatabase.size(); i++) {
+        Flashcard flashcard = flashcardDatabase.getFlashcard(i);
+        flashcard.reloadData();
+      }
 
       // Reload the flashcard counter.
       updateFlashcardCounter((Label) root.lookup("#flashcardCounter"));
