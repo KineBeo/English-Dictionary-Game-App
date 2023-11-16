@@ -20,6 +20,7 @@ public class Flashcard {
   private boolean isShowingFront;
   private final int CARD_WIDTH = 325;
   private final int CARD_HEIGHT = 300;
+  private final double BORDER_WIDTH = 2.0;
   private final int BORDER_RADIUS = 30;
   private final Color BACKGROUND_COLOR = Color.GREY;
   private final Color BORDER_COLOR = Color.RED;
@@ -97,34 +98,35 @@ public class Flashcard {
     // Create a transparent image with a specified width and height
     WritableImage writableImage = new WritableImage(CARD_WIDTH, CARD_HEIGHT);
 
-    // Create a red border rectangle
-    Rectangle borderRectangle = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
-    borderRectangle.setFill(Color.TRANSPARENT);
-    borderRectangle.setStroke(BORDER_COLOR);
-    borderRectangle.setArcWidth(BORDER_RADIUS);
-    borderRectangle.setArcHeight(BORDER_RADIUS);
 
-    // Create a gray background rectangle
-    Rectangle backgroundRectangle = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
-    backgroundRectangle.setFill(BACKGROUND_COLOR);
-    backgroundRectangle.setArcWidth(BORDER_RADIUS);
-    backgroundRectangle.setArcHeight(BORDER_RADIUS);
+    Rectangle borderRectangle = createRectangle(Color.TRANSPARENT, BORDER_COLOR);
+    setBorderAttributes(borderRectangle);
 
-    // Create a snapshot of the scene with the gray background and red border
+
+    Rectangle backgroundRectangle = createRectangle(BACKGROUND_COLOR, Color.TRANSPARENT);
+    setBorderAttributes(backgroundRectangle);
+
+
     SnapshotParameters params = new SnapshotParameters();
-    params.setFill(Color.TRANSPARENT); // Make the background transparent
-    writableImage = backgroundRectangle.snapshot(params, writableImage);
-    backgroundRectangle.setStroke(
-        Color.TRANSPARENT); // Clear the border of the background rectangle
-
-    // Create a JavaFX scene and add the border rectangle
-    backgroundRectangle.setStroke(Color.RED);
-    backgroundRectangle.setStrokeWidth(1.0); // Set the border width
+    params.setFill(Color.TRANSPARENT);
 
     // Render the scene to the writable image
     backgroundRectangle.snapshot(params, writableImage);
 
     return writableImage;
+  }
+
+  private Rectangle createRectangle(Color fill, Color stroke) {
+    Rectangle rectangle = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
+    rectangle.setFill(fill);
+    rectangle.setStroke(stroke);
+    rectangle.setArcWidth(BORDER_RADIUS);
+    rectangle.setArcHeight(BORDER_RADIUS);
+    return rectangle;
+  }
+
+  private void setBorderAttributes(Rectangle rectangle) {
+    rectangle.setStrokeWidth(BORDER_WIDTH);
   }
 
   private ImageView addTextToImage(Image image, String text) {
