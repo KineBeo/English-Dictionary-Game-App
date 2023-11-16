@@ -15,7 +15,6 @@ public class FlashcardController {
 
   private FlashcardDatabase flashcardDatabase;
   private FlashcardViewController flashcardViewController;
-  private Stage stage = null;
   private StackPane root;
   private Flashcard currentFlashcard = null;
   private int currentFlashcardCount = -1;
@@ -26,8 +25,6 @@ public class FlashcardController {
     this.currentFlashcard = flashcardDatabase.getFlashcard(0);
     flashcardViewController = new FlashcardViewController(currentFlashcard);
     currentFlashcardCount = 1;
-
-    this.stage = FlashcardStageFactory.createFlashcardStage();
   }
 
   public void createFlashcardWindow(StackPane root) {
@@ -46,7 +43,6 @@ public class FlashcardController {
     setFlipFlashcardButtonBehavior(root);
     setNextFlashcardButtonBehavior(root);
     setPreviousFlashcardButtonBehavior(root);
-    setExitFlashcardsButtonBehavior(root);
     setEditFlashcardsButtonBehavior(root);
   }
 
@@ -87,13 +83,6 @@ public class FlashcardController {
     });
   }
 
-  private void setExitFlashcardsButtonBehavior(StackPane root) {
-    Button exitFlashcardsButton = (Button) root.lookup("#exitFlashcardsButton");
-    exitFlashcardsButton.setOnMouseClicked(e -> {
-      closeFlashcards();
-    });
-  }
-
   private void setEditFlashcardsButtonBehavior(StackPane root) {
     Button editFlashcardsButton = (Button) root.lookup("#editFlashcardsButton");
     editFlashcardsButton.setOnMouseClicked(e -> {
@@ -114,8 +103,6 @@ public class FlashcardController {
 
 
   private void changeFlashcard(Flashcard newFlashcard) {
-    StackPane root = (StackPane) stage.getScene().getRoot();
-
     try {
       if (root.getChildren().contains(currentFlashcard.getCardView())) {
         root.getChildren().remove(currentFlashcard.getCardView());
@@ -141,9 +128,5 @@ public class FlashcardController {
 
   private void updateFlashcardCounter(Label flashcardCounter) {
     flashcardCounter.setText(currentFlashcardCount + " / " + flashcardDatabase.size());
-  }
-
-  private void closeFlashcards() {
-    stage.close();
   }
 }
