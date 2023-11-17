@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class Flashcard {
 
@@ -68,14 +69,6 @@ public class Flashcard {
     backImage = createCardFaceImage(backText, true);
   }
 
-  public Image getBackImage() {
-    return backImage;
-  }
-
-  public Image getFrontImage() {
-    return frontImage;
-  }
-
   public ImageView getCardView() {
     return cardView;
   }
@@ -117,7 +110,8 @@ public class Flashcard {
     Text textNode = new Text(text);
     textNode.setFont(Font.font(TEXT_FONT, TEXT_SIZE));
     textNode.setFill(TEXT_COLOR);
-
+    textNode.setTextAlignment(TextAlignment.CENTER);
+    textNode.setWrappingWidth(CARD_WIDTH - 20);
     return textNode;
   }
 
