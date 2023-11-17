@@ -26,3 +26,9 @@
     -fx-background-color: #CB7000;
     -fx-text-fill: white;
 }
+
+#searchList .cell:selected {
+    -fx-background-color: #CB7000;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}

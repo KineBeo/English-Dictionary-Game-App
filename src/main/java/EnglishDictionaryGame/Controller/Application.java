@@ -83,18 +83,31 @@ public class Application implements Initializable {
 
   @FXML private HBox applicationBar;
   private int lastIndex = 0;
-  public static Database database = new Database();
+  private static Database database;
   public static String editTarget;
   public static String definitionColor = "#34586F";
   public static ArrayList<Label> buttons = new ArrayList<>();
 
   public Application() {
-    try {
-      database.initialize();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
+    //    try {
+    //      database.initialize();
+    //    } catch (SQLException e) {
+    //      throw new RuntimeException(e);
+    //    }
+    if (database == null) {
+      try {
+        database = new Database();
+        database.initialize();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
+
+  public static Database getDatabase() {
+      return database;
+  }
+
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -127,8 +140,8 @@ public class Application implements Initializable {
     about();
     dailyWord();
     flashCard();
+    quizGame();
     setting();
-
     exitButton.setOnMouseClicked(mouseEvent -> System.exit(0));
   }
 
@@ -275,7 +288,29 @@ public class Application implements Initializable {
   @FXML
   public void updateWord() {
     editTarget = searchList.getSelectionModel().getSelectedItem();
-    editButton.setOnMouseClicked(mouseEvent -> openStage("fxml/UpdateWordScreen.fxml", "Sửa từ"));
+    System.out.println(editTarget);
+
+    new Thread(
+            () ->
+                editButton.setOnMouseClicked(
+                    mouseEvent -> {
+                      if (editTarget == null) {
+                        showAlert("Please choose your word", "Error");
+                      } else {
+                        try {
+                          AnchorPane view =
+                              FXMLLoader.load(
+                                  Objects.requireNonNull(
+                                      Main.class.getResource("fxml/UpdateWordScreen.fxml")));
+                          homeSlider.setVisible(false);
+                          borderPane.setVisible(true);
+                          borderPane.setCenter(view);
+                        } catch (Exception e) {
+                          e.printStackTrace();
+                        }
+                      }
+                    }))
+        .start();
   }
 
   public void translateWord() {
@@ -330,6 +365,25 @@ public class Application implements Initializable {
         mouseEvent -> openStage("fxml/InformationScreen.fxml", "About"));
   }
 
+  private void quizGame() {
+    new Thread(
+            () ->
+                quizButton.setOnMouseClicked(
+                    mouseEvent -> {
+                      try {
+                        AnchorPane view =
+                            FXMLLoader.load(
+                                Objects.requireNonNull(Main.class.getResource("fxml/Quiz.fxml")));
+                        homeSlider.setVisible(false);
+                        borderPane.setVisible(true);
+                        borderPane.setCenter(view);
+                      } catch (Exception e) {
+                        e.printStackTrace();
+                      }
+                    }))
+        .start();
+  }
+
   public void flashCard() {
     flashCardButton.setOnMouseClicked(
         mouseEvent -> {
@@ -361,7 +415,7 @@ public class Application implements Initializable {
             scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
             addStage.setTitle("Setting");
             SettingController st = loader.getController();
-            st.setBarTheme(applicationBar, buttons);
+            st.setBarTheme(applicationBar, buttons, searchList);
             addStage.setScene(scene);
             addStage.setResizable(false);
             addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
@@ -384,12 +438,6 @@ public class Application implements Initializable {
           homeSlider.setVisible(true);
           borderPane.setVisible(false);
         });
-  }
-
-  public void setAlertPopUpCss(Scene scene) {
-    scene
-        .getStylesheets()
-        .add(Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
   }
 
   public void openStage(String fxml, String title) {

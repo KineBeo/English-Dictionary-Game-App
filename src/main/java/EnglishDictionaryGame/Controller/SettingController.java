@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -33,65 +34,35 @@ public class SettingController extends WordOperation {
   public void quitScreen() {}
 
   /** Set color theme. */
-  public void setBarTheme(HBox temp, ArrayList<Label> buttons) {
-    redTheme.setOnMouseClicked(
-        mouseEvent -> {
-          temp.setStyle("-fx-background-color: #DA000E");
-          Application.definitionColor = "#DA000E";
-          buttons.forEach(
-              button -> {
-                button.getStylesheets().clear();
-                button
-                    .getStylesheets()
-                    .add(
-                        Objects.requireNonNull(Main.class.getResource("css/redTheme.css"))
-                            .toExternalForm());
-              });
-        });
+  public void setBarTheme(HBox temp, ArrayList<Label> buttons, ListView<String> listView) {
+    changeColor(redTheme, "css/redTheme.css", "#DA000E", temp, buttons, listView);
+    changeColor(whiteBlueTheme, "css/whiteBlueTheme.css", "#30abf3", temp, buttons, listView);
+    changeColor(blueTheme, "css/blueTheme.css", "#0768ad", temp, buttons, listView);
+    changeColor(yellowTheme, "css/yellowTheme.css", "#f79410", temp, buttons, listView);
+  }
 
-    whiteBlueTheme.setOnMouseClicked(
+  public void changeColor(
+      HBox theme,
+      String fxmlPath,
+      String backgroundColorCode,
+      HBox temp,
+      ArrayList<Label> buttons,
+      ListView<String> listView) {
+    theme.setOnMouseClicked(
         mouseEvent -> {
-          temp.setStyle("-fx-background-color: #30abf3");
-          Application.definitionColor = "#30abf3";
+          temp.setStyle("-fx-background-color: " + backgroundColorCode);
+          Application.definitionColor = backgroundColorCode;
           buttons.forEach(
               button -> {
                 button.getStylesheets().clear();
                 button
                     .getStylesheets()
-                    .add(
-                        Objects.requireNonNull(Main.class.getResource("css/whiteBlueTheme.css"))
-                            .toExternalForm());
+                    .add(Objects.requireNonNull(Main.class.getResource(fxmlPath)).toExternalForm());
               });
-        });
-
-    blueTheme.setOnMouseClicked(
-        mouseEvent -> {
-          temp.setStyle("-fx-background-color: #0768ad");
-          Application.definitionColor = "#0768ad";
-          buttons.forEach(
-              button -> {
-                button.getStylesheets().clear();
-                button
-                    .getStylesheets()
-                    .add(
-                        Objects.requireNonNull(Main.class.getResource("css/blueTheme.css"))
-                            .toExternalForm());
-              });
-        });
-
-    yellowTheme.setOnMouseClicked(
-        mouseEvent -> {
-          temp.setStyle("-fx-background-color: #f79410");
-          Application.definitionColor = "#f79410";
-          buttons.forEach(
-              button -> {
-                button.getStylesheets().clear();
-                button
-                    .getStylesheets()
-                    .add(
-                        Objects.requireNonNull(Main.class.getResource("css/yellowTheme.css"))
-                            .toExternalForm());
-              });
+          listView.getStylesheets().clear();
+          listView
+              .getStylesheets()
+              .add(Objects.requireNonNull(Main.class.getResource(fxmlPath)).toExternalForm());
         });
   }
 }
