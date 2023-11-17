@@ -1,5 +1,6 @@
 package EnglishDictionaryGame.Server;
 
+import javafx.scene.Parent;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,7 +21,6 @@ public class Flashcard {
   private boolean isShowingFront;
   private final int CARD_WIDTH = 325;
   private final int CARD_HEIGHT = 300;
-  private final double BORDER_WIDTH = 2.0;
   private final int BORDER_RADIUS = 30;
   private final Color BACKGROUND_COLOR = Color.GREY;
   private final Color BORDER_COLOR = Color.RED;
@@ -85,69 +85,40 @@ public class Flashcard {
   }
 
   private Image createCardFaceImage(String text, boolean isBackImage) {
-    ImageView cardFaceImageView = new ImageView(makeBackgroundImage());
-    cardFaceImageView.setFitWidth(CARD_WIDTH);
-    cardFaceImageView.setFitHeight(CARD_HEIGHT);
-
-    cardFaceImageView = addTextToImage(cardFaceImageView.getImage(), text);
-
-    StackPane stackPane = new StackPane();
-    stackPane.getChildren().add(cardFaceImageView);
-    Image cardFaceImage = stackPane.snapshot(null, null);
+    Image cardFaceImage = makeImage(text);
     if (isBackImage) {
       cardFaceImage = mirrorImage(cardFaceImage);
     }
 
     return cardFaceImage;
   }
-  private Image makeBackgroundImage() {
-    // Create a transparent image with a specified width and height
-    WritableImage writableImage = new WritableImage(CARD_WIDTH, CARD_HEIGHT);
 
-
-    Rectangle borderRectangle = createRectangle(Color.TRANSPARENT, BORDER_COLOR);
-    setBorderAttributes(borderRectangle);
-
-
-    Rectangle backgroundRectangle = createRectangle(BACKGROUND_COLOR, Color.TRANSPARENT);
-    setBorderAttributes(backgroundRectangle);
-
-
-    SnapshotParameters params = new SnapshotParameters();
-    params.setFill(Color.TRANSPARENT);
-
-    // Render the scene to the writable image
-    backgroundRectangle.snapshot(params, writableImage);
-
-    return writableImage;
+  private Image makeImage(String text) {        // Create a group to hold both rectangles
+    StackPane group = new StackPane();
+    Rectangle rectangle = createRectangle();
+    Text textNode = createTextNode(text);
+    group.getChildren().addAll(rectangle, textNode);
+    Image image = group.snapshot(null, null);
+    return image;
   }
 
-  private Rectangle createRectangle(Color fill, Color stroke) {
-    Rectangle rectangle = new Rectangle(CARD_WIDTH, CARD_HEIGHT);
-    rectangle.setFill(fill);
-    rectangle.setStroke(stroke);
+  private Rectangle createRectangle() {
+    Rectangle rectangle = new Rectangle();
+    rectangle.setWidth(CARD_WIDTH);
+    rectangle.setHeight(CARD_HEIGHT);
+    rectangle.setFill(BACKGROUND_COLOR);
+    rectangle.setStroke(BORDER_COLOR);
     rectangle.setArcWidth(BORDER_RADIUS);
     rectangle.setArcHeight(BORDER_RADIUS);
     return rectangle;
   }
 
-  private void setBorderAttributes(Rectangle rectangle) {
-    rectangle.setStrokeWidth(BORDER_WIDTH);
-  }
-
-  private ImageView addTextToImage(Image image, String text) {
-    ImageView imageView = new ImageView(image);
-
+  private Text createTextNode(String text) {
     Text textNode = new Text(text);
     textNode.setFont(Font.font(TEXT_FONT, TEXT_SIZE));
-//    textNode.setWrappingWidth(CARD_WIDTH - 20);
-
     textNode.setFill(TEXT_COLOR);
-    StackPane stackPane = new StackPane();
-    stackPane.getChildren().addAll(imageView, textNode);
 
-    ImageView finalImageView = new ImageView(stackPane.snapshot(null, null));
-    return finalImageView;
+    return textNode;
   }
 
   private Image mirrorImage(Image image) {
