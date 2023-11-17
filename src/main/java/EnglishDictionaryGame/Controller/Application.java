@@ -83,18 +83,31 @@ public class Application implements Initializable {
 
   @FXML private HBox applicationBar;
   private int lastIndex = 0;
-  public static Database database = new Database();
+  private static Database database;
   public static String editTarget;
   public static String definitionColor = "#34586F";
   public static ArrayList<Label> buttons = new ArrayList<>();
 
   public Application() {
-    try {
-      database.initialize();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
+    //    try {
+    //      database.initialize();
+    //    } catch (SQLException e) {
+    //      throw new RuntimeException(e);
+    //    }
+    if (database == null) {
+      try {
+        database = new Database();
+        database.initialize();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
+
+  public static Database getDatabase() {
+      return database;
+  }
+
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -358,7 +371,9 @@ public class Application implements Initializable {
                 quizButton.setOnMouseClicked(
                     mouseEvent -> {
                       try {
-                        AnchorPane view = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("fxml/Quiz.fxml")));
+                        AnchorPane view =
+                            FXMLLoader.load(
+                                Objects.requireNonNull(Main.class.getResource("fxml/Quiz.fxml")));
                         homeSlider.setVisible(false);
                         borderPane.setVisible(true);
                         borderPane.setCenter(view);
@@ -425,7 +440,7 @@ public class Application implements Initializable {
         });
   }
 
-    public void openStage(String fxml, String title) {
+  public void openStage(String fxml, String title) {
     try {
       FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));
       Parent root = loader.load();

@@ -1,7 +1,5 @@
 package EnglishDictionaryGame.Controller;
 
-import static EnglishDictionaryGame.Controller.Application.database;
-
 import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Database;
 import EnglishDictionaryGame.Server.WordInfo;
@@ -41,7 +39,7 @@ public class UpdateWord extends WordOperation {
 
     //    htmlEditor.setHtmlText(database.lookUpWord(Application.editTarget));
     inputText.setText(Application.editTarget);
-    WordInfo wordInfo = database.findWord(Application.editTarget);
+    WordInfo wordInfo = Application.getDatabase().findWord(Application.editTarget);
     if (wordInfo != null) {
       type.setText(wordInfo.getType());
       definition.setText(wordInfo.getMeaning());

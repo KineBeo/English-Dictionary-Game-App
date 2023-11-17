@@ -39,7 +39,7 @@ public class DailyWordController extends WordOperation {
       Random random = new Random();
       currentRandomWord = Trie.getAllWordsFromTrie().get(random.nextInt(10000));
       this.randomWord.setText(currentRandomWord);
-      String definition = Application.database.lookUpWord(currentRandomWord);
+      String definition = Application.getDatabase().lookUpWord(currentRandomWord);
       definition =
           "<html><body bgcolor='white' style='color:"
               + "black"
@@ -52,7 +52,7 @@ public class DailyWordController extends WordOperation {
       System.out.println(previousDate + " " + currentDate);
     } else if (currentDate.equals(previousDate)) {
       this.randomWord.setText(currentRandomWord);
-      String definition = Application.database.lookUpWord(currentRandomWord);
+      String definition = Application.getDatabase().lookUpWord(currentRandomWord);
       definition =
           "<html><body bgcolor='white' style='color:"
               + "black"
