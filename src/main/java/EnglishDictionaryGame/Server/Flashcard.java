@@ -23,11 +23,13 @@ public class Flashcard {
   private final int CARD_WIDTH = 325;
   private final int CARD_HEIGHT = 300;
   private final int BORDER_RADIUS = 30;
-  private final Color BACKGROUND_COLOR = Color.GREY;
+  private final Color BACKGROUND_COLOR = Color.rgb(46, 56, 86);
   private final Color BORDER_COLOR = Color.RED;
   private final Color TEXT_COLOR = Color.WHITE;
   private final int TEXT_SIZE = 20;
   private final String TEXT_FONT = "Verdana";
+  private final int WRAPPING_WIDTH_OFFSET = 20;
+  private final int CHARACTER_LIMIT = 320;
 
   public Flashcard() {
   }
@@ -107,11 +109,16 @@ public class Flashcard {
   }
 
   private Text createTextNode(String text) {
+    int characterCount = text.length();
+    if (characterCount > CHARACTER_LIMIT) {
+      text = text.substring(0, CHARACTER_LIMIT) + "...";
+    }
+
     Text textNode = new Text(text);
     textNode.setFont(Font.font(TEXT_FONT, TEXT_SIZE));
     textNode.setFill(TEXT_COLOR);
     textNode.setTextAlignment(TextAlignment.CENTER);
-    textNode.setWrappingWidth(CARD_WIDTH - 20);
+    textNode.setWrappingWidth(CARD_WIDTH - WRAPPING_WIDTH_OFFSET);
     return textNode;
   }
 
