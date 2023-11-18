@@ -1,6 +1,7 @@
 package EnglishDictionaryGame.Controller;
 
 import EnglishDictionaryGame.Server.QuizFactory;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,8 +27,7 @@ public class QuizController {
   @FXML
   private void initialize() {
 
-    /** Generate question. */
-    loadQuestion();
+    startQuizGame();
 
     /** Generate options. */
     option1.setOnMouseClicked(mouseEvent -> option1Clicked());
@@ -38,9 +38,21 @@ public class QuizController {
   static int correct = 0;
   static int wrong = 0;
 
+  private void startQuizGame() {
+    loadQuestion();
+    setChoices();
+  }
+
   private void loadQuestion() {
     if (counter == 0) {
-        question.setText(quiz.createQuestion());
+      question.setText(quiz.createQuestion());
+    }
+  }
+
+  private void setChoices() {
+    for (Button button : List.of(option1, option2, option3, option4)) {
+      button.setText(
+          quiz.getChoices()[List.of(option1, option2, option3, option4).indexOf(button)]);
     }
   }
 
