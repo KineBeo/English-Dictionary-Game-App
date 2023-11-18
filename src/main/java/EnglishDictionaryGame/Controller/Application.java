@@ -136,6 +136,7 @@ public class Application implements Initializable {
   /** Refresh the list view. */
   public void preparedSearchList() {
     String target = inputText.getText();
+    target = formatFirstLetter(target);
     ArrayList<String> words = Trie.search(target);
     searchList.setItems(FXCollections.observableArrayList(words));
   }
@@ -164,10 +165,19 @@ public class Application implements Initializable {
   @FXML
   public void findWord() {
     String target = inputText.getText();
+    target = formatFirstLetter(target);
     performSearch(target);
   }
 
-  private void updateWebView(WordInfo wordInfo) {
+    private String formatFirstLetter(String str) {
+      if (str == null || str.isEmpty()) {
+          return str;
+      }
+
+      return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
+    private void updateWebView(WordInfo wordInfo) {
     String htmlContent;
     if (inputText.getText().isBlank() || inputText.getText().isEmpty()) {
       htmlContent = "";
