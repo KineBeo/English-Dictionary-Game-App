@@ -2,17 +2,13 @@ package EnglishDictionaryGame.Server;
 
 import EnglishDictionaryGame.Exceptions.Utils;
 import EnglishDictionaryGame.Main;
-import javafx.animation.Interpolator;
-import javafx.animation.RotateTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class FlashcardStageFactory {
 
@@ -66,7 +62,7 @@ public class FlashcardStageFactory {
   private static AnchorPane createEditFlashcardRoot() {
     try {
       FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/EditFlashcardScreen.fxml"));
-      return (AnchorPane) loader.load();
+      return loader.load();
     } catch (Exception e) {
       e.printStackTrace();
       return null;
@@ -74,7 +70,6 @@ public class FlashcardStageFactory {
   }
 
   private static Scene createEditFlashcardScene(AnchorPane root) {
-    Scene scene = new Scene(root);
-    return scene;
+    return new Scene(root);
   }
 }

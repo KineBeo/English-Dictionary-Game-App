@@ -26,28 +26,6 @@ public class Database {
   }
 
   public ArrayList<WordInfo> getAllWordTargets() {
-    //    final String SQL_QUERY = "SELECT * FROM english";
-    //    try {
-    //      PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
-    //      try {
-    //        ResultSet rs = ps.executeQuery();
-    //        try {
-    //          ArrayList<String> targets = new ArrayList<>();
-    //          while (rs.next()) {
-    //            targets.add(rs.getString(2));
-    //          }
-    //          return targets;
-    //        } finally {
-    //          close(rs);
-    //        }
-    //      } finally {
-    //        close(ps);
-    //      }
-    //    } catch (SQLException e) {
-    //      e.printStackTrace();
-    //    }
-    //
-    //    return new ArrayList<>();
     final String SQL_QUERY = "SELECT * FROM english";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
@@ -81,31 +59,6 @@ public class Database {
         rs.getString("example"),
         rs.getString("synonym"),
         rs.getString("antonyms"));
-  }
-
-  public ArrayList<String> getAllWordsFromDatabase() {
-    final String SQL_QUERY = "SELECT * FROM english";
-    try {
-      PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
-      try {
-        ResultSet rs = ps.executeQuery();
-        try {
-          ArrayList<String> targets = new ArrayList<>();
-          while (rs.next()) {
-            targets.add(rs.getString(2));
-          }
-          return targets;
-        } finally {
-          close(rs);
-        }
-      } finally {
-        close(ps);
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-
-    return new ArrayList<>();
   }
 
   /** Return definition of `target` word. */

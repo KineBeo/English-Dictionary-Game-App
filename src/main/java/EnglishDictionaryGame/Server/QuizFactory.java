@@ -155,9 +155,7 @@ public class QuizFactory {
       String randomSynonym = getRandomSynonym();
       while (chosenSynonyms.contains(randomSynonym)
           || randomSynonym.isEmpty()
-          || randomSynonym == null
-          || randomSynonym.isBlank()
-          || randomSynonym.equals("")) {
+          || randomSynonym.isBlank()) {
         randomSynonym = getRandomSynonym();
       }
       chosenSynonyms.add(randomSynonym);

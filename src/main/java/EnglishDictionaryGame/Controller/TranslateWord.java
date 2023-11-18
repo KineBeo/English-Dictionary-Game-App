@@ -127,7 +127,7 @@ public class TranslateWord extends WordOperation {
   private Task<String> createTranslationTask(String sourceText) {
     return new Task<>() {
       @Override
-      protected String call() throws Exception {
+      protected String call() {
         String sourceLang = sourceComboBox.getValue();
         String targetLang = translationComboBox.getValue();
         switch (sourceLang) {
