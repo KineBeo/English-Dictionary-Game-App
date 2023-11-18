@@ -6,6 +6,7 @@ import EnglishDictionaryGame.Server.FlashcardDataManager;
 import EnglishDictionaryGame.Server.FlashcardDatabase;
 import EnglishDictionaryGame.Server.FlashcardFileManager;
 import EnglishDictionaryGame.Server.FlashcardStageFactory;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -120,15 +121,16 @@ public class EditFlashcardController {
   }
 
   private void exitEditFlashcards() {
-    Alert alert = createExitAlert();
+    if (!FlashcardDataManager.isAllSaved()) {
+      Alert alert = createExitAlert();
 
-    alert.showAndWait();
+      alert.showAndWait();
 
-    ButtonType confirmationChoice = alert.getResult();
-    ButtonType confirmSaveAndExit = alert.getButtonTypes().get(0);
-    ButtonType confirmExitWithoutSaving = alert.getButtonTypes().get(1);
-    if (confirmationChoice == confirmSaveAndExit) {
-      FlashcardDataManager.saveAll();
+      ButtonType confirmationChoice = alert.getResult();
+      ButtonType confirmSaveAndExit = alert.getButtonTypes().get(0);
+      if (confirmationChoice == confirmSaveAndExit) {
+        FlashcardDataManager.saveAll();
+      }
     }
 
     FlashcardDataManager.updateDatabase();
@@ -138,10 +140,10 @@ public class EditFlashcardController {
 
   private Alert createExitAlert() {
     Alert alert = new Alert(AlertType.CONFIRMATION);
-
+    ArrayList<Integer> unsavedFlashcardsIndex = FlashcardDataManager.getUnsavedFlashcardsIndex();
     alert.setTitle("Exit Alert");
-    alert.setHeaderText("Do you want to save changes?");
-    alert.setContentText("Choose your option.");
+    alert.setHeaderText("Do you want to save changes?\n" +
+        "Unsaved flashcards' index: " + unsavedFlashcardsIndex + "\n");
 
     ButtonType okButtonType = alert.getButtonTypes().get(0);
     Button saveButton = (Button) alert.getDialogPane().lookupButton(okButtonType);
