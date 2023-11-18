@@ -1,6 +1,9 @@
 package EnglishDictionaryGame.Controller;
 
+import static EnglishDictionaryGame.Main.database;
+
 import EnglishDictionaryGame.Main;
+import EnglishDictionaryGame.Server.WordInfo;
 import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +42,10 @@ public class AddWord extends WordOperation {
     String newExample = example.getText();
     String newSynonym = synonym.getText();
     String newAntonym = antonym.getText();
+
+    WordInfo wordInfo =
+        new WordInfo(
+            newWord, newType, newDefinition, newPronunciation, newExample, newSynonym, newAntonym);
     if (newWord.isEmpty()
         || newType.isEmpty()
         || newDefinition.isEmpty()
@@ -50,11 +57,10 @@ public class AddWord extends WordOperation {
       return;
     }
 
-    if (Application.getDatabase().insertWord(
-        newWord, newType, newDefinition, newPronunciation, newExample, newSynonym, newAntonym)) {
+    if (database.insertWord(wordInfo)) {
       showAlert("Successfully added a new word!", "Notification");
     } else {
-      if (Application.getDatabase().isWordExist(newWord)) {
+      if (database.isWordExist(newWord)) {
         showAlert("Word `" + newWord + "` already exists!", "Error");
       } else {
         showAlert("Adding a new word failed!", "Error");

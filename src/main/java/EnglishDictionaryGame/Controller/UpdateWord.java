@@ -1,7 +1,8 @@
 package EnglishDictionaryGame.Controller;
 
+import static EnglishDictionaryGame.Main.database;
+
 import EnglishDictionaryGame.Main;
-import EnglishDictionaryGame.Server.Database;
 import EnglishDictionaryGame.Server.WordInfo;
 import java.util.Objects;
 import javafx.fxml.FXML;
@@ -10,15 +11,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.web.HTMLEditor;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class UpdateWord extends WordOperation {
 
   @FXML private AnchorPane anchorPane;
-
-  @FXML private HTMLEditor htmlEditor;
 
   @FXML private TextField antonym;
 
@@ -39,7 +37,7 @@ public class UpdateWord extends WordOperation {
 
     //    htmlEditor.setHtmlText(database.lookUpWord(Application.editTarget));
     inputText.setText(Application.editTarget);
-    WordInfo wordInfo = Application.getDatabase().findWord(Application.editTarget);
+    WordInfo wordInfo = database.findWord(Application.editTarget);
     if (wordInfo != null) {
       type.setText(wordInfo.getType());
       definition.setText(wordInfo.getMeaning());
@@ -52,15 +50,16 @@ public class UpdateWord extends WordOperation {
 
   @Override
   public void saveWord() {
-    Database database = new Database();
-    if (database.updateWordDefinition(
-        inputText.getText(),
-        type.getText(),
-        definition.getText(),
-        pronunciation.getText(),
-        example.getText(),
-        synonym.getText(),
-        antonym.getText())) {
+    WordInfo wordInfo =
+        new WordInfo(
+            inputText.getText(),
+            type.getText(),
+            definition.getText(),
+            pronunciation.getText(),
+            example.getText(),
+            synonym.getText(),
+            antonym.getText());
+    if (database.updateWordDefinition(wordInfo)) {
       Application.editTarget = null;
       showAlert("Successfully updated word!", "Notification");
     }

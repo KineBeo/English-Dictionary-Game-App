@@ -1,8 +1,7 @@
 package EnglishDictionaryGame.Server;
 
-import EnglishDictionaryGame.Controller.Application;
+import static EnglishDictionaryGame.Main.database;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class QuizFactory {
@@ -56,16 +55,17 @@ public class QuizFactory {
 
   public String getRandomWord() {
     if (randomWord == null) {
-      ArrayList<String> allWords = Application.getDatabase().getAllWordTargets();
+      ArrayList<WordInfo> allWords = database.getAllWordTargets();
 
       int random = (int) (Math.random() * allWords.size());
-      String randomWordTarget = allWords.get(random);
-      randomWord = Application.getDatabase().findWord(randomWordTarget);
+      WordInfo randomWordTarget = allWords.get(random);
+      randomWord = database.findWord(randomWordTarget.getWord());
     }
 
     word = randomWord.getWord();
     return word;
   }
+
   public void createRandomQuiz(questionType type) {
     switch (type) {
       case chooseMeaning -> {

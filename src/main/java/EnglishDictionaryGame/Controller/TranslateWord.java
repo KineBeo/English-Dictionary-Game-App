@@ -73,7 +73,7 @@ public class TranslateWord extends WordOperation {
                   .getKeyFrames()
                   .add(
                       new KeyFrame(
-                          Duration.seconds(0.1),
+                          Duration.seconds(0.2),
                           event -> {
                             // Execute translation when the timeline completes
                             Task<String> translationTask = createTranslationTask(newValue);

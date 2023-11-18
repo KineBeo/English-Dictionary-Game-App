@@ -15,14 +15,8 @@ public class Trie {
     }
 
     public static ArrayList<String> getAllWordsFromTrie() {
-        ArrayList<String> allWords = new ArrayList<>();
         dfsGetWordsSubtree(root, "");
-        allWords.addAll(searchedWords);
-        return allWords;
-    }
-    public static void printAllWordOfTrie() {
-        TrieNode pCrawl = root;
-        dfsGetWordsSubtree(pCrawl, "");
+        return new ArrayList<>(searchedWords);
     }
 
     /**

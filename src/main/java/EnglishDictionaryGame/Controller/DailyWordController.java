@@ -11,6 +11,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
+import static EnglishDictionaryGame.Main.database;
+
+//import static EnglishDictionaryGame.Main.database;
+
 public class DailyWordController extends WordOperation {
 
   @FXML private AnchorPane anchorPane;
@@ -39,7 +43,7 @@ public class DailyWordController extends WordOperation {
       Random random = new Random();
       currentRandomWord = Trie.getAllWordsFromTrie().get(random.nextInt(10000));
       this.randomWord.setText(currentRandomWord);
-      String definition = Application.getDatabase().lookUpWord(currentRandomWord);
+      String definition = database.lookUpWord(currentRandomWord);
       definition =
           "<html><body bgcolor='white' style='color:"
               + "black"
@@ -52,7 +56,7 @@ public class DailyWordController extends WordOperation {
       System.out.println(previousDate + " " + currentDate);
     } else if (currentDate.equals(previousDate)) {
       this.randomWord.setText(currentRandomWord);
-      String definition = Application.getDatabase().lookUpWord(currentRandomWord);
+      String definition = database.lookUpWord(currentRandomWord);
       definition =
           "<html><body bgcolor='white' style='color:"
               + "black"

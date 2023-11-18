@@ -168,7 +168,7 @@
                               <Label fx:id="flashCardButton" alignment="CENTER" prefHeight="60.0" prefWidth="155.0" text="  FlashCard" />
                               <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="13.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../image/flashCard.png" />
+                                    <Image url="@../image/flashcard.png" />
                                  </image>
                               </ImageView>
                            </children>

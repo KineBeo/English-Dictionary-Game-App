@@ -1,7 +1,8 @@
 package EnglishDictionaryGame.Controller;
 
+import static EnglishDictionaryGame.Main.database;
+
 import EnglishDictionaryGame.Main;
-import EnglishDictionaryGame.Server.Database;
 import EnglishDictionaryGame.Server.PronunciationService;
 import EnglishDictionaryGame.Server.Trie;
 import EnglishDictionaryGame.Server.WordInfo;
@@ -12,9 +13,9 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -83,31 +84,18 @@ public class Application implements Initializable {
 
   @FXML private HBox applicationBar;
   private int lastIndex = 0;
-  private static Database database;
   public static String editTarget;
   public static String definitionColor = "#34586F";
   public static ArrayList<Label> buttons = new ArrayList<>();
+  private volatile String currentQuery = "";
 
   public Application() {
-    //    try {
-    //      database.initialize();
-    //    } catch (SQLException e) {
-    //      throw new RuntimeException(e);
-    //    }
-    if (database == null) {
-      try {
-        database = new Database();
-        database.initialize();
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }
+    try {
+      database.initialize();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
   }
-
-  public static Database getDatabase() {
-      return database;
-  }
-
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -147,14 +135,13 @@ public class Application implements Initializable {
 
   /** Refresh the list view. */
   public void preparedSearchList() {
-    searchList.getItems().clear();
-    String target = inputText.getText().trim();
-    ArrayList<String> searchedWords =
-        target.isEmpty() ? Trie.getAllWordsFromTrie() : Trie.search(target);
-    searchList.setItems(FXCollections.observableArrayList(searchedWords));
+    String target = inputText.getText();
+    ArrayList<String> words = Trie.search(target);
+    searchList.setItems(FXCollections.observableArrayList(words));
   }
 
   private void performSearch(String target) {
+    currentQuery = target;
     Task<WordInfo> searchTask =
         new Task<>() {
           @Override
@@ -164,9 +151,11 @@ public class Application implements Initializable {
         };
 
     searchTask.setOnSucceeded(
-        event -> {
+        (WorkerStateEvent event) -> {
           WordInfo wordInfo = searchTask.getValue();
-          updateWebView(wordInfo);
+          if (target.equals(currentQuery)) {
+            updateWebView(wordInfo);
+          }
         });
 
     new Thread(searchTask).start();
@@ -175,27 +164,14 @@ public class Application implements Initializable {
   @FXML
   public void findWord() {
     String target = inputText.getText();
-
-    Task<WordInfo> searchTask =
-        new Task<>() {
-          @Override
-          protected WordInfo call() {
-            return database.findWord(target);
-          }
-        };
-
-    searchTask.setOnSucceeded(
-        event -> {
-          WordInfo wordInfo = searchTask.getValue();
-          updateWebView(wordInfo);
-        });
-
-    new Thread(searchTask).start();
+    performSearch(target);
   }
 
   private void updateWebView(WordInfo wordInfo) {
     String htmlContent;
-    if (wordInfo == null || wordInfo.getWord() == null) {
+    if (inputText.getText().isBlank() || inputText.getText().isEmpty()) {
+      htmlContent = "";
+    } else if (wordInfo == null || wordInfo.getWord() == null) {
       htmlContent =
           "<html><body bgcolor='white' style='color:; font-weight: bold; font-size: 20px;'>"
               + "<p>Cannot find word: "
@@ -244,7 +220,8 @@ public class Application implements Initializable {
               + "</body></html>";
     }
 
-    Platform.runLater(() -> webView.getEngine().loadContent(htmlContent, "text/html"));
+    //        Platform.runLater(() -> webView.getEngine().loadContent(htmlContent, "text/html"));
+    webView.getEngine().loadContent(htmlContent, "text/html");
   }
 
   @FXML

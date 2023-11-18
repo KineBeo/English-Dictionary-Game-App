@@ -1,4 +1,5 @@
 package EnglishDictionaryGame;
+import EnglishDictionaryGame.Server.Database;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
   public Stage mainStage;
   double x, y;
+  public static final Database database = new Database();
+
 
   @Override
   public void start(Stage stage) {

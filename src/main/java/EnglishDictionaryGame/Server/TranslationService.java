@@ -18,7 +18,6 @@ public class TranslationService {
     return translation;
   }
 
-
   private static String getTranslation(String sourceText, String sourceLang, String targetLang)
       throws Exception {
     URL translationRequestURL = buildTranslationRequestURL(sourceText, sourceLang, targetLang);
@@ -26,14 +25,18 @@ public class TranslationService {
     return translationResponse;
   }
 
-  private static URL buildTranslationRequestURL(String sourceText, String sourceLang,
-      String targetLang) throws Exception {
+  private static URL buildTranslationRequestURL(
+      String sourceText, String sourceLang, String targetLang) throws Exception {
     StringBuilder urlStringBuilder = new StringBuilder();
-    urlStringBuilder.append(
+    urlStringBuilder
+        .append(
             "https://script.google.com/macros/s/AKfycbwCw24C-pC1vmV9dc5SJEoKE_B4bby9xRCSG7WigJpqFiCf_Zi0LmXXgohO8KNLbaFX/exec")
-        .append("?text=").append(URLEncoder.encode(sourceText, StandardCharsets.UTF_8))
-        .append("&source=").append(sourceLang)
-        .append("&target=").append(targetLang);
+        .append("?text=")
+        .append(URLEncoder.encode(sourceText, StandardCharsets.UTF_8))
+        .append("&source=")
+        .append(sourceLang)
+        .append("&target=")
+        .append(targetLang);
 
     URI translationRequestURI = new URI(urlStringBuilder.toString());
     URL translationRequestURL = translationRequestURI.toURL();

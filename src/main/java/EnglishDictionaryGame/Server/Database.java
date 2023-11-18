@@ -19,22 +19,44 @@ public class Database {
 
   public void initialize() throws SQLException {
     connectToDatabase();
-    ArrayList<String> targets = getAllWordTargets();
-    for (String word : targets) {
-      Trie.insert(word);
+    ArrayList<WordInfo> targets = getAllWordTargets();
+    for (WordInfo wordInfo : targets) {
+      Trie.insert(wordInfo.getWord());
     }
   }
 
-  public ArrayList<String> getAllWordTargets() {
+  public ArrayList<WordInfo> getAllWordTargets() {
+    //    final String SQL_QUERY = "SELECT * FROM english";
+    //    try {
+    //      PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
+    //      try {
+    //        ResultSet rs = ps.executeQuery();
+    //        try {
+    //          ArrayList<String> targets = new ArrayList<>();
+    //          while (rs.next()) {
+    //            targets.add(rs.getString(2));
+    //          }
+    //          return targets;
+    //        } finally {
+    //          close(rs);
+    //        }
+    //      } finally {
+    //        close(ps);
+    //      }
+    //    } catch (SQLException e) {
+    //      e.printStackTrace();
+    //    }
+    //
+    //    return new ArrayList<>();
     final String SQL_QUERY = "SELECT * FROM english";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
       try {
         ResultSet rs = ps.executeQuery();
         try {
-          ArrayList<String> targets = new ArrayList<>();
+          ArrayList<WordInfo> targets = new ArrayList<>();
           while (rs.next()) {
-            targets.add(rs.getString(2));
+            targets.add(createWordInfoFromResultSet(rs));
           }
           return targets;
         } finally {
@@ -48,6 +70,17 @@ public class Database {
     }
 
     return new ArrayList<>();
+  }
+
+  private WordInfo createWordInfoFromResultSet(ResultSet rs) throws SQLException {
+    return new WordInfo(
+        rs.getString("word"),
+        rs.getString("type"),
+        rs.getString("meaning"),
+        rs.getString("pronunciation"),
+        rs.getString("example"),
+        rs.getString("synonym"),
+        rs.getString("antonyms"));
   }
 
   public ArrayList<String> getAllWordsFromDatabase() {
@@ -111,14 +144,7 @@ public class Database {
         ResultSet rs = ps.executeQuery();
         try {
           if (rs.next()) {
-            return new WordInfo(
-                rs.getString("word"),
-                rs.getString("type"),
-                rs.getString("meaning"),
-                rs.getString("pronunciation"),
-                rs.getString("example"),
-                rs.getString("synonym"),
-                rs.getString("antonyms"));
+            return createWordInfoFromResultSet(rs);
           } else {
             return null;
           }
@@ -134,25 +160,18 @@ public class Database {
     return null;
   }
 
-  public boolean insertWord(
-      final String target,
-      final String definition,
-      final String type,
-      final String pronunciation,
-      final String example,
-      final String synonym,
-      final String antonyms) {
+  public boolean insertWord(WordInfo wordInfo) {
     final String SQL_QUERY =
         "INSERT INTO english(word, type, meaning, pronunciation, example, synonym, antonyms) VALUES (?, ?, ?, ?, ?, ?, ?)";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
-      ps.setString(1, target);
-      ps.setString(2, type);
-      ps.setString(3, definition);
-      ps.setString(4, pronunciation);
-      ps.setString(5, example);
-      ps.setString(6, synonym);
-      ps.setString(7, antonyms);
+      ps.setString(1, wordInfo.getWord());
+      ps.setString(2, wordInfo.getType());
+      ps.setString(3, wordInfo.getMeaning());
+      ps.setString(4, wordInfo.getPronunciation());
+      ps.setString(5, wordInfo.getExample());
+      ps.setString(6, wordInfo.getSynonym());
+      ps.setString(7, wordInfo.getAntonyms());
       try {
         ps.executeUpdate();
       } catch (SQLIntegrityConstraintViolationException e) {
@@ -161,7 +180,7 @@ public class Database {
       } finally {
         close(ps);
       }
-      Trie.insert(target);
+      Trie.insert(wordInfo.getWord());
       return true;
     } catch (SQLException e) {
       e.printStackTrace();
@@ -169,7 +188,7 @@ public class Database {
     }
   }
 
-  public boolean deleteWord(final String target) {
+  public void deleteWord(final String target) {
     final String SQL_QUERY = "DELETE FROM english WHERE word = ?";
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
@@ -177,40 +196,31 @@ public class Database {
       try {
         int deleteRows = ps.executeUpdate();
         if (deleteRows == 0) {
-          return false;
+          return;
         }
       } finally {
         close(ps);
       }
       Trie.delete(target);
-      return true;
     } catch (Exception e) {
       e.printStackTrace();
-      return false;
     }
   }
 
-  public boolean updateWordDefinition(
-      final String target,
-      final String type,
-      final String definition,
-      final String pronunciation,
-      final String example,
-      final String synonym,
-      final String antonyms) {
+  public boolean updateWordDefinition(WordInfo wordInfo) {
     final String SQL_QUERY =
         "UPDATE english SET word = ?, type = ?, meaning = ?, pronunciation = ?, example = ?, synonym = ?, antonyms = ? WHERE word = ?";
 
     try {
       PreparedStatement ps = connection.prepareStatement(SQL_QUERY);
-      ps.setString(1, target);
-      ps.setString(2, type);
-      ps.setString(3, definition);
-      ps.setString(4, pronunciation);
-      ps.setString(5, example);
-      ps.setString(6, synonym);
-      ps.setString(7, antonyms);
-      ps.setString(8, target);
+      ps.setString(1, wordInfo.getWord());
+      ps.setString(2, wordInfo.getType());
+      ps.setString(3, wordInfo.getMeaning());
+      ps.setString(4, wordInfo.getPronunciation());
+      ps.setString(5, wordInfo.getExample());
+      ps.setString(6, wordInfo.getSynonym());
+      ps.setString(7, wordInfo.getAntonyms());
+      ps.setString(8, wordInfo.getWord());
       try {
         int updateRows = ps.executeUpdate();
         if (updateRows == 0) {
@@ -247,6 +257,6 @@ public class Database {
   }
 
   public boolean isWordExist(String target) {
-    return !findWord(target).equals("Not found!");
+    return findWord(target) != null;
   }
 }

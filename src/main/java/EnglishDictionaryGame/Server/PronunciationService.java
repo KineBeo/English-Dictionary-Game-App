@@ -34,13 +34,12 @@ public class PronunciationService {
   }
 
   private static URL getPronunciationRequestURL(String text, String language) throws Exception {
-    StringBuilder urlBuilder = new StringBuilder();
-    urlBuilder.append("https://translate.google.com.vn/translate_tts?ie=UTF-8&tl=");
-    urlBuilder.append(language);
-    urlBuilder.append("&client=tw-ob&q=");
-    urlBuilder.append(URLEncoder.encode(text, StandardCharsets.UTF_8));
+    String urlBuilder = "https://translate.google.com.vn/translate_tts?ie=UTF-8&tl=" +
+            language +
+            "&client=tw-ob&q=" +
+            URLEncoder.encode(text, StandardCharsets.UTF_8);
 
-    URI pronunciationRequestURI = new URI(urlBuilder.toString());
+    URI pronunciationRequestURI = new URI(urlBuilder);
     URL pronunciationRequestURL = pronunciationRequestURI.toURL();
 
     return pronunciationRequestURL;
