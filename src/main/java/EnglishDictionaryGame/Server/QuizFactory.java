@@ -47,7 +47,7 @@ public class QuizFactory {
     return switch (type) {
       case chooseMeaning -> "What is the meaning of '" + word + "'?";
       case chooseSynonym -> "What is the synonym of '" + word + "'?";
-      case fillTheBlank -> "Fill the blank: '" + word + "' means ________.";
+      case fillTheBlank -> "Fill the blank: ____ means " + word;
       case translateIntoVietnamese -> "Translate '" + word + "' into Vietnamese.";
     };
   }
@@ -65,14 +65,13 @@ public class QuizFactory {
   }
 
   public String getRandomWord() {
-    if (randomWord == null) {
+    try {
       int random = (int) (Math.random() * allWords.size());
-      WordInfo randomWordTarget = allWords.get(random);
-      randomWord = database.findWord(randomWordTarget.getWord());
+      return allWords.get(random).getWord();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return "";
     }
-
-    word = randomWord.getWord();
-    return word;
   }
 
   public String getRandomMeaning() {
@@ -112,6 +111,10 @@ public class QuizFactory {
     return choice.length() > 15;
   }
 
+  public boolean checkAnswer() {
+    return chooseAnswer.equals(correctAnswer);
+  }
+
   public int countCharacterOfString(String string) {
     int count = 0;
     for (int i = 0; i < string.length(); i++) {
@@ -146,7 +149,9 @@ public class QuizFactory {
     }
     int random = (int) (Math.random() * 4);
     setWord(getWordFromMeaning(choices[random]));
+    setCorrectAnswer(choices[random]);
     System.out.println(this.word);
+    System.out.println("Correct answer: " + correctAnswer);
   }
 
   private void createRandomChooseSynonymQuiz() {
@@ -162,18 +167,47 @@ public class QuizFactory {
       choices[i] = randomSynonym;
       System.out.println("Synonym num: " + i + ": " + choices[i]);
     }
-
-    setWord(getWordFromSynonym(choices[(int) (Math.random() * 4)]));
+    int random = (int) (Math.random() * 4);
+    setWord(getWordFromSynonym(choices[random]));
+    setCorrectAnswer(choices[random]);
     System.out.println("Word: " + this.word);
+    System.out.println("Correct answer: " + correctAnswer);
   }
 
-  private void createRandomFillTheBlankQuiz() {}
+  private void createRandomFillTheBlankQuiz() {
+
+    for (int i = 0; i < 4; i++) {
+      String randomWord = getRandomWord();
+      String meaningOfRandomWord = getMeaningFromWord(randomWord);
+      while (countCharacterOfString(meaningOfRandomWord) > 15) {
+        randomWord = getRandomWord();
+        meaningOfRandomWord = getMeaningFromWord(randomWord);
+      }
+
+      choices[i] = randomWord;
+      System.out.println("Word num: " + i + " " + choices[i] + getMeaningFromWord(choices[i]));
+    }
+
+    int random = (int) (Math.random() * 4);
+    String answerWord = choices[random];
+    setWord(getMeaningFromWord(answerWord));
+    setCorrectAnswer(answerWord);
+    System.out.println("Correct answer: " + correctAnswer);
+  }
 
   private void createRandomTranslateIntoVietnameseQuiz() {}
 
   private static String getWordFromMeaning(String meaning) {
     try {
       return hashMapGetWordOfMeaning.get(meaning);
+    } catch (Exception e) {
+      return "";
+    }
+  }
+
+  private static String getMeaningFromWord(String word) {
+    try {
+      return hashMapGetMeaningOfWord.get(word);
     } catch (Exception e) {
       return "";
     }
