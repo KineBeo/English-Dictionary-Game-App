@@ -1,0 +1,24 @@
+.button {
+    -fx-border-radius: 20;
+    -fx-border-color: black;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 20;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+.button: hover {
+    -fx-text-fill: white;
+    -fx-background-color: #0088CD;
+}
+
+
+.button:pressed {
+    -fx-background-color: #0077ff; /* Change the background color when pressed */
+    -fx-translate-x: 2px; /* Adjust the translation on the x-axis as needed */
+    -fx-translate-y: 2px; /* Adjust the translation on the y-axis as needed */
+}
+
+.label {
+    -fx-font-weight: bold;
+}

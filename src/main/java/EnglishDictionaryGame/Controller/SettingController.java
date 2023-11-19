@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class SettingController extends WordOperation {
+public class SettingController {
   @FXML private Label doneButton;
   @FXML private AnchorPane anchorPane;
   @FXML private HBox redTheme;
@@ -26,12 +26,6 @@ public class SettingController extends WordOperation {
           stage.close();
         });
   }
-
-  @Override
-  public void saveWord() {}
-
-  @Override
-  public void quitScreen() {}
 
   /** Set color theme. */
   public void setBarTheme(HBox temp, ArrayList<Label> buttons, ListView<String> listView) {

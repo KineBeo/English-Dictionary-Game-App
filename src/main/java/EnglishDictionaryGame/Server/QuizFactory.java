@@ -48,7 +48,7 @@ public class QuizFactory {
       case chooseMeaning -> "What is the meaning of '" + word + "'?";
       case chooseSynonym -> "What is the synonym of '" + word + "'?";
       case fillTheBlank -> "Fill the blank: ____ means " + word;
-      case translateIntoVietnamese -> "The meaning of " + word + "in Vietnamese is: \n";
+      case translateIntoVietnamese -> "The meaning of '" + word + "' in Vietnamese is: \n";
     };
   }
 
@@ -144,13 +144,10 @@ public class QuizFactory {
         tmp = getRandomMeaning();
       }
       choices[i] = tmp;
-      System.out.println(
-          "Word number " + i + " " + getWordFromMeaning(choices[i]) + "\n" + choices[i]);
     }
     int random = (int) (Math.random() * 4);
     setWord(getWordFromMeaning(choices[random]));
     setCorrectAnswer(choices[random]);
-    System.out.println(this.word);
     System.out.println("Correct answer: " + correctAnswer);
   }
 
@@ -165,12 +162,10 @@ public class QuizFactory {
       }
       chosenSynonyms.add(randomSynonym);
       choices[i] = randomSynonym;
-      System.out.println("Synonym num: " + i + ": " + choices[i]);
     }
     int random = (int) (Math.random() * 4);
     setWord(getWordFromSynonym(choices[random]));
     setCorrectAnswer(choices[random]);
-    System.out.println("Word: " + this.word);
     System.out.println("Correct answer: " + correctAnswer);
   }
 
@@ -185,7 +180,6 @@ public class QuizFactory {
       }
 
       choices[i] = randomWord;
-      System.out.println("Word num: " + i + " " + choices[i] + getMeaningFromWord(choices[i]));
     }
 
     int random = (int) (Math.random() * 4);
@@ -202,7 +196,6 @@ public class QuizFactory {
       choices[i] = randomWord;
       sourceChoices.add(choices[i]);
       choices[i] = TranslationService.translate(randomWord, "en", "vi");
-      System.out.println("Choices num " + i + ": " + choices[i]);
     }
     int random = (int) (Math.random() * 4);
     setWord(sourceChoices.get(random));
