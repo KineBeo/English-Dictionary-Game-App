@@ -48,7 +48,7 @@ public class QuizFactory {
       case chooseMeaning -> "What is the meaning of '" + word + "'?";
       case chooseSynonym -> "What is the synonym of '" + word + "'?";
       case fillTheBlank -> "Fill the blank: ____ means " + word;
-      case translateIntoVietnamese -> "Translate '" + word + "' into Vietnamese.";
+      case translateIntoVietnamese -> "The meaning of " + word + "in Vietnamese is: \n";
     };
   }
 
@@ -195,7 +195,20 @@ public class QuizFactory {
     System.out.println("Correct answer: " + correctAnswer);
   }
 
-  private void createRandomTranslateIntoVietnameseQuiz() {}
+  private void createRandomTranslateIntoVietnameseQuiz() {
+    ArrayList<String> sourceChoices = new ArrayList<>();
+    for (int i = 0; i < 4; i++) {
+      String randomWord = getRandomWord();
+      choices[i] = randomWord;
+      sourceChoices.add(choices[i]);
+      choices[i] = TranslationService.translate(randomWord, "en", "vi");
+      System.out.println("Choices num " + i + ": " + choices[i]);
+    }
+    int random = (int) (Math.random() * 4);
+    setWord(sourceChoices.get(random));
+    setCorrectAnswer(sourceChoices.get(random));
+    System.out.println("Correct Answer: " + correctAnswer);
+  }
 
   private static String getWordFromMeaning(String meaning) {
     try {

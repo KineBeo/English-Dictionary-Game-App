@@ -34,8 +34,6 @@ public class UpdateWord extends WordOperation {
 
   @FXML
   private void initialize() {
-
-    //    htmlEditor.setHtmlText(database.lookUpWord(Application.editTarget));
     inputText.setText(Application.editTarget);
     WordInfo wordInfo = database.findWord(Application.editTarget);
     if (wordInfo != null) {
