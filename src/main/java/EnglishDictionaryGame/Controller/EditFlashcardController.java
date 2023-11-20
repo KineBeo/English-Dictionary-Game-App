@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -61,6 +62,7 @@ public class EditFlashcardController {
     setBackEditFlashcardButtonBehavior(root);
     setDeleteEditFlashcardButtonBehavior(root);
     setSaveAllEditFlashcardButtonBehavior(root);
+    setFlashcardNumberInputFieldBehavior(root);
   }
 
   private void setAddEditFlashcardButtonBehavior(AnchorPane root) {
@@ -133,7 +135,6 @@ public class EditFlashcardController {
       updateFlashcardCounter();
     }
 
-
     // Launch confirmation alert if there are unsaved flashcards.
     if (!FlashcardDataManager.isAllSaved()) {
       Alert alert = createExitAlert();
@@ -192,33 +193,42 @@ public class EditFlashcardController {
   private void setFlashcardNavigationButtonBehavior(AnchorPane root,
       Button flashcardNavigationButton, int direction) {
     flashcardNavigationButton.setOnAction(event -> {
-      // Get the current flashcard's contents.
-      TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
-      TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
-      String currentFlashcardFrontText = wordTargetEditor.getText();
-      String currentFlashcardBackText = wordDefinitionEditor.getText();
-
-      // Temporary save the current flashcard's contents.
-      int currentIndex = FlashcardDataManager.getIndexOf(operatingFlashcard);
-      boolean frontTextChanged = !currentFlashcardFrontText
-          .equals(operatingFlashcard.getFrontText());
-      boolean backTextChanged = !currentFlashcardBackText
-          .equals(operatingFlashcard.getBackText());
-      boolean flashcardChanged = frontTextChanged || backTextChanged;
-      if (flashcardChanged) {
-        FlashcardDataManager.temporarySave(currentIndex, currentFlashcardFrontText,
-            currentFlashcardBackText);
-      }
-
       // Change to the next OR previous flashcard.
+      int currentIndex = FlashcardDataManager.getIndexOf(operatingFlashcard);
       int newIndex = currentIndex + direction;
-      if (newIndex > FlashcardDataManager.getSize() - 1) {
-        newIndex = 0;
-      } else if (newIndex < 0) {
-        newIndex = FlashcardDataManager.getSize() - 1;
-      }
-      changeOperatingFlashcard(newIndex);
+      navigateToFlashcard(root, newIndex);
     });
+  }
+
+  private void navigateToFlashcard(AnchorPane root, int index) {
+    int currentIndex = FlashcardDataManager.getIndexOf(operatingFlashcard);
+    if (index == currentIndex) {
+      return;
+    }
+
+    // Get the current flashcard's contents.
+    TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
+    TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
+    String currentFlashcardFrontText = wordTargetEditor.getText();
+    String currentFlashcardBackText = wordDefinitionEditor.getText();
+
+    // Temporary save the current flashcard's contents.
+    boolean frontTextChanged = !currentFlashcardFrontText
+        .equals(operatingFlashcard.getFrontText());
+    boolean backTextChanged = !currentFlashcardBackText
+        .equals(operatingFlashcard.getBackText());
+    boolean flashcardChanged = frontTextChanged || backTextChanged;
+    if (flashcardChanged) {
+      FlashcardDataManager.temporarySave(currentIndex, currentFlashcardFrontText,
+          currentFlashcardBackText);
+    }
+
+    if (index > FlashcardDataManager.getSize() - 1) {
+      index = 0;
+    } else if (index < 0) {
+      index = FlashcardDataManager.getSize() - 1;
+    }
+    changeOperatingFlashcard(index);
   }
 
   /**
@@ -245,6 +255,66 @@ public class EditFlashcardController {
           saveAllFlashcards();
         });
   }
+
+  private void setFlashcardNumberInputFieldBehavior(AnchorPane root) {
+    TextField flashcardNumberInputField = (TextField) root.lookup("#flashcardNumberInputField");
+
+    setDefocusBehavior(root, flashcardNumberInputField);
+    setClearTextFieldOnClickBehavior(flashcardNumberInputField);
+    setEnterKeyPressedBehavior(root, flashcardNumberInputField);
+  }
+
+  private void setDefocusBehavior(AnchorPane root, TextField flashcardNumberInputField) {
+    root.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+      boolean isNumberInputFieldFocused = flashcardNumberInputField.isFocused();
+      boolean isClickOutsideInputField = !flashcardNumberInputField.getBoundsInParent()
+          .contains(event.getSceneX(), event.getSceneY());
+      if (isClickOutsideInputField && isNumberInputFieldFocused) {
+        defocusFlashcardNumberInputField(root);
+      }
+    });
+  }
+
+  private void setClearTextFieldOnClickBehavior(TextField flashcardNumberInputField) {
+    flashcardNumberInputField.setOnMouseClicked(event -> {
+      flashcardNumberInputField.clear();
+    });
+  }
+
+  private void setEnterKeyPressedBehavior(AnchorPane root, TextField flashcardNumberInputField) {
+    flashcardNumberInputField.setOnKeyPressed(keyEvent -> {
+      if (keyEvent.getCode() == javafx.scene.input.KeyCode.ENTER) {
+        handleEnterKeyPressed(root, flashcardNumberInputField);
+      }
+    });
+  }
+
+  private void defocusFlashcardNumberInputField(AnchorPane root) {
+    updateFlashcardCounter();
+    root.requestFocus();
+  }
+
+  private void handleEnterKeyPressed(AnchorPane root, TextField flashcardNumberInputField) {
+    if (flashcardNumberInputField.getText().isEmpty()) {
+      defocusFlashcardNumberInputField(root);
+    } else {
+      int newFlashcardNumber = Integer.parseInt(flashcardNumberInputField.getText());
+      handleValidFlashcardNumber(root, flashcardNumberInputField, newFlashcardNumber);
+    }
+  }
+
+  private void handleValidFlashcardNumber(AnchorPane root, TextField flashcardNumberInputField,
+      int newFlashcardNumber) {
+    if (newFlashcardNumber >= 1 && newFlashcardNumber <= FlashcardDataManager.getSize()) {
+      int newFlashcardIndex = newFlashcardNumber - 1;
+      navigateToFlashcard(root, newFlashcardIndex);
+    } else {
+      updateFlashcardCounter();
+    }
+
+    defocusFlashcardNumberInputField(root);
+  }
+
 
   private void handleDeleteConfirmation() {
     Alert deleteConfirmationAlert = createDeleteAlert();
@@ -299,10 +369,14 @@ public class EditFlashcardController {
     Label flashcardCounter = (Label) stage.getScene().getRoot().lookup("#flashcardCounter");
     int currentFlashcardCount = FlashcardDataManager.getIndexOf(operatingFlashcard) + 1;
     boolean flashcardSaved = FlashcardDataManager.isSaved(operatingFlashcard);
-    String flashcardCounterText = currentFlashcardCount + " / " + FlashcardDataManager.getSize();
+    String flashcardCounterText = "/ " + FlashcardDataManager.getSize();
     if (!flashcardSaved) {
       flashcardCounterText += " (Unsaved)";
     }
+
+    TextField flashcardNumberInputField = (TextField) stage.getScene().getRoot()
+        .lookup("#flashcardNumberInputField");
+    flashcardNumberInputField.setText(String.valueOf(currentFlashcardCount));
     flashcardCounter.setText(flashcardCounterText);
   }
 

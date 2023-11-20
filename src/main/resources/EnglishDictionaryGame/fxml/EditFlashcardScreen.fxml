@@ -20,6 +20,6 @@
       <Button fx:id="saveEditFlashcardButton" layoutX="421.0" layoutY="445.0" mnemonicParsing="false" text="Save" />
       <Button fx:id="exitEditFlashcardsButton" layoutX="822.0" layoutY="10.0" mnemonicParsing="false" text="Exit" />
       <Button fx:id="saveAllEditFlashcardsButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Save All" />
-      <TextField layoutX="439.0" layoutY="23.0" prefHeight="32.0" prefWidth="27.0" />
+      <TextField fx:id="flashcardNumberInputField" layoutX="439.0" layoutY="23.0" prefHeight="32.0" prefWidth="27.0" />
    </children>
 </AnchorPane>
