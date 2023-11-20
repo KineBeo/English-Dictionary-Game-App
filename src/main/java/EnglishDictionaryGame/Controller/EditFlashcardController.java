@@ -1,15 +1,10 @@
 package EnglishDictionaryGame.Controller;
 
-import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.Flashcard;
 import EnglishDictionaryGame.Server.FlashcardDataManager;
-import EnglishDictionaryGame.Server.FlashcardDatabase;
-import EnglishDictionaryGame.Server.FlashcardFileManager;
 import EnglishDictionaryGame.Server.FlashcardStageFactory;
 import java.util.ArrayList;
-import java.util.HashMap;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -17,8 +12,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class EditFlashcardController {
@@ -121,6 +114,27 @@ public class EditFlashcardController {
   }
 
   private void exitEditFlashcards() {
+    // Check if there are any changes on the current flashcard that have not been saved.
+    String frontTextData = operatingFlashcard.getFrontText();
+    String backTextData = operatingFlashcard.getBackText();
+    String wordTargetEditorContent = getWordTargetEditorContent();
+    String wordDefinitionEditorContent = getWordDefinitionEditorContent();
+
+    boolean frontTextChanged = !frontTextData.equals(wordTargetEditorContent);
+    boolean backTextChanged = !backTextData.equals(wordDefinitionEditorContent);
+
+    boolean flashcardChanged = frontTextChanged || backTextChanged;
+    boolean flashcardSaved = FlashcardDataManager.isSaved(operatingFlashcard);
+
+    if (flashcardChanged && flashcardSaved) {
+      FlashcardDataManager.temporarySave(FlashcardDataManager.getIndexOf(operatingFlashcard),
+          wordTargetEditorContent, wordDefinitionEditorContent);
+      // Update "Unsaved" status for the current flashcard.
+      updateFlashcardCounter();
+    }
+
+
+    // Launch confirmation alert if there are unsaved flashcards.
     if (!FlashcardDataManager.isAllSaved()) {
       Alert alert = createExitAlert();
 
@@ -128,22 +142,31 @@ public class EditFlashcardController {
 
       ButtonType confirmationChoice = alert.getResult();
       ButtonType confirmSaveAndExit = alert.getButtonTypes().get(0);
+      ButtonType confirmExitWithoutSaving = alert.getButtonTypes().get(1);
+
       if (confirmationChoice == confirmSaveAndExit) {
         FlashcardDataManager.saveAll();
+        stage.close();
+      } else if (confirmationChoice == confirmExitWithoutSaving) {
+        stage.close();
+      } else {
+        alert.close();
       }
     }
 
+    // Update the database and file.
     FlashcardDataManager.updateDatabase();
     FlashcardDataManager.updateFile();
-    stage.close();
   }
 
   private Alert createExitAlert() {
     Alert alert = new Alert(AlertType.CONFIRMATION);
-    ArrayList<Integer> unsavedFlashcardsIndex = FlashcardDataManager.getUnsavedFlashcardsIndex();
+    ArrayList<Integer> unsavedFlashcardsNumber = FlashcardDataManager.getUnsavedFlashcardsNumber();
     alert.setTitle("Exit Alert");
+    String bracketlessNumbers = unsavedFlashcardsNumber.toString()
+        .substring(1, unsavedFlashcardsNumber.toString().length() - 1);
     alert.setHeaderText("Do you want to save changes?\n" +
-        "Unsaved flashcards' index: " + unsavedFlashcardsIndex + "\n");
+        "Unsaved flashcards' Numbers:\n" + bracketlessNumbers);
 
     ButtonType okButtonType = alert.getButtonTypes().get(0);
     Button saveButton = (Button) alert.getDialogPane().lookupButton(okButtonType);
@@ -275,6 +298,25 @@ public class EditFlashcardController {
   private void updateFlashcardCounter() {
     Label flashcardCounter = (Label) stage.getScene().getRoot().lookup("#flashcardCounter");
     int currentFlashcardCount = FlashcardDataManager.getIndexOf(operatingFlashcard) + 1;
-    flashcardCounter.setText(currentFlashcardCount + " / " + FlashcardDataManager.getSize());
+    boolean flashcardSaved = FlashcardDataManager.isSaved(operatingFlashcard);
+    String flashcardCounterText = currentFlashcardCount + " / " + FlashcardDataManager.getSize();
+    if (!flashcardSaved) {
+      flashcardCounterText += " (Unsaved)";
+    }
+    flashcardCounter.setText(flashcardCounterText);
+  }
+
+  private String getWordTargetEditorContent() {
+    AnchorPane root = (AnchorPane) stage.getScene().getRoot();
+    TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
+    String wordTargetEditorContent = wordTargetEditor.getText();
+    return wordTargetEditorContent;
+  }
+
+  private String getWordDefinitionEditorContent() {
+    AnchorPane root = (AnchorPane) stage.getScene().getRoot();
+    TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
+    String wordDefinitionEditorContent = wordDefinitionEditor.getText();
+    return wordDefinitionEditorContent;
   }
 }

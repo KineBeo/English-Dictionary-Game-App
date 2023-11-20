@@ -2,7 +2,6 @@ package EnglishDictionaryGame.Server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class FlashcardDataManager {
 
@@ -109,6 +108,13 @@ public class FlashcardDataManager {
     return saveMap.get(flashcard);
   }
 
+  public static boolean isSaved(Flashcard flashcard) {
+    if (!saveMap.containsKey(flashcard)) {
+      System.out.println("Flashcard not found in save map.");
+    }
+
+    return saveMap.get(flashcard);
+  }
   public static boolean isAllSaved() {
     for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
       Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
@@ -131,15 +137,16 @@ public class FlashcardDataManager {
     }
   }
 
-  public static ArrayList<Integer> getUnsavedFlashcardsIndex() {
-    ArrayList<Integer> unsavedFlashcardsIndex = new ArrayList<Integer>();
+  public static ArrayList<Integer> getUnsavedFlashcardsNumber() {
+    ArrayList<Integer> unsavedFlashcardsNumber = new ArrayList<Integer>();
     for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
       Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
       if (!saveMap.get(flashcard)) {
-        unsavedFlashcardsIndex.add(i);
+        Integer flashcardNumber = i + 1;
+        unsavedFlashcardsNumber.add(flashcardNumber);
       }
     }
 
-    return unsavedFlashcardsIndex;
+    return unsavedFlashcardsNumber;
   }
 }
