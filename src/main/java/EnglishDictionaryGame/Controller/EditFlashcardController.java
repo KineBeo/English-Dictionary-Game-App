@@ -158,9 +158,6 @@ public class EditFlashcardController {
     FlashcardDataManager.updateDatabase();
     FlashcardDataManager.updateFile();
     stage.close();
-    FlashcardDataManager.printEditingDatabase();
-    System.out.println();
-    FlashcardDataManager.printDatabase();
   }
 
   private Alert createExitAlert() {
