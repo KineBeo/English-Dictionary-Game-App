@@ -88,6 +88,17 @@ public class Application implements Initializable {
   public static String definitionColor = "#34586F";
   public static ArrayList<Label> buttons = new ArrayList<>();
   private volatile String currentQuery = "";
+  public static String currentStage = "";
+
+  enum stageType {
+    HOME,
+    HANGMAN_GAME,
+    QUIZ_GAME,
+    FLASHCARD_GAME,
+    DAILY_WORD,
+    SETTING,
+    ABOUT
+  }
 
   public Application() {
     try {
@@ -169,15 +180,15 @@ public class Application implements Initializable {
     performSearch(target);
   }
 
-    private String formatFirstLetter(String str) {
-      if (str == null || str.isEmpty()) {
-          return str;
-      }
-
-      return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+  private String formatFirstLetter(String str) {
+    if (str == null || str.isEmpty()) {
+      return str;
     }
 
-    private void updateWebView(WordInfo wordInfo) {
+    return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+  }
+
+  private void updateWebView(WordInfo wordInfo) {
     String htmlContent;
     if (inputText.getText().isBlank() || inputText.getText().isEmpty()) {
       htmlContent = "";
@@ -332,6 +343,9 @@ public class Application implements Initializable {
             () ->
                 hangmanButton.setOnMouseClicked(
                     mouseEvent -> {
+                      currentStage = stageType.HANGMAN_GAME.toString();
+                      quitTimerOfQuiz();
+                      System.out.println("Current:" + currentStage);
                       try {
                         AnchorPane view =
                             FXMLLoader.load(
@@ -349,7 +363,11 @@ public class Application implements Initializable {
 
   public void about() {
     informationButton.setOnMouseClicked(
-        mouseEvent -> openStage("fxml/InformationScreen.fxml", "About"));
+        mouseEvent -> {
+          currentStage = stageType.ABOUT.toString();
+          quitTimerOfQuiz();
+          openStage("fxml/InformationScreen.fxml", "About");
+        });
   }
 
   private void quizGame() {
@@ -357,6 +375,8 @@ public class Application implements Initializable {
             () ->
                 quizButton.setOnMouseClicked(
                     mouseEvent -> {
+                      currentStage = stageType.QUIZ_GAME.toString();
+                      System.out.println("Current:" + currentStage);
                       try {
                         AnchorPane view =
                             FXMLLoader.load(
@@ -374,6 +394,8 @@ public class Application implements Initializable {
   public void flashCard() {
     flashCardButton.setOnMouseClicked(
         mouseEvent -> {
+          currentStage = stageType.FLASHCARD_GAME.toString();
+          quitTimerOfQuiz();
           FlashcardController flashcardController = new FlashcardController();
           StackPane root = new StackPane();
           try {
@@ -394,6 +416,8 @@ public class Application implements Initializable {
   public void setting() {
     settingButton.setOnMouseClicked(
         mouseEvent -> {
+          currentStage = stageType.SETTING.toString();
+          quitTimerOfQuiz();
           try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Setting.fxml"));
             Parent root = loader.load();
@@ -416,12 +440,20 @@ public class Application implements Initializable {
   }
 
   public void dailyWord() {
-    dailyWordButton.setOnMouseClicked(mouseEvent -> openStage("fxml/DailyWord.fxml", "Daily Word"));
+    dailyWordButton.setOnMouseClicked(
+        mouseEvent -> {
+          currentStage = stageType.DAILY_WORD.toString();
+          quitTimerOfQuiz();
+          openStage("fxml/DailyWord.fxml", "Daily Word");
+        });
   }
 
   private void home() {
     homeButton.setOnMouseClicked(
         mouseEvent -> {
+          currentStage = stageType.HOME.toString();
+          quitTimerOfQuiz();
+          System.out.println("Current:" + currentStage);
           homeSlider.setVisible(true);
           borderPane.setVisible(false);
         });
@@ -556,5 +588,11 @@ public class Application implements Initializable {
                 menuClose.setVisible(false);
               });
         });
+  }
+
+  public void quitTimerOfQuiz() {
+    if (QuizController.getCurrentTimer() != null) {
+      QuizController.cancelTimer();
+    }
   }
 }

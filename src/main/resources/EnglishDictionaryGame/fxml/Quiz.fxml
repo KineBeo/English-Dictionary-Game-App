@@ -27,10 +27,11 @@
          </font>
       </Label>
       <Button fx:id="newQuizButton" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" text="New Quiz" />
-      <Button fx:id="nextQuestion" layoutX="377.0" layoutY="434.0" mnemonicParsing="false" text="Next Question">
+      <Button fx:id="nextQuestion" alignment="CENTER" layoutX="385.0" layoutY="434.0" mnemonicParsing="false" text="Next Question" textAlignment="CENTER" />
+      <Label fx:id="correctAnswerText" alignment="CENTER" layoutX="110.0" layoutY="130.0" prefHeight="25.0" prefWidth="678.0">
          <font>
-            <Font size="20.0" />
+            <Font size="18.0" />
          </font>
-      </Button>
+      </Label>
    </children>
 </AnchorPane>

@@ -12,8 +12,8 @@ public class QuizFactory {
   enum questionType {
     chooseMeaning,
     chooseSynonym,
-    fillTheBlank,
-    translateIntoVietnamese
+    fillTheBlank
+//    translateIntoVietnamese
   }
 
   private String word;
@@ -24,6 +24,7 @@ public class QuizFactory {
   private questionType type;
   private WordInfo randomWord;
   private String[] choices = new String[4];
+  private static final int TYPE_OF_QUESTION = 3;
 
   private static final ArrayList<WordInfo> allWords = database.getAllWordTargets();
   private static final Map<String, String> hashMapGetWordOfMeaning = new HashMap<>();
@@ -52,17 +53,17 @@ public class QuizFactory {
       case chooseMeaning -> "What is the meaning of '" + word + "'?";
       case chooseSynonym -> "What is the synonym of '" + word + "'?";
       case fillTheBlank -> "Fill the blank: ____ means " + word;
-      case translateIntoVietnamese -> "The meaning of '" + word + "' in Vietnamese is: \n";
+//      case translateIntoVietnamese -> "The meaning of '" + word + "' in Vietnamese is: \n";
     };
   }
 
   public void randomChooseQuestionType() {
-    int random = (int) (Math.random() * 4);
+    int random = (int) (Math.random() * TYPE_OF_QUESTION);
     switch (random) {
       case 0 -> type = questionType.chooseMeaning;
       case 1 -> type = questionType.chooseSynonym;
       case 2 -> type = questionType.fillTheBlank;
-      case 3 -> type = questionType.translateIntoVietnamese;
+//      case 3 -> type = questionType.translateIntoVietnamese;
     }
 
     createRandomQuiz(type);
@@ -137,7 +138,7 @@ public class QuizFactory {
 
       case fillTheBlank -> createRandomFillTheBlankQuiz();
 
-      case translateIntoVietnamese -> createRandomTranslateIntoVietnameseQuiz();
+//      case translateIntoVietnamese -> createRandomTranslateIntoVietnameseQuiz();
     }
   }
 
@@ -149,7 +150,7 @@ public class QuizFactory {
       }
       choices[i] = tmp;
     }
-    int random = (int) (Math.random() * 4);
+    int random = (int) (Math.random() * TYPE_OF_QUESTION);
     setWord(getWordFromMeaning(choices[random]));
     setCorrectAnswer(choices[random]);
     System.out.println("Correct answer: " + correctAnswer);
@@ -167,7 +168,7 @@ public class QuizFactory {
       chosenSynonyms.add(randomSynonym);
       choices[i] = randomSynonym;
     }
-    int random = (int) (Math.random() * 4);
+    int random = (int) (Math.random() * TYPE_OF_QUESTION);
     setWord(getWordFromSynonym(choices[random]));
     setCorrectAnswer(choices[random]);
     System.out.println("Correct answer: " + correctAnswer);
@@ -186,7 +187,7 @@ public class QuizFactory {
       choices[i] = randomWord;
     }
 
-    int random = (int) (Math.random() * 4);
+    int random = (int) (Math.random() * TYPE_OF_QUESTION);
     String answerWord = choices[random];
     setWord(getMeaningFromWord(answerWord));
     setCorrectAnswer(answerWord);
