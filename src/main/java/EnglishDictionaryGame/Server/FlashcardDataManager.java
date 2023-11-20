@@ -89,11 +89,14 @@ public class FlashcardDataManager {
       }
     }
 
-    // Reset the editing database
-    editingFlashcardDatabase = new FlashcardDatabase(flashcardDatabase);
+    // Reset the editing database to be exactly the same as the flashcard database.
+    for (int i = 0; i < flashcardDatabase.size(); i++) {
+      Flashcard flashcard = flashcardDatabase.getFlashcard(i);
+      editingFlashcardDatabase.getFlashcard(i).setFrontText(flashcard.getFrontText());
+      editingFlashcardDatabase.getFlashcard(i).setBackText(flashcard.getBackText());
+    }
 
     // Reset the save map.
-    saveMap = new HashMap<Flashcard, Boolean>();
     for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
       saveMap.put(editingFlashcardDatabase.getFlashcard(i), true);
     }
