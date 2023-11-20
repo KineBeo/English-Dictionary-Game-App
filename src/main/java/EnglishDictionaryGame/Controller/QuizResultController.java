@@ -6,21 +6,24 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
+import javax.swing.text.html.ImageView;
 
 public class QuizResultController {
   @FXML public Label remark, marks, marksText, correctText, wrongText;
   @FXML public ProgressIndicator correct_progress, wrong_progress;
 
-  @FXML private Button newQuizButton;
+  @FXML private Pane exitButton;
+  @FXML private AnchorPane anchorPane;
 
   int correct;
   int wrong;
 
   @FXML
   private void initialize() {
-    newQuizButton
-        .getStylesheets()
-        .add(Objects.requireNonNull(Main.class.getResource("css/quiz.css")).toExternalForm());
     correct = QuizController.correct;
     wrong = QuizController.wrong;
 
@@ -52,12 +55,16 @@ public class QuizResultController {
       remark.setText(
           "Congratulations! You have passed the quiz with full marks because of your hardwork and dedication towards studies. Keep it up! Check your results here.");
     }
+
+    newQuiz();
   }
 
   private void newQuiz() {
     try {
-      newQuizButton.setOnMouseClicked(
+      exitButton.setOnMouseClicked(
           mouseEvent -> {
+            Stage stage = (Stage) anchorPane.getScene().getWindow();
+            stage.close();
             System.out.println("Clicked!");
           });
     } catch (Exception e) {

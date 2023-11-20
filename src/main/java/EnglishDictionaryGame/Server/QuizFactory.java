@@ -3,6 +3,10 @@ package EnglishDictionaryGame.Server;
 import static EnglishDictionaryGame.Main.database;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class QuizFactory {
   enum questionType {
@@ -189,17 +193,48 @@ public class QuizFactory {
     System.out.println("Correct answer: " + correctAnswer);
   }
 
+  //  private void createRandomTranslateIntoVietnameseQuiz() {
+  //    ArrayList<String> sourceChoices = new ArrayList<>();
+  //    for (int i = 0; i < 4; i++) {
+  //      String randomWord = getRandomWord();
+  //      choices[i] = randomWord;
+  //      sourceChoices.add(choices[i]);
+  //      choices[i] = TranslationService.translate(randomWord, "en", "vi");
+  //    }
+  //    int random = (int) (Math.random() * 4);
+  //    setWord(sourceChoices.get(random));
+  //    setCorrectAnswer(sourceChoices.get(random));
+  //    System.out.println("Correct Answer: " + correctAnswer);
+  //  }
+
   private void createRandomTranslateIntoVietnameseQuiz() {
-    ArrayList<String> sourceChoices = new ArrayList<>();
+    List<Future<String>> translationFutures = new ArrayList<>();
+    ExecutorService executorService = Executors.newFixedThreadPool(4);
+    List<String> sourceWord = new ArrayList<>();
     for (int i = 0; i < 4; i++) {
       String randomWord = getRandomWord();
+      sourceWord.add(randomWord);
       choices[i] = randomWord;
-      sourceChoices.add(choices[i]);
-      choices[i] = TranslationService.translate(randomWord, "en", "vi");
+
+      Future<String> translationFuture =
+          executorService.submit(() -> TranslationService.translate(randomWord, "en", "vi"));
+
+      translationFutures.add(translationFuture);
     }
+
+    for (int i = 0; i < 4; i++) {
+      try {
+        choices[i] = translationFutures.get(i).get(); // Gán kết quả dịch vào choices[i]
+      } catch (InterruptedException | ExecutionException e) {
+        e.printStackTrace();
+      }
+    }
+
+    executorService.shutdown();
+
     int random = (int) (Math.random() * 4);
-    setWord(sourceChoices.get(random));
-    setCorrectAnswer(sourceChoices.get(random));
+    setWord(sourceWord.get(random));
+    setCorrectAnswer(choices[random]);
     System.out.println("Correct Answer: " + correctAnswer);
   }
 
