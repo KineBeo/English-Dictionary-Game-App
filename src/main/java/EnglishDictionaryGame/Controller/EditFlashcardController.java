@@ -133,6 +133,8 @@ public class EditFlashcardController {
           wordTargetEditorContent, wordDefinitionEditorContent);
       // Update "Unsaved" status for the current flashcard.
       updateFlashcardCounter();
+
+      System.out.println(FlashcardDataManager.isSaved(operatingFlashcard)); // test.
     }
 
     // Launch confirmation alert if there are unsaved flashcards.
@@ -147,17 +149,18 @@ public class EditFlashcardController {
 
       if (confirmationChoice == confirmSaveAndExit) {
         FlashcardDataManager.saveAll();
-        stage.close();
       } else if (confirmationChoice == confirmExitWithoutSaving) {
-        stage.close();
-      } else {
-        alert.close();
+        System.out.println("Exit without saving");
       }
     }
 
     // Update the database and file.
     FlashcardDataManager.updateDatabase();
     FlashcardDataManager.updateFile();
+    stage.close();
+    FlashcardDataManager.printEditingDatabase();
+    System.out.println();
+    FlashcardDataManager.printDatabase();
   }
 
   private Alert createExitAlert() {

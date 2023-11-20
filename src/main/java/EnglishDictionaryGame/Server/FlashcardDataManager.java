@@ -149,4 +149,20 @@ public class FlashcardDataManager {
 
     return unsavedFlashcardsNumber;
   }
+
+  public static void printEditingDatabase() {
+    System.out.println("Printing editing database:");
+    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
+      Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
+      System.out.println(flashcard.getFrontText() + " " + flashcard.getBackText());
+    }
+  }
+
+  public static void printDatabase() {
+    System.out.println("Printing database:");
+    for (int i = 0; i < flashcardDatabase.size(); i++) {
+      Flashcard flashcard = flashcardDatabase.getFlashcard(i);
+      System.out.println(flashcard.getFrontText() + " " + flashcard.getBackText());
+    }
+  }
 }
