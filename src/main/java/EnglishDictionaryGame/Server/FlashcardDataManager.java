@@ -1,7 +1,7 @@
 package EnglishDictionaryGame.Server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class FlashcardDataManager {
 
@@ -89,11 +89,14 @@ public class FlashcardDataManager {
       }
     }
 
-    // Reset the editing database
-    editingFlashcardDatabase = new FlashcardDatabase(flashcardDatabase);
+    // Reset the editing database to be exactly the same as the flashcard database.
+    for (int i = 0; i < flashcardDatabase.size(); i++) {
+      Flashcard flashcard = flashcardDatabase.getFlashcard(i);
+      editingFlashcardDatabase.getFlashcard(i).setFrontText(flashcard.getFrontText());
+      editingFlashcardDatabase.getFlashcard(i).setBackText(flashcard.getBackText());
+    }
 
     // Reset the save map.
-    saveMap = new HashMap<Flashcard, Boolean>();
     for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
       saveMap.put(editingFlashcardDatabase.getFlashcard(i), true);
     }
@@ -108,6 +111,24 @@ public class FlashcardDataManager {
     return saveMap.get(flashcard);
   }
 
+  public static boolean isSaved(Flashcard flashcard) {
+    if (!saveMap.containsKey(flashcard)) {
+      System.out.println("Flashcard not found in save map.");
+    }
+
+    return saveMap.get(flashcard);
+  }
+  public static boolean isAllSaved() {
+    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
+      Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
+      if (!saveMap.get(flashcard)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   public static void saveAll() {
     for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
       Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
@@ -117,5 +138,18 @@ public class FlashcardDataManager {
         System.out.println("Save all failed. Flashcard not found in save map.");
       }
     }
+  }
+
+  public static ArrayList<Integer> getUnsavedFlashcardsNumber() {
+    ArrayList<Integer> unsavedFlashcardsNumber = new ArrayList<Integer>();
+    for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
+      Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
+      if (!saveMap.get(flashcard)) {
+        Integer flashcardNumber = i + 1;
+        unsavedFlashcardsNumber.add(flashcardNumber);
+      }
+    }
+
+    return unsavedFlashcardsNumber;
   }
 }

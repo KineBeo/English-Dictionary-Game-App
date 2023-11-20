@@ -8,7 +8,7 @@
 <AnchorPane fx:id="saveAllFlashcardsButton" prefHeight="500.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="315.0" layoutY="28.0" text="Flashcard Number:" />
-      <Label fx:id="flashcardCounter" layoutX="460.0" layoutY="28.0" text="[FLASHCARD NUMBER COUNTER]" />
+      <Label fx:id="flashcardCounter" layoutX="478.0" layoutY="28.0" text="[FLASHCARD NUMBER COUNTER]" />
       <Button fx:id="addEditFlashcardButton" layoutX="27.0" layoutY="74.0" mnemonicParsing="false" text="Add" />
       <Button fx:id="deleteEditFlashcardButton" layoutX="811.0" layoutY="74.0" mnemonicParsing="false" text="Delete" />
       <TextField fx:id="wordTargetEditor" layoutX="17.0" layoutY="147.0" prefHeight="38.0" prefWidth="862.0" />
@@ -20,5 +20,6 @@
       <Button fx:id="saveEditFlashcardButton" layoutX="421.0" layoutY="445.0" mnemonicParsing="false" text="Save" />
       <Button fx:id="exitEditFlashcardsButton" layoutX="822.0" layoutY="10.0" mnemonicParsing="false" text="Exit" />
       <Button fx:id="saveAllEditFlashcardsButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Save All" />
+      <TextField fx:id="flashcardNumberInputField" layoutX="439.0" layoutY="23.0" prefHeight="32.0" prefWidth="27.0" />
    </children>
 </AnchorPane>
