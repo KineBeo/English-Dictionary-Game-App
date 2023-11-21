@@ -69,6 +69,7 @@ public class QuizController {
 
     newQuizButton.setOnMouseClicked(
         mouseEvent -> {
+          correctAnswerText.setText("");
           resetTimer();
           startNewQuiz();
         });
@@ -131,11 +132,11 @@ public class QuizController {
                   if (totalSecond < 0) {
                     currentTimer.cancel();
                     quizTimer.setText("00:00:00");
-                    newQuizButton.setOnMouseClicked(
-                        event -> {
-                          resetTimer();
-                          startNewQuiz();
-                        });
+//                    newQuizButton.setOnMouseClicked(
+//                        event -> {
+//                          resetTimer();
+//                          startNewQuiz();
+//                        });
                     try {
                       FXMLLoader loader =
                           new FXMLLoader(Main.class.getResource("fxml/QuizResult.fxml"));
@@ -178,6 +179,7 @@ public class QuizController {
                     + quiz.getChooseAnswer()
                     + ", check correct answer: "
                     + quiz.getChooseAnswer().equals(quiz.getCorrectAnswer()));
+            System.out.println("String: " + correctAnswerText.getText());
           }
         });
   }
