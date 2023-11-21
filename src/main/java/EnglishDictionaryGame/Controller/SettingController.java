@@ -29,10 +29,10 @@ public class SettingController {
 
   /** Set color theme. */
   public void setBarTheme(HBox temp, ArrayList<Label> buttons, ListView<String> listView) {
-    changeColor(redTheme, "css/redTheme.css", "#DA000E", temp, buttons, listView);
-    changeColor(whiteBlueTheme, "css/whiteBlueTheme.css", "#30abf3", temp, buttons, listView);
-    changeColor(blueTheme, "css/blueTheme.css", "#0768ad", temp, buttons, listView);
-    changeColor(yellowTheme, "css/yellowTheme.css", "#f79410", temp, buttons, listView);
+    changeColor(redTheme, "css/redTheme.css", "#DA000E", temp, buttons, listView, "#B60000");
+    changeColor(whiteBlueTheme, "css/whiteBlueTheme.css", "#30abf3", temp, buttons, listView, "#0088CD");
+    changeColor(blueTheme, "css/blueTheme.css", "#0768ad", temp, buttons, listView, "#0077ff");
+    changeColor(yellowTheme, "css/yellowTheme.css", "#f79410", temp, buttons, listView, "#CB7000");
   }
 
   public void changeColor(
@@ -41,11 +41,13 @@ public class SettingController {
       String backgroundColorCode,
       HBox temp,
       ArrayList<Label> buttons,
-      ListView<String> listView) {
+      ListView<String> listView,
+      String color) {
     theme.setOnMouseClicked(
         mouseEvent -> {
           temp.setStyle("-fx-background-color: " + backgroundColorCode);
           Application.definitionColor = backgroundColorCode;
+            Application.wordColor = color;
           buttons.forEach(
               button -> {
                 button.getStylesheets().clear();
@@ -57,6 +59,7 @@ public class SettingController {
           listView
               .getStylesheets()
               .add(Objects.requireNonNull(Main.class.getResource(fxmlPath)).toExternalForm());
+
         });
   }
 }

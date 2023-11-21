@@ -87,12 +87,12 @@ public class Application implements Initializable {
   private int lastIndex = 0;
   public static String editTarget;
   public static String definitionColor = "#34586F";
+  public static String wordColor = "#0088CD";
   public static ArrayList<Label> buttons = new ArrayList<>();
   private volatile String currentQuery = "";
   public static String currentStage = "";
 
   public static ArrayList<WordInfo> allWords = new ArrayList<>();
-
 
   enum stageType {
     HOME,
@@ -221,26 +221,25 @@ public class Application implements Initializable {
           !wordInfo.getAntonyms().equals("") ? wordInfo.getAntonyms() : "No antonyms found";
 
       htmlContent =
-          "<html><body bgcolor='white' style='color:; font-weight: bold; font-size: 18px;'>"
-              + "<p><b>Word: </b>"
+          "<html><body bgcolor='white' style='font-weight: bold; font-size: 18px;'>"
+              + "<p style='font-size: 30px; color: "
+              + wordColor
+              + ";'><b>Word: </b>"
               + word
               + "</p>"
-              + "<p><i>Type: </i>"
-              + type
-              + "</p>"
-              + "<p><b>Definition: </b>"
-              + meaning
-              + "</p>"
-              + "<p><b>Pronunciation: </b>"
+              + "<p style='font-size: 20px; font-style: italic; font-weight: bold; color: black;'><i>Pronunciation: </i>"
               + pronunciation
               + "</p>"
-              + "<p><b>Example: </b>"
+              + "<p style='font-weight: normal;'><b>Definition: </b>"
+              + meaning
+              + "</p>"
+              + "<p style='font-style: italic; font-weight: normal; color: black;'><i>Example: </i>"
               + example
               + "</p>"
-              + "<p><b>Synonym: </b>"
+              + "<p style='color: green;'><b>Synonym: </b>"
               + synonym
               + "</p>"
-              + "<p><b>Antonyms: </b>"
+              + "<p style='color: red;'><b>Antonyms: </b>"
               + antonyms
               + "</p>"
               + "</body></html>";
