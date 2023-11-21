@@ -8,6 +8,7 @@ import EnglishDictionaryGame.Server.Trie;
 import EnglishDictionaryGame.Server.WordInfo;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -90,6 +91,9 @@ public class Application implements Initializable {
   private volatile String currentQuery = "";
   public static String currentStage = "";
 
+  public static ArrayList<WordInfo> allWords = new ArrayList<>();
+
+
   enum stageType {
     HOME,
     HANGMAN_GAME,
@@ -110,6 +114,7 @@ public class Application implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
+    allWords = database.getAllWordTargets();
     borderPane.setVisible(false);
     preparedSearchList();
     inputText
@@ -440,12 +445,27 @@ public class Application implements Initializable {
   }
 
   public void dailyWord() {
-    dailyWordButton.setOnMouseClicked(
-        mouseEvent -> {
-          currentStage = stageType.DAILY_WORD.toString();
-          quitTimerOfQuiz();
-          openStage("fxml/DailyWord.fxml", "Daily Word");
-        });
+
+    new Thread(
+            () ->
+                dailyWordButton.setOnMouseClicked(
+                    mouseEvent -> {
+                      System.out.println(LocalDate.now());
+                      currentStage = stageType.DAILY_WORD.toString();
+                      quitTimerOfQuiz();
+                      try {
+                        AnchorPane view =
+                            FXMLLoader.load(
+                                Objects.requireNonNull(
+                                    Main.class.getResource("fxml/DailyWord.fxml")));
+                        homeSlider.setVisible(false);
+                        borderPane.setVisible(true);
+                        borderPane.setCenter(view);
+                      } catch (Exception e) {
+                        e.printStackTrace();
+                      }
+                    }))
+        .start();
   }
 
   private void home() {

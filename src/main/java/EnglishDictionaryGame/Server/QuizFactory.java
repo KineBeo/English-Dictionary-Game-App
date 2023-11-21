@@ -1,12 +1,12 @@
 package EnglishDictionaryGame.Server;
 
-import static EnglishDictionaryGame.Main.database;
-
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import static EnglishDictionaryGame.Controller.Application.allWords;
 
 public class QuizFactory {
   enum questionType {
@@ -26,7 +26,7 @@ public class QuizFactory {
   private String[] choices = new String[4];
   private static final int TYPE_OF_QUESTION = 3;
 
-  private static final ArrayList<WordInfo> allWords = database.getAllWordTargets();
+//  private static final ArrayList<WordInfo> allWords = database.getAllWordTargets();
   private static final Map<String, String> hashMapGetWordOfMeaning = new HashMap<>();
   private static final Map<String, String> hashMapGetMeaningOfWord = new HashMap<>();
   private static final Map<String, String> hashMapGetWordOfSynonym = new HashMap<>();
