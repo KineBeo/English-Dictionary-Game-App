@@ -4,26 +4,30 @@ import EnglishDictionaryGame.Server.Flashcard;
 import EnglishDictionaryGame.Server.FlashcardDataManager;
 import EnglishDictionaryGame.Server.FlashcardStageFactory;
 import java.util.ArrayList;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextInputControl;
+import javafx.scene.input.Clipboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 
 public class EditFlashcardController {
 
   private Stage stage;
   private Flashcard operatingFlashcard;
-  private final int MAX_WORD_LENGTH = 30;
+  private final int MAX_WORD_TARGET_LENGTH = 100;
+  private final int MAX_WORD_DEFINITION_LENGTH = 300;
+
 
   public EditFlashcardController() {
     this.stage = FlashcardStageFactory.createEditFlashcardStage();
@@ -42,7 +46,7 @@ public class EditFlashcardController {
     AnchorPane root = (AnchorPane) this.stage.getScene().getRoot();
 
     TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
-    TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
+    TextArea wordDefinitionEditor = (TextArea) root.lookup("#wordDefinitionEditor");
 
     wordTargetEditor.setText(operatingFlashcard.getFrontText());
     wordDefinitionEditor.setText(operatingFlashcard.getBackText());
@@ -69,6 +73,7 @@ public class EditFlashcardController {
     setSaveAllEditFlashcardButtonBehavior(root);
     setFlashcardNumberInputFieldBehavior(root);
     setWordTargetEditorBehavior(root);
+    setWordDefinitionEditorBehavior(root);
   }
 
   private void setAddEditFlashcardButtonBehavior(AnchorPane root) {
@@ -82,7 +87,7 @@ public class EditFlashcardController {
   private void createAddFlashcardPage() {
     AnchorPane root = (AnchorPane) stage.getScene().getRoot();
     TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
-    TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
+    TextArea wordDefinitionEditor = (TextArea) root.lookup("#wordDefinitionEditor");
     wordTargetEditor.setText("");
     wordDefinitionEditor.setText("");
 
@@ -103,7 +108,7 @@ public class EditFlashcardController {
     // Get the new contents of the current flashcard.
     AnchorPane root = (AnchorPane) stage.getScene().getRoot();
     TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
-    TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
+    TextArea wordDefinitionEditor = (TextArea) root.lookup("#wordDefinitionEditor");
     String frontText = wordTargetEditor.getText();
     String backText = wordDefinitionEditor.getText();
 
@@ -214,7 +219,7 @@ public class EditFlashcardController {
 
     // Get the current flashcard's contents.
     TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
-    TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
+    TextArea wordDefinitionEditor = (TextArea) root.lookup("#wordDefinitionEditor");
     String currentFlashcardFrontText = wordTargetEditor.getText();
     String currentFlashcardBackText = wordDefinitionEditor.getText();
 
@@ -322,21 +327,52 @@ public class EditFlashcardController {
   }
 
   private void setWordTargetEditorBehavior(AnchorPane root) {
-    // Set the editor's word limit.
+    // Set the word limit for typing.
     TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
+    setTextFieldWordLimit(wordTargetEditor, MAX_WORD_TARGET_LENGTH);
+  }
+
+  private void setWordDefinitionEditorBehavior(AnchorPane root) {
+    TextArea wordDefinitionEditor = (TextArea) root.lookup("#wordDefinitionEditor");
+    setTextFieldWordLimit(wordDefinitionEditor, MAX_WORD_DEFINITION_LENGTH);
+  }
+
+  private void setWordDefintionEditorStyling(TextArea wordDefinitionEditor) {
+    wordDefinitionEditor.setStyle("-fx-alignment: top-left;");
+    wordDefinitionEditor.setWrapText(true);
+  }
+  private void setTextFieldWordLimit(TextInputControl textInputControl, int wordLimit) {
     TextFormatter textFormatter = new TextFormatter<String>(change -> {
       if (change.isDeleted()) {
         return change;
       }
 
-      if (change.getControlNewText().length() > MAX_WORD_LENGTH) {
+      if (change.getControlNewText().length() > MAX_WORD_TARGET_LENGTH) {
         return null;
       }
 
       return change;
     });
 
-    wordTargetEditor.setTextFormatter(textFormatter);
+    textInputControl.setTextFormatter(textFormatter);
+
+    // Add an event filter to handle paste events
+    textInputControl.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+      if (event.isShortcutDown() && event.getCode() == KeyCode.V) {
+        // Get the clipboard content
+        String clipboardContent = Clipboard.getSystemClipboard().getString();
+
+        // Trim or truncate the pasted content to fit within the character limit
+        if (clipboardContent.length() > wordLimit) {
+          textInputControl.setText(clipboardContent.substring(0, wordLimit));
+        } else {
+          textInputControl.setText(clipboardContent);
+        }
+
+        // Consume the event to prevent the default paste action
+        event.consume();
+      }
+    });
   }
 
   private void handleDeleteConfirmation() {
@@ -412,7 +448,7 @@ public class EditFlashcardController {
 
   private String getWordDefinitionEditorContent() {
     AnchorPane root = (AnchorPane) stage.getScene().getRoot();
-    TextField wordDefinitionEditor = (TextField) root.lookup("#wordDefinitionEditor");
+    TextArea wordDefinitionEditor = (TextArea) root.lookup("#wordDefinitionEditor");
     String wordDefinitionEditorContent = wordDefinitionEditor.getText();
     return wordDefinitionEditorContent;
   }

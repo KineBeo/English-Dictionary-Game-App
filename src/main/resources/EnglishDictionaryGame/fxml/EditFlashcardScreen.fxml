@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.control.TextArea?>
 <AnchorPane fx:id="saveAllFlashcardsButton" prefHeight="500.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="315.0" layoutY="28.0" text="Flashcard Number:" />
@@ -13,7 +14,7 @@
       <Button fx:id="deleteEditFlashcardButton" layoutX="811.0" layoutY="74.0" mnemonicParsing="false" text="Delete" />
       <TextField fx:id="wordTargetEditor" layoutX="17.0" layoutY="147.0" prefHeight="38.0" prefWidth="862.0" />
       <Label layoutX="426.0" layoutY="111.0" text="Word:" />
-      <TextField fx:id="wordDefinitionEditor" layoutX="17.0" layoutY="234.0" prefHeight="104.0" prefWidth="862.0" />
+      <TextArea fx:id="wordDefinitionEditor" layoutX="17.0" layoutY="234.0" prefHeight="104.0" prefWidth="862.0" />
       <Label layoutX="412.0" layoutY="199.0" text="Definition:" />
       <Button fx:id="nextEditFlashcardButton" layoutX="817.0" layoutY="449.0" mnemonicParsing="false" text="Next" />
       <Button fx:id="backEditFlashcardButton" layoutX="25.0" layoutY="445.0" mnemonicParsing="false" text="Back" />

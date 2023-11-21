@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class TranslationService {
 
+  private static final int MAX_SOURCE_TEXT_LENGTH = 100;
   public static String translate(String sourceText, String sourceLang, String targetLang) {
     String translation = "";
     try {
@@ -20,6 +21,12 @@ public class TranslationService {
 
   private static String getTranslation(String sourceText, String sourceLang, String targetLang)
       throws Exception {
+    if (sourceText.length() >= MAX_SOURCE_TEXT_LENGTH) {
+      String lengthExceededResponse = "Text length exceeded maximum length.\n" +
+          "Please limit to " + MAX_SOURCE_TEXT_LENGTH + " characters.";
+      return lengthExceededResponse;
+    }
+
     URL translationRequestURL = buildTranslationRequestURL(sourceText, sourceLang, targetLang);
     String translationResponse = getTranslationRequestResponse(translationRequestURL);
     return translationResponse;
