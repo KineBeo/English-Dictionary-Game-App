@@ -37,7 +37,9 @@ public class QuizController {
   @FXML private Label quizTimer;
   @FXML private Button nextQuestion;
   @FXML private Button newQuizButton;
+  @FXML private Label correctAnswerText;
   @FXML private static boolean answerSelected = false;
+  @FXML private static Timer currentTimer;
 
   private static QuizFactory quiz;
   private static final int NUMBER_OF_QUESTIONS = 10;
@@ -65,7 +67,11 @@ public class QuizController {
     chooseButton(option3);
     chooseButton(option4);
 
-    newQuizButton.setOnMouseClicked(mouseEvent -> startNewQuiz());
+    newQuizButton.setOnMouseClicked(
+        mouseEvent -> {
+          resetTimer();
+          startNewQuiz();
+        });
     nextQuestion.setOnMouseClicked(event -> handleNextQuestion());
   }
 
@@ -89,7 +95,6 @@ public class QuizController {
       button.setText(
           quiz.getChoices()[List.of(option1, option2, option3, option4).indexOf(button)]);
     }
-    System.out.println("Controller correct answer check: " + quiz.getCorrectAnswer());
   }
 
   public String format(long value) {
@@ -110,8 +115,11 @@ public class QuizController {
   }
 
   public void setTimer() {
+    if (currentTimer != null) {
+      currentTimer.cancel();
+    }
     totalSecond = TIME;
-    Timer timer = new Timer();
+    currentTimer = new Timer();
     TimerTask timerTask =
         new TimerTask() {
           @Override
@@ -119,16 +127,34 @@ public class QuizController {
             Platform.runLater(
                 () -> {
                   convertTime();
+                  System.out.println("still");
                   if (totalSecond < 0) {
-                    timer.cancel();
+                    currentTimer.cancel();
                     quizTimer.setText("00:00:00");
+                    newQuizButton.setOnMouseClicked(
+                        event -> {
+                          resetTimer();
+                          startNewQuiz();
+                        });
+                    try {
+                      FXMLLoader loader =
+                          new FXMLLoader(Main.class.getResource("fxml/QuizResult.fxml"));
+                      Scene quizscene = new Scene(loader.load());
+                      quizscene.setFill(Color.TRANSPARENT);
+                      Stage quizstage = new Stage();
+                      quizstage.setScene(quizscene);
+                      quizstage.initStyle(StageStyle.TRANSPARENT);
+                      quizstage.show();
+                    } catch (Exception e) {
+                      e.printStackTrace();
+                    }
                   }
                 });
           }
         };
 
     // preriod: lặp lại
-    timer.schedule(timerTask, 0, 1000);
+    currentTimer.schedule(timerTask, 0, 1000);
   }
 
   private void chooseButton(Button button) {
@@ -138,10 +164,13 @@ public class QuizController {
             answerSelected = true;
             quiz.setChooseAnswer(button.getText());
             if (checkAnswer()) {
-              System.out.println("ok");
               correct++;
+              correctAnswerText.setStyle("-fx-text-fill: green; -fx-font-weight: bold");
+              correctAnswerText.setText("You made the right choice!");
             } else if (!checkAnswer()) {
-              System.out.println("no");
+              correctAnswerText.setStyle("-fx-text-fill: red; -fx-font-weight: bold");
+              correctAnswerText.setText(
+                  "You made the wrong choice, the correct answer is: " + quiz.getCorrectAnswer());
               wrong++;
             }
             System.out.println(
@@ -149,7 +178,6 @@ public class QuizController {
                     + quiz.getChooseAnswer()
                     + ", check correct answer: "
                     + quiz.getChooseAnswer().equals(quiz.getCorrectAnswer()));
-            System.out.println("correct point: " + correct + ", wrong point: " + wrong);
           }
         });
   }
@@ -157,39 +185,30 @@ public class QuizController {
   private void handleNextQuestion() {
     if (answerSelected) {
       answerSelected = false;
+      correctAnswerText.setText("");
       counter++;
       if (counter <= numberOfQuestion) {
         loadQuestion();
         setChoices();
         setShowingQuestionNumber();
       } else if (counter > 10) {
-        try {
-          FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/QuizResult.fxml"));
-          Scene quizscene = new Scene(loader.load());
-          quizscene.setFill(Color.TRANSPARENT);
-          Stage quizstage = new Stage();
-          quizstage.setScene(quizscene);
-          quizstage.initStyle(StageStyle.TRANSPARENT);
-          quizstage.show();
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+        openResultStage();
+        currentTimer.cancel();
       }
     }
   }
 
   private void setCss() {
-    for (Button button : List.of(option1, option2, option3, option4, newQuizButton)) {
+    for (Button button : List.of(option1, option2, option3, option4, newQuizButton, nextQuestion)) {
       button
           .getStylesheets()
           .add(Objects.requireNonNull(Main.class.getResource("css/quiz.css")).toExternalForm());
     }
-    question
-        .getStylesheets()
-        .add(Objects.requireNonNull(Main.class.getResource("css/quiz.css")).toExternalForm());
-    showingQuestionNumber
-        .getStylesheets()
-        .add(Objects.requireNonNull(Main.class.getResource("css/quiz.css")).toExternalForm());
+    for (Label label : List.of(question, showingQuestionNumber, quizTimer)) {
+      label
+          .getStylesheets()
+          .add(Objects.requireNonNull(Main.class.getResource("css/quiz.css")).toExternalForm());
+    }
   }
 
   private boolean checkAnswer() {
@@ -207,5 +226,37 @@ public class QuizController {
     quiz = new QuizFactory();
     totalSecond = TIME;
     numberOfQuestion = NUMBER_OF_QUESTIONS;
+  }
+
+  public void resetTimer() {
+    if (currentTimer != null) {
+      currentTimer.cancel();
+      totalSecond = TIME;
+      setTimer();
+    }
+  }
+
+  public void openResultStage() {
+    try {
+      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/QuizResult.fxml"));
+      Scene quizscene = new Scene(loader.load());
+      quizscene.setFill(Color.TRANSPARENT);
+      Stage quizstage = new Stage();
+      quizstage.setScene(quizscene);
+      quizstage.initStyle(StageStyle.TRANSPARENT);
+      quizstage.show();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static Timer getCurrentTimer() {
+    return currentTimer;
+  }
+
+  public static void cancelTimer() {
+    if (!Application.currentStage.equals("QUIZ")) {
+      currentTimer.cancel();
+    }
   }
 }
