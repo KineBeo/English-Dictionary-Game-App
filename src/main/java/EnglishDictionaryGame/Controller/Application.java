@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -158,6 +159,10 @@ public class Application implements Initializable {
   }
 
   private void performSearch(String target) {
+    if (target == null) {
+      return;
+    }
+
     currentQuery = target;
     Task<WordInfo> searchTask =
         new Task<>() {
@@ -293,7 +298,6 @@ public class Application implements Initializable {
   @FXML
   public void updateWord() {
     editTarget = searchList.getSelectionModel().getSelectedItem();
-    System.out.println(editTarget);
 
     new Thread(
             () ->
@@ -342,7 +346,15 @@ public class Application implements Initializable {
   public void pronounceWord() {
     pronounceButton.setOnMouseClicked(
         mouseEvent ->
-            new Thread(() -> PronunciationService.pronounce(inputText.getText(), "en")).start());
+            new Thread(
+                    () -> {
+                      if (inputText.getText().isBlank() || inputText.getText().isEmpty()) {
+                        Platform.runLater(
+                            () -> showAlert("Please enter a word to pronounce!", "Error"));
+                      }
+                      PronunciationService.pronounce(inputText.getText(), "en");
+                    })
+                .start());
   }
 
   public void hangMan() {
@@ -352,7 +364,6 @@ public class Application implements Initializable {
                     mouseEvent -> {
                       currentStage = stageType.HANGMAN_GAME.toString();
                       quitTimerOfQuiz();
-                      System.out.println("Current:" + currentStage);
                       try {
                         AnchorPane view =
                             FXMLLoader.load(
@@ -383,7 +394,6 @@ public class Application implements Initializable {
                 quizButton.setOnMouseClicked(
                     mouseEvent -> {
                       currentStage = stageType.QUIZ_GAME.toString();
-                      System.out.println("Current:" + currentStage);
                       try {
                         AnchorPane view =
                             FXMLLoader.load(
@@ -452,7 +462,6 @@ public class Application implements Initializable {
             () ->
                 dailyWordButton.setOnMouseClicked(
                     mouseEvent -> {
-                      System.out.println(LocalDate.now());
                       currentStage = stageType.DAILY_WORD.toString();
                       quitTimerOfQuiz();
                       try {
@@ -475,7 +484,6 @@ public class Application implements Initializable {
         mouseEvent -> {
           currentStage = stageType.HOME.toString();
           quitTimerOfQuiz();
-          System.out.println("Current:" + currentStage);
           homeSlider.setVisible(true);
           borderPane.setVisible(false);
         });
@@ -564,7 +572,6 @@ public class Application implements Initializable {
 
     menu.setOnMouseClicked(
         mouseEvent -> {
-          System.out.println("clicked Menu");
 
           TranslateTransition slide = new TranslateTransition(Duration.seconds(duration), slider);
           slide.setToX(0);
@@ -589,7 +596,6 @@ public class Application implements Initializable {
 
     menuClose.setOnMouseClicked(
         mouseEvent -> {
-          System.out.println("Clicked Menu Close");
 
           TranslateTransition slide = new TranslateTransition(Duration.seconds(duration), slider);
           slide.setToX(-142);
