@@ -230,6 +230,9 @@ public class Application implements Initializable {
               + "<p style='font-size: 20px; font-style: italic; font-weight: bold; color: black;'><i>Pronunciation: </i>"
               + pronunciation
               + "</p>"
+              + "<p style='font-size: 18px; font-style: italic; font-weight: bold; color: black;'><i>Type: </i>"
+              + type
+              + "</p>"
               + "<p style='font-weight: normal;'><b>Definition: </b>"
               + meaning
               + "</p>"

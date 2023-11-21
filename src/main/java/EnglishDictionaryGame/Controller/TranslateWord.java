@@ -14,10 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class TranslateWord extends WordOperation {
+public class TranslateWord {
 
   @FXML private AnchorPane anchorPane;
 
@@ -88,7 +87,12 @@ public class TranslateWord extends WordOperation {
 
     swapLanguage.setOnAction(event -> swapLanguage());
     sourceLanguageSpeaker.setOnAction(
-        event -> pronounceWord(sourceLanguage.getText(), sourceComboBox.getValue()));
+        event -> {
+          if (sourceLanguage.getText().isEmpty() || sourceLanguage.getText().isBlank()) {
+            sourceLanguage.setText("Please enter a word to pronounce!");
+          }
+          pronounceWord(sourceLanguage.getText(), sourceComboBox.getValue());
+        });
   }
 
   private void pronounceWord(String text, String language) {
@@ -102,8 +106,6 @@ public class TranslateWord extends WordOperation {
     String finalLanguage = language;
     executor.execute(() -> PronunciationService.pronounce(text, finalLanguage));
   }
-
-  public void saveWord() {}
 
   public void translateWord() {
     Task<String> translationTask = createTranslationTask(sourceLanguage.getText());
@@ -148,11 +150,5 @@ public class TranslateWord extends WordOperation {
         return TranslationService.translate(sourceText, sourceLang, targetLang);
       }
     };
-  }
-
-  @Override
-  public void quitScreen() {
-    Stage stage = (Stage) anchorPane.getScene().getWindow();
-    stage.close();
   }
 }
