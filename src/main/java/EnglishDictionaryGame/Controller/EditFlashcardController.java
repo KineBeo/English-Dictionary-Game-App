@@ -5,12 +5,16 @@ import EnglishDictionaryGame.Server.FlashcardDataManager;
 import EnglishDictionaryGame.Server.FlashcardStageFactory;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -19,6 +23,7 @@ public class EditFlashcardController {
 
   private Stage stage;
   private Flashcard operatingFlashcard;
+  private final int MAX_WORD_LENGTH = 30;
 
   public EditFlashcardController() {
     this.stage = FlashcardStageFactory.createEditFlashcardStage();
@@ -63,6 +68,7 @@ public class EditFlashcardController {
     setDeleteEditFlashcardButtonBehavior(root);
     setSaveAllEditFlashcardButtonBehavior(root);
     setFlashcardNumberInputFieldBehavior(root);
+    setWordTargetEditorBehavior(root);
   }
 
   private void setAddEditFlashcardButtonBehavior(AnchorPane root) {
@@ -315,6 +321,23 @@ public class EditFlashcardController {
     defocusFlashcardNumberInputField(root);
   }
 
+  private void setWordTargetEditorBehavior(AnchorPane root) {
+    // Set the editor's word limit.
+    TextField wordTargetEditor = (TextField) root.lookup("#wordTargetEditor");
+    TextFormatter textFormatter = new TextFormatter<String>(change -> {
+      if (change.isDeleted()) {
+        return change;
+      }
+
+      if (change.getControlNewText().length() > MAX_WORD_LENGTH) {
+        return null;
+      }
+
+      return change;
+    });
+
+    wordTargetEditor.setTextFormatter(textFormatter);
+  }
 
   private void handleDeleteConfirmation() {
     Alert deleteConfirmationAlert = createDeleteAlert();
