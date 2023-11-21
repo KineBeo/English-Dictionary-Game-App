@@ -26,7 +26,7 @@ public class EditFlashcardController {
   private Stage stage;
   private Flashcard operatingFlashcard;
   private final int MAX_WORD_TARGET_LENGTH = 100;
-  private final int MAX_WORD_DEFINITION_LENGTH = 300;
+  private final int MAX_WORD_DEFINITION_LENGTH = 100;
 
 
   public EditFlashcardController() {
@@ -335,6 +335,7 @@ public class EditFlashcardController {
   private void setWordDefinitionEditorBehavior(AnchorPane root) {
     TextArea wordDefinitionEditor = (TextArea) root.lookup("#wordDefinitionEditor");
     setTextFieldWordLimit(wordDefinitionEditor, MAX_WORD_DEFINITION_LENGTH);
+    setWordDefintionEditorStyling(wordDefinitionEditor);
   }
 
   private void setWordDefintionEditorStyling(TextArea wordDefinitionEditor) {
@@ -347,7 +348,7 @@ public class EditFlashcardController {
         return change;
       }
 
-      if (change.getControlNewText().length() > MAX_WORD_TARGET_LENGTH) {
+      if (change.getControlNewText().length() > wordLimit) {
         return null;
       }
 
@@ -368,7 +369,8 @@ public class EditFlashcardController {
         } else {
           textInputControl.setText(clipboardContent);
         }
-
+        // Put the new caret position at the end of the content.
+        textInputControl.positionCaret(textInputControl.getLength());
         // Consume the event to prevent the default paste action
         event.consume();
       }
