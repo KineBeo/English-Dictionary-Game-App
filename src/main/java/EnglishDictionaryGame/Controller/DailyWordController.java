@@ -21,7 +21,6 @@ public class DailyWordController {
   @FXML private ImageView speaker;
 
   private static final LocalDate currentDate = LocalDate.now();
-  private static LocalDate previousDate;
   private static WordInfo currentRandomWord;
 
   @FXML
@@ -58,13 +57,6 @@ public class DailyWordController {
         }
       }
 
-      System.out.println("Today word: " + todayWord);
-      System.out.println(
-          "Previous day: "
-              + previousDateFromFile
-              + "Check: "
-              + currentDate.equals(previousDateFromFile));
-
       if (currentDate.equals(previousDateFromFile)) {
         randomWord.setText(todayWord.toString());
         loadWebView(database.findWord(todayWord.toString()));
@@ -74,6 +66,7 @@ public class DailyWordController {
             .append("\n")
             .append("Today Word: ")
             .append(todayWord);
+        pronounceWord(todayWord.toString());
       } else if (!currentDate.equals(previousDateFromFile)) {
         loadNewWord();
         randomWord.setText(currentRandomWord.getWord());
@@ -85,6 +78,7 @@ public class DailyWordController {
             .append(currentDate)
             .append("\n")
             .append(todayWordStringInFile);
+        pronounceWord(currentRandomWord.getWord());
       }
 
       reader.close();
