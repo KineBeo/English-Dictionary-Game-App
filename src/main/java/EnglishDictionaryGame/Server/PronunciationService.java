@@ -30,6 +30,9 @@ public class PronunciationService {
 
   public static void pronounce(String text, String language) {
     try {
+      if (text == null || text.isEmpty() || text.isBlank()) {
+        return;
+      }
       playPronunciationSound(text, language);
     } catch (IOException internetNotFoundException) {
       Platform.runLater(() -> {

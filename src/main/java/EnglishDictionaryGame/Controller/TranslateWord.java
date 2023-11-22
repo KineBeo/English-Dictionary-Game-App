@@ -1,9 +1,11 @@
 package EnglishDictionaryGame.Controller;
 
+import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.PronunciationService;
 import EnglishDictionaryGame.Server.TranslationService;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import javafx.animation.KeyFrame;
@@ -14,10 +16,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class TranslateWord extends WordOperation {
+public class TranslateWord {
 
   @FXML private AnchorPane anchorPane;
 
@@ -41,6 +42,7 @@ public class TranslateWord extends WordOperation {
 
   @FXML
   private void initialize() {
+    setCss();
     sourceComboBox.getItems().addAll(languages);
     translationComboBox.getItems().addAll(languages);
 
@@ -49,16 +51,6 @@ public class TranslateWord extends WordOperation {
 
     // Make the translation result uneditable.
     translationLanguage.setEditable(false);
-
-    //    sourceLanguage
-    //        .textProperty()
-    //        .addListener(
-    //            (observable, oldValue, newValue) -> {
-    //              Task<String> translationTask = createTranslationTask(newValue);
-    //              translationTask.setOnSucceeded(
-    //                  event -> translationLanguage.setText(translationTask.getValue()));
-    //              new Thread(translationTask).start();
-    //            });
 
     sourceLanguage
         .textProperty()
@@ -88,7 +80,20 @@ public class TranslateWord extends WordOperation {
 
     swapLanguage.setOnAction(event -> swapLanguage());
     sourceLanguageSpeaker.setOnAction(
-        event -> pronounceWord(sourceLanguage.getText(), sourceComboBox.getValue()));
+        event -> {
+          if (sourceLanguage.getText().isEmpty() || sourceLanguage.getText().isBlank()) {
+            sourceLanguage.setText("Please enter a word to pronounce!");
+          }
+          pronounceWord(sourceLanguage.getText(), sourceComboBox.getValue());
+        });
+  }
+
+  private void setCss() {
+    anchorPane
+        .getStylesheets()
+        .add(
+            Objects.requireNonNull(Main.class.getResource("css/translateWord.css"))
+                .toExternalForm());
   }
 
   private void pronounceWord(String text, String language) {
@@ -102,8 +107,6 @@ public class TranslateWord extends WordOperation {
     String finalLanguage = language;
     executor.execute(() -> PronunciationService.pronounce(text, finalLanguage));
   }
-
-  public void saveWord() {}
 
   public void translateWord() {
     Task<String> translationTask = createTranslationTask(sourceLanguage.getText());
@@ -130,6 +133,9 @@ public class TranslateWord extends WordOperation {
       protected String call() {
         String sourceLang = sourceComboBox.getValue();
         String targetLang = translationComboBox.getValue();
+        if (sourceLang.equals(targetLang)) {
+          return sourceText;
+        }
         switch (sourceLang) {
           case "English" -> sourceLang = "en";
           case "Vietnamese" -> sourceLang = "vi";
@@ -148,11 +154,5 @@ public class TranslateWord extends WordOperation {
         return TranslationService.translate(sourceText, sourceLang, targetLang);
       }
     };
-  }
-
-  @Override
-  public void quitScreen() {
-    Stage stage = (Stage) anchorPane.getScene().getWindow();
-    stage.close();
   }
 }

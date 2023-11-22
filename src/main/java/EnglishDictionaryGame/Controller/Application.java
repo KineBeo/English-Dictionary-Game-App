@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -86,9 +87,12 @@ public class Application implements Initializable {
   private int lastIndex = 0;
   public static String editTarget;
   public static String definitionColor = "#34586F";
+  public static String wordColor = "#0088CD";
   public static ArrayList<Label> buttons = new ArrayList<>();
   private volatile String currentQuery = "";
   public static String currentStage = "";
+
+  public static ArrayList<WordInfo> allWords = new ArrayList<>();
 
   enum stageType {
     HOME,
@@ -110,6 +114,7 @@ public class Application implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
+    allWords = database.getAllWordTargets();
     borderPane.setVisible(false);
     preparedSearchList();
     inputText
@@ -147,12 +152,15 @@ public class Application implements Initializable {
   /** Refresh the list view. */
   public void preparedSearchList() {
     String target = inputText.getText();
-    target = formatFirstLetter(target);
-    ArrayList<String> words = Trie.search(target);
+    ArrayList<String> words = Trie.search(formatFirstLetter(target));
     searchList.setItems(FXCollections.observableArrayList(words));
   }
 
   private void performSearch(String target) {
+    if (target == null) {
+      return;
+    }
+
     currentQuery = target;
     Task<WordInfo> searchTask =
         new Task<>() {
@@ -176,8 +184,7 @@ public class Application implements Initializable {
   @FXML
   public void findWord() {
     String target = inputText.getText();
-    target = formatFirstLetter(target);
-    performSearch(target);
+    performSearch(formatFirstLetter(target));
   }
 
   private String formatFirstLetter(String str) {
@@ -216,26 +223,28 @@ public class Application implements Initializable {
           !wordInfo.getAntonyms().equals("") ? wordInfo.getAntonyms() : "No antonyms found";
 
       htmlContent =
-          "<html><body bgcolor='white' style='color:; font-weight: bold; font-size: 18px;'>"
-              + "<p><b>Word: </b>"
+          "<html><body bgcolor='white' style='font-weight: bold; font-size: 18px;'>"
+              + "<p style='font-size: 30px; color: "
+              + wordColor
+              + ";'><b>Word: </b>"
               + word
               + "</p>"
-              + "<p><i>Type: </i>"
-              + type
-              + "</p>"
-              + "<p><b>Definition: </b>"
-              + meaning
-              + "</p>"
-              + "<p><b>Pronunciation: </b>"
+              + "<p style='font-size: 20px; font-style: italic; font-weight: bold; color: black;'><i>Pronunciation: </i>"
               + pronunciation
               + "</p>"
-              + "<p><b>Example: </b>"
+              + "<p style='font-size: 18px; font-style: italic; font-weight: bold; color: black;'><i>Type: </i>"
+              + type
+              + "</p>"
+              + "<p style='font-weight: normal;'><b>Definition: </b>"
+              + meaning
+              + "</p>"
+              + "<p style='font-style: italic; font-weight: normal; color: black;'><i>Example: </i>"
               + example
               + "</p>"
-              + "<p><b>Synonym: </b>"
+              + "<p style='color: green;'><b>Synonym: </b>"
               + synonym
               + "</p>"
-              + "<p><b>Antonyms: </b>"
+              + "<p style='color: red;'><b>Antonyms: </b>"
               + antonyms
               + "</p>"
               + "</body></html>";
@@ -286,7 +295,6 @@ public class Application implements Initializable {
   @FXML
   public void updateWord() {
     editTarget = searchList.getSelectionModel().getSelectedItem();
-    System.out.println(editTarget);
 
     new Thread(
             () ->
@@ -335,7 +343,15 @@ public class Application implements Initializable {
   public void pronounceWord() {
     pronounceButton.setOnMouseClicked(
         mouseEvent ->
-            new Thread(() -> PronunciationService.pronounce(inputText.getText(), "en")).start());
+            new Thread(
+                    () -> {
+                      if (inputText.getText().isBlank() || inputText.getText().isEmpty()) {
+                        Platform.runLater(
+                            () -> showAlert("Please enter a word to pronounce!", "Error"));
+                      }
+                      PronunciationService.pronounce(inputText.getText(), "en");
+                    })
+                .start());
   }
 
   public void hangMan() {
@@ -345,7 +361,6 @@ public class Application implements Initializable {
                     mouseEvent -> {
                       currentStage = stageType.HANGMAN_GAME.toString();
                       quitTimerOfQuiz();
-                      System.out.println("Current:" + currentStage);
                       try {
                         AnchorPane view =
                             FXMLLoader.load(
@@ -376,7 +391,6 @@ public class Application implements Initializable {
                 quizButton.setOnMouseClicked(
                     mouseEvent -> {
                       currentStage = stageType.QUIZ_GAME.toString();
-                      System.out.println("Current:" + currentStage);
                       try {
                         AnchorPane view =
                             FXMLLoader.load(
@@ -440,12 +454,26 @@ public class Application implements Initializable {
   }
 
   public void dailyWord() {
-    dailyWordButton.setOnMouseClicked(
-        mouseEvent -> {
-          currentStage = stageType.DAILY_WORD.toString();
-          quitTimerOfQuiz();
-          openStage("fxml/DailyWord.fxml", "Daily Word");
-        });
+
+    new Thread(
+            () ->
+                dailyWordButton.setOnMouseClicked(
+                    mouseEvent -> {
+                      currentStage = stageType.DAILY_WORD.toString();
+                      quitTimerOfQuiz();
+                      try {
+                        AnchorPane view =
+                            FXMLLoader.load(
+                                Objects.requireNonNull(
+                                    Main.class.getResource("fxml/DailyWord.fxml")));
+                        homeSlider.setVisible(false);
+                        borderPane.setVisible(true);
+                        borderPane.setCenter(view);
+                      } catch (Exception e) {
+                        e.printStackTrace();
+                      }
+                    }))
+        .start();
   }
 
   private void home() {
@@ -453,7 +481,6 @@ public class Application implements Initializable {
         mouseEvent -> {
           currentStage = stageType.HOME.toString();
           quitTimerOfQuiz();
-          System.out.println("Current:" + currentStage);
           homeSlider.setVisible(true);
           borderPane.setVisible(false);
         });
@@ -542,7 +569,6 @@ public class Application implements Initializable {
 
     menu.setOnMouseClicked(
         mouseEvent -> {
-          System.out.println("clicked Menu");
 
           TranslateTransition slide = new TranslateTransition(Duration.seconds(duration), slider);
           slide.setToX(0);
@@ -567,7 +593,6 @@ public class Application implements Initializable {
 
     menuClose.setOnMouseClicked(
         mouseEvent -> {
-          System.out.println("Clicked Menu Close");
 
           TranslateTransition slide = new TranslateTransition(Duration.seconds(duration), slider);
           slide.setToX(-142);

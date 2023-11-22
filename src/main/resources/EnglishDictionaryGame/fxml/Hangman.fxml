@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
@@ -12,35 +13,34 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.HangmanController">
    <children>
       <Pane prefHeight="500.0" prefWidth="895.0" style="-fx-background-color: BLACK;">
-          <Pane fx:id="base1" layoutX="498.0" layoutY="181.0" prefHeight="104.0" prefWidth="37.0">
+          <Pane fx:id="base1" layoutX="598.0" layoutY="181.0" prefHeight="104.0" prefWidth="37.0">
               <Line endX="105.40866088867188" endY="-3.0517578125E-5" layoutX="-56.0" layoutY="50.0" rotate="90.0" startX="35.55894470214844" style="-fx-stroke: #33EEBB;" />
           </Pane>
-          <Pane fx:id="base2" layoutX="440.0" layoutY="182.0" prefHeight="80.0" prefWidth="78.0">
-              <Line endX="105.40866088867188" endY="-3.0517578125E-5" layoutX="-25.0" layoutY="37.0" rotate="-40.0" startX="35.55894470214844" style="-fx-stroke: #33EEBB;" />
+          <Pane fx:id="base2" layoutX="540.0" layoutY="182.0" prefHeight="80.0" prefWidth="78.0">
+              <Line endX="111.27875518798828" endY="1.7485589981079102" layoutX="-25.0" layoutY="37.0" rotate="-40.0" startX="34.6224250793457" startY="18.249481201171875" style="-fx-stroke: #33EEBB;" />
           </Pane>
-          <Pane fx:id="base3" layoutX="500.0" layoutY="174.0" prefHeight="104.0" prefWidth="78.0">
-              <Line endX="105.40866088867188" endY="-3.0517578125E-5" layoutX="-37.0" layoutY="51.0" rotate="55.0" startX="35.55894470214844" style="-fx-stroke: #33EEBB;" />
+          <Pane fx:id="base3" layoutX="600.0" layoutY="174.0" prefHeight="104.0" prefWidth="78.0">
+              <Line endX="101.4140625" endY="-3.0517578125E-5" layoutX="-37.0" layoutY="51.0" rotate="55.0" startX="35.55894470214844" style="-fx-stroke: #33EEBB;" />
           </Pane>
-          <Pane fx:id="pole" layoutX="495.0" layoutY="38.0" prefHeight="160.0" prefWidth="37.0">
+          <Pane fx:id="pole" layoutX="595.0" layoutY="38.0" prefHeight="160.0" prefWidth="37.0">
               <Line endX="100.0" layoutX="-85.0" layoutY="10.0" startX="100.00001525878906" startY="146.47259521484375" style="-fx-stroke: #33EEBB;" />
               <Line endX="100.0" layoutX="-80.0" layoutY="10.0" startX="100.00001525878906" startY="146.47259521484375" style="-fx-stroke: #33EEBB;" />
               <Circle layoutX="18.0" layoutY="157.0" radius="5.0" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: #33EEBB;" />
           </Pane>
-          <Pane fx:id="rod" layoutX="481.0" layoutY="28.0" prefHeight="48.0" prefWidth="200.0">
+          <Pane fx:id="rod" layoutX="581.0" layoutY="28.0" prefHeight="48.0" prefWidth="200.0">
               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="9.0" layoutX="24.0" layoutY="19.0" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: #33EEBB;" width="158.0" />
               <Circle layoutX="32.0" layoutY="22.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: #33EEBB;" />
           </Pane>
-          <Pane fx:id="rope1" layoutX="608.0" layoutY="44.0" prefHeight="56.0" prefWidth="49.0">
+          <Pane fx:id="rope1" layoutX="708.0" layoutY="44.0" prefHeight="56.0" prefWidth="49.0">
               <Line endX="129.02757263183594" endY="-0.290477454662323" layoutX="-89.0" layoutY="22.0" rotate="93.0" startX="91.1222915649414" startY="1.9441001415252686" style="-fx-stroke: #33EEBB;" />
           </Pane>
-          <Pane fx:id="rope2" layoutX="607.0" layoutY="75.0" prefHeight="66.0" prefWidth="49.0">
+          <Pane fx:id="rope2" layoutX="706.0" layoutY="75.0" prefHeight="66.0" prefWidth="49.0">
               <Ellipse fill="TRANSPARENT" layoutX="23.0" layoutY="31.0" radiusX="10.0" radiusY="20.0" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: #33EEBB;" />
           </Pane>
-          <Pane fx:id="man" layoutX="587.0" layoutY="74.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="89.0">
+          <Pane fx:id="man" layoutX="687.0" layoutY="74.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="89.0">
               <Circle fill="TRANSPARENT" layoutX="43.0" layoutY="29.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: #33EEBB;" />
               <Line endX="-75.0" endY="73.0" layoutX="118.0" layoutY="46.0" startX="-75.0" style="-fx-stroke: #33EEBB;" />
               <Line endX="100.0" layoutX="-52.0" layoutY="131.0" rotate="-45.0" startX="65.0" style="-fx-stroke: #33EEBB;" />
@@ -183,7 +183,7 @@
                   </font>
               </Button>
           </FlowPane>
-          <Text fx:id="text" fill="#40b9ff" layoutX="36.0" layoutY="192.0" stroke="TRANSPARENT" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="338.1285705566406">
+          <Text fx:id="text" fill="#40b9ff" layoutX="36.0" layoutY="182.0" stroke="TRANSPARENT" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="338.1285705566406">
               <font>
                   <Font size="50.0" />
               </font>
@@ -198,11 +198,16 @@
                   <Font size="30.0" />
               </font>
           </Text>
-          <Button focusTraversable="false" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onAction="#newGame" style="-fx-background-color: #59D0F6#59D0F6;" text="New Game">
+          <Button focusTraversable="false" layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onAction="#newGame" style="-fx-background-color: #59D0F6#59D0F6; -fx-border-radius: 20; -fx-background-radius: 20;" text="New Game">
             <font>
                <Font name="System Bold" size="16.0" />
             </font>
          </Button>
+         <Label fx:id="hintText" layoutX="178.0" layoutY="20.0" prefHeight="30.0" prefWidth="386.0" textFill="#59ecf6">
+            <font>
+               <Font name="System Bold" size="20.0" />
+            </font>
+         </Label>
       </Pane>
    </children>
 </AnchorPane>
