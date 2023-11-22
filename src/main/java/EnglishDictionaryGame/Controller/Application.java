@@ -8,7 +8,6 @@ import EnglishDictionaryGame.Server.Trie;
 import EnglishDictionaryGame.Server.WordInfo;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -153,8 +152,7 @@ public class Application implements Initializable {
   /** Refresh the list view. */
   public void preparedSearchList() {
     String target = inputText.getText();
-    target = formatFirstLetter(target);
-    ArrayList<String> words = Trie.search(target);
+    ArrayList<String> words = Trie.search(formatFirstLetter(target));
     searchList.setItems(FXCollections.observableArrayList(words));
   }
 
@@ -186,8 +184,7 @@ public class Application implements Initializable {
   @FXML
   public void findWord() {
     String target = inputText.getText();
-    target = formatFirstLetter(target);
-    performSearch(target);
+    performSearch(formatFirstLetter(target));
   }
 
   private String formatFirstLetter(String str) {

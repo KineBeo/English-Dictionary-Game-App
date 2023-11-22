@@ -1,10 +1,6 @@
 package EnglishDictionaryGame;
 import EnglishDictionaryGame.Server.Database;
-
-import java.util.ArrayList;
 import java.util.Objects;
-
-import EnglishDictionaryGame.Server.WordInfo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

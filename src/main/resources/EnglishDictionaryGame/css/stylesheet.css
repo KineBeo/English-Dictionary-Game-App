@@ -89,3 +89,6 @@
     -fx-border-radius: 30 30 0 0 ;
 }
 
+.addWordCss {
+    -fx-font-weight: bold;
+}

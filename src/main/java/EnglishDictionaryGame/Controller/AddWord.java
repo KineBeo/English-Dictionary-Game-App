@@ -32,10 +32,16 @@ public class AddWord extends WordOperation {
   @FXML private TextField type;
 
   @FXML
-  private void initialize() {}
+  private void initialize() {
+    anchorPane
+        .getStylesheets()
+        .add(
+            Objects.requireNonNull(Main.class.getResource("css/wordOperation.css"))
+                .toExternalForm());
+  }
 
   public void saveWord() {
-    String newWord = inputText.getText();
+    String newWord = formatFirstLetter(inputText.getText());
     String newType = type.getText();
     String newDefinition = definition.getText();
     String newPronunciation = pronunciation.getText();
@@ -72,6 +78,14 @@ public class AddWord extends WordOperation {
   public void quitScreen() {
     Stage stage = (Stage) anchorPane.getScene().getWindow();
     stage.close();
+  }
+
+  private String formatFirstLetter(String str) {
+    if (str == null || str.isEmpty()) {
+      return str;
+    }
+
+    return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
   }
 
   public void showAlert(String message, String title) {
