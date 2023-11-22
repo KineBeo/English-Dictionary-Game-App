@@ -6,7 +6,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class AlertController extends WordOperation {
+public class AlertController {
 
   @FXML private AnchorPane anchorPane;
 
@@ -15,11 +15,7 @@ public class AlertController extends WordOperation {
   @FXML private Label titleLabel;
   @FXML private Pane bar;
 
-  @Override
-  public void saveWord() {}
-
-  @Override
-  public void quitScreen() {
+  public void quit() {
     Stage stage = (Stage) anchorPane.getScene().getWindow();
     stage.close();
   }

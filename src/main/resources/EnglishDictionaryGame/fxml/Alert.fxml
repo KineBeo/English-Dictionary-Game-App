@@ -10,7 +10,7 @@
 <AnchorPane fx:id="anchorPane" prefHeight="150.0" prefWidth="300.0" stylesheets="@../css/stylesheet.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.AlertController">
     <children>
           <Label fx:id="messageLabel" layoutX="10.0" layoutY="55.0" text="" />
-          <Button layoutX="255.0" layoutY="113.0" mnemonicParsing="false" onAction="#quitScreen" text="OK">
+          <Button layoutX="255.0" layoutY="113.0" mnemonicParsing="false" onAction="#quit" text="OK">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
