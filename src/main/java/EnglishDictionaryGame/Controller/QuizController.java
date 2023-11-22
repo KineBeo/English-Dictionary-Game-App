@@ -128,15 +128,9 @@ public class QuizController {
             Platform.runLater(
                 () -> {
                   convertTime();
-                  System.out.println("still");
                   if (totalSecond < 0) {
                     currentTimer.cancel();
                     quizTimer.setText("00:00:00");
-//                    newQuizButton.setOnMouseClicked(
-//                        event -> {
-//                          resetTimer();
-//                          startNewQuiz();
-//                        });
                     try {
                       FXMLLoader loader =
                           new FXMLLoader(Main.class.getResource("fxml/QuizResult.fxml"));
