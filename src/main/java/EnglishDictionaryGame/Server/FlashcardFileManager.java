@@ -1,6 +1,5 @@
 package EnglishDictionaryGame.Server;
 
-import EnglishDictionaryGame.Exceptions.Utils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;

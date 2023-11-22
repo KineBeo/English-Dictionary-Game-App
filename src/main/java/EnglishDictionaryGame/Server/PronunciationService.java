@@ -1,6 +1,5 @@
 package EnglishDictionaryGame.Server;
 
-import EnglishDictionaryGame.Exceptions.Utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;

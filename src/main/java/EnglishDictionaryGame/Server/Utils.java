@@ -1,4 +1,4 @@
-package EnglishDictionaryGame.Exceptions;
+package EnglishDictionaryGame.Server;
 
 public class Utils {
   private static final String PROJECT_CLASS_PREFIX = "dictionaryapplication.englishdictionarygameapp";

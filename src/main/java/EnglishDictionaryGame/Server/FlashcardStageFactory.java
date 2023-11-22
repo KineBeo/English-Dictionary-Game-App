@@ -1,6 +1,5 @@
 package EnglishDictionaryGame.Server;
 
-import EnglishDictionaryGame.Exceptions.Utils;
 import EnglishDictionaryGame.Main;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.PerspectiveCamera;

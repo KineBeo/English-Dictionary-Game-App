@@ -1,15 +1,12 @@
 package EnglishDictionaryGame.Controller;
 
-import EnglishDictionaryGame.Exceptions.Utils;
+import EnglishDictionaryGame.Server.Utils;
 import EnglishDictionaryGame.Server.Flashcard;
-import EnglishDictionaryGame.Server.FlashcardFileManager;
 import EnglishDictionaryGame.Server.FlashcardDataManager;
 import EnglishDictionaryGame.Server.FlashcardDatabase;
-import EnglishDictionaryGame.Server.FlashcardStageFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class FlashcardController {
 
