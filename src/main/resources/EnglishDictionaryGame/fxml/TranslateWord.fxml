@@ -14,15 +14,15 @@
    <children>
       <AnchorPane layoutY="130.0" prefHeight="350.0" prefWidth="895.0">
          <children>
-            <Pane layoutX="50.0" layoutY="35.0" prefHeight="280.0" prefWidth="795.0">
+            <Pane layoutX="60.0" layoutY="35.0" prefHeight="280.0" prefWidth="795.0">
                <children>
-                  <TextArea fx:id="sourceLanguage" layoutX="20.0" layoutY="65.0" prefHeight="200.0" prefWidth="337.5" />
-                  <TextArea fx:id="translationLanguage" layoutX="427.5" layoutY="65.0" prefHeight="200.0" prefWidth="337.5" />
+                  <TextArea fx:id="sourceLanguage" layoutX="20.0" layoutY="65.0" prefHeight="200.0" prefWidth="337.5" promptText="Enter text" />
+                  <TextArea fx:id="translationLanguage" layoutX="427.5" layoutY="65.0" prefHeight="200.0" prefWidth="337.5" promptText="Translation" />
                   <ComboBox fx:id="sourceComboBox" layoutX="20.0" layoutY="20.0" prefWidth="340.0" promptText="English" />
                   <ComboBox fx:id="translationComboBox" layoutX="427.5" layoutY="20.0" prefWidth="337.5" promptText="Vietnamese" />
                   <Button fx:id="swapLanguage" layoutX="370.0" layoutY="20.0" mnemonicParsing="false">
                      <graphic>
-                        <ImageView fitHeight="29.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/swap.png" />
                            </image>
@@ -31,7 +31,7 @@
                   </Button>
                   <Button fx:id="sourceLanguageSpeaker" layoutX="28.0" layoutY="219.0" mnemonicParsing="false">
                      <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/speaker.png" />
                            </image>
@@ -48,6 +48,9 @@
                      </image>
                   </ImageView>
                </graphic>
+               <font>
+                  <Font size="19.0" />
+               </font>
             </Label>
          </children>
       </AnchorPane>
@@ -55,14 +58,19 @@
          <children>
             <Pane layoutX="220.0" layoutY="20.0" prefHeight="50.0" prefWidth="450.0">
                <children>
-                  <Label layoutX="3.0" layoutY="10.0" text="Enter the text you need to translate here">
+                  <Label layoutX="30.0" layoutY="10.0" text="Enter the text you need to translate here">
                      <font>
-                        <Font name="System Bold" size="22.0" />
+                        <Font size="22.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
             <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+            <Label layoutX="254.0" layoutY="70.0" text="You can translate into 5 different languages">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

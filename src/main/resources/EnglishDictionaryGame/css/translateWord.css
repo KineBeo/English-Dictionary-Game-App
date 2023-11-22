@@ -1,0 +1,28 @@
+.button {
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-color: black;
+    -fx-border-width: 1.5px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+.button:pressed {
+    -fx-translate-x: 2px;
+    -fx-translate-y: 2px;
+}
+
+.label {
+    -fx-font-weight: bold;
+}
+
+.text-area {
+    -fx-font-weight: bold;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}
+
+.combo-box {
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+}

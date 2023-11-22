@@ -1,9 +1,11 @@
 package EnglishDictionaryGame.Controller;
 
+import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.PronunciationService;
 import EnglishDictionaryGame.Server.TranslationService;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import javafx.animation.KeyFrame;
@@ -40,6 +42,7 @@ public class TranslateWord {
 
   @FXML
   private void initialize() {
+    setCss();
     sourceComboBox.getItems().addAll(languages);
     translationComboBox.getItems().addAll(languages);
 
@@ -48,16 +51,6 @@ public class TranslateWord {
 
     // Make the translation result uneditable.
     translationLanguage.setEditable(false);
-
-    //    sourceLanguage
-    //        .textProperty()
-    //        .addListener(
-    //            (observable, oldValue, newValue) -> {
-    //              Task<String> translationTask = createTranslationTask(newValue);
-    //              translationTask.setOnSucceeded(
-    //                  event -> translationLanguage.setText(translationTask.getValue()));
-    //              new Thread(translationTask).start();
-    //            });
 
     sourceLanguage
         .textProperty()
@@ -93,6 +86,14 @@ public class TranslateWord {
           }
           pronounceWord(sourceLanguage.getText(), sourceComboBox.getValue());
         });
+  }
+
+  private void setCss() {
+    anchorPane
+        .getStylesheets()
+        .add(
+            Objects.requireNonNull(Main.class.getResource("css/translateWord.css"))
+                .toExternalForm());
   }
 
   private void pronounceWord(String text, String language) {
@@ -132,6 +133,9 @@ public class TranslateWord {
       protected String call() {
         String sourceLang = sourceComboBox.getValue();
         String targetLang = translationComboBox.getValue();
+        if (sourceLang.equals(targetLang)) {
+          return sourceText;
+        }
         switch (sourceLang) {
           case "English" -> sourceLang = "en";
           case "Vietnamese" -> sourceLang = "vi";
