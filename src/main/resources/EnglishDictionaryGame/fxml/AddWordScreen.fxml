@@ -6,10 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.AddWord">
     <Button fx:id="save" layoutX="810.0" layoutY="444.0" mnemonicParsing="false" onAction="#saveWord" text="Save" />
-    <HBox layoutX="247.5" layoutY="80.0" prefHeight="35.0" prefWidth="400.0">
+    <HBox layoutX="247.5" layoutY="75.0" prefHeight="35.0" prefWidth="400.0">
         <children>
             <Label alignment="CENTER" prefHeight="35.0" prefWidth="95.0" text="New Word" />
             <TextField fx:id="inputText" prefHeight="35.0" prefWidth="307.0" promptText="New word" />
@@ -21,7 +22,7 @@
             <TextField fx:id="type" prefHeight="35.0" prefWidth="336.0" promptText="New word" />
         </children>
     </HBox>
-    <HBox layoutX="14.0" layoutY="200.0" prefHeight="35.0" prefWidth="400.0">
+    <HBox layoutX="14.0" layoutY="195.0" prefHeight="35.0" prefWidth="400.0">
         <children>
             <Label alignment="CENTER" prefHeight="35.0" prefWidth="88.0" text="Synonym" />
             <TextField fx:id="synonym" prefHeight="35.0" prefWidth="332.0" promptText="Synonym" />
@@ -39,7 +40,7 @@
             <TextField fx:id="pronunciation" prefHeight="35.0" prefWidth="307.0" promptText="Pronunciation" />
         </children>
     </HBox>
-    <HBox layoutX="470.0" layoutY="200.0" prefHeight="35.0" prefWidth="400.0">
+    <HBox layoutX="470.0" layoutY="195.0" prefHeight="35.0" prefWidth="400.0">
         <children>
             <Label alignment="CENTER" prefHeight="35.0" prefWidth="95.0" text="Antonym" />
             <TextField fx:id="antonym" prefHeight="35.0" prefWidth="307.0" promptText="Antonym" />
@@ -51,5 +52,8 @@
             <TextField fx:id="definition" alignment="TOP_LEFT" prefHeight="138.0" prefWidth="325.0" promptText="Definition" />
         </children>
     </VBox>
-    <Label layoutX="359.0" layoutY="29.0" text="Add your words here" />
+    <Label layoutX="359.0" layoutY="16.0" text="Add your words here">
+      <font>
+         <Font size="20.0" />
+      </font></Label>
 </AnchorPane>

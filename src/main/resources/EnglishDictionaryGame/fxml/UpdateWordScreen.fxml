@@ -6,11 +6,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EnglishDictionaryGame.Controller.UpdateWord">
    <children>
       <Button layoutX="810.0" layoutY="444.0" mnemonicParsing="false" onAction="#saveWord" text="Save" />
-      <HBox layoutX="247.5" layoutY="80.0" prefHeight="35.0" prefWidth="400.0">
+      <HBox layoutX="247.5" layoutY="75.0" prefHeight="35.0" prefWidth="400.0">
          <children>
             <Label alignment="CENTER" prefHeight="35.0" prefWidth="95.0" text="New Word" />
             <TextField fx:id="inputText" prefHeight="35.0" prefWidth="307.0" promptText="New word" />
@@ -52,6 +53,9 @@
             <TextField fx:id="definition" alignment="TOP_LEFT" prefHeight="138.0" prefWidth="325.0" promptText="Definition" />
          </children>
       </VBox>
-      <Label layoutX="355.0" layoutY="29.0" text="Update word information " />
+      <Label layoutX="352.0" layoutY="21.0" text="Update word information ">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
    </children>
 </AnchorPane>

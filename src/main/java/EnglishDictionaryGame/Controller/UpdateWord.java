@@ -34,6 +34,7 @@ public class UpdateWord extends WordOperation {
 
   @FXML
   private void initialize() {
+    setCss();
     inputText.setText(Application.editTarget);
     WordInfo wordInfo = database.findWord(Application.editTarget);
     if (wordInfo != null) {
@@ -44,6 +45,14 @@ public class UpdateWord extends WordOperation {
       synonym.setText(wordInfo.getSynonym());
       antonym.setText(wordInfo.getAntonyms());
     }
+  }
+
+  private void setCss() {
+    anchorPane
+        .getStylesheets()
+        .add(
+            Objects.requireNonNull(Main.class.getResource("css/wordOperation.css"))
+                .toExternalForm());
   }
 
   @Override

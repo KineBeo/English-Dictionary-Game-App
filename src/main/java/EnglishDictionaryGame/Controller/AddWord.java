@@ -33,6 +33,10 @@ public class AddWord extends WordOperation {
 
   @FXML
   private void initialize() {
+    setCss();
+  }
+
+  private void setCss() {
     anchorPane
         .getStylesheets()
         .add(
