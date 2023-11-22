@@ -1,6 +1,7 @@
 package EnglishDictionaryGame.Server;
 
 import EnglishDictionaryGame.Exceptions.Utils;
+import java.io.IOException;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -12,6 +13,9 @@ public class TranslationService {
     String translation = "";
     try {
       translation = getTranslation(sourceText, sourceLang, targetLang);
+    } catch (IOException internetNotFoundException) {
+      translation = "It seems a connection cannot be established.\n"
+          + "Please check your internet connection.";
     } catch (Exception e) {
       Utils.printRelevantStackTrace(e);
     }
@@ -20,7 +24,7 @@ public class TranslationService {
   }
 
   private static String getTranslation(String sourceText, String sourceLang, String targetLang)
-      throws Exception {
+      throws MalformedURLException, URISyntaxException, IOException {
     if (sourceText.length() >= MAX_SOURCE_TEXT_LENGTH) {
       String lengthExceededResponse = "Text length exceeded maximum length.\n" +
           "Please limit to " + MAX_SOURCE_TEXT_LENGTH + " characters.";
@@ -33,7 +37,8 @@ public class TranslationService {
   }
 
   private static URL buildTranslationRequestURL(
-      String sourceText, String sourceLang, String targetLang) throws Exception {
+      String sourceText, String sourceLang, String targetLang)
+      throws MalformedURLException, URISyntaxException {
     StringBuilder urlStringBuilder = new StringBuilder();
     urlStringBuilder
         .append(
@@ -50,7 +55,7 @@ public class TranslationService {
     return translationRequestURL;
   }
 
-  private static String getTranslationRequestResponse(URL url) throws Exception {
+  private static String getTranslationRequestResponse(URL url) throws IOException {
     Scanner scanner = new Scanner(url.openStream());
     String content = scanner.useDelimiter("\\Z").next();
     scanner.close();
