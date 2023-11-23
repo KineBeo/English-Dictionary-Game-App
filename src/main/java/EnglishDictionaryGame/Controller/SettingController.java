@@ -29,10 +29,10 @@ public class SettingController {
 
   /** Set color theme. */
   public void setBarTheme(HBox temp, ArrayList<Label> buttons, ListView<String> listView) {
-    changeColor(redTheme, "css/redTheme.css", "#DA000E", temp, buttons, listView, "#B60000");
-    changeColor(whiteBlueTheme, "css/whiteBlueTheme.css", "#30abf3", temp, buttons, listView, "#0088CD");
-    changeColor(blueTheme, "css/blueTheme.css", "#0768ad", temp, buttons, listView, "#0077ff");
-    changeColor(yellowTheme, "css/yellowTheme.css", "#f79410", temp, buttons, listView, "#CB7000");
+    changeColor(redTheme, "css/RedTheme.css", "#DA000E", temp, buttons, listView, "#B60000");
+    changeColor(whiteBlueTheme, "css/WhiteBlueTheme.css", "#30abf3", temp, buttons, listView, "#0088CD");
+    changeColor(blueTheme, "css/BlueTheme.css", "#0768ad", temp, buttons, listView, "#0077ff");
+    changeColor(yellowTheme, "css/YellowTheme.css", "#f79410", temp, buttons, listView, "#CB7000");
   }
 
   public void changeColor(

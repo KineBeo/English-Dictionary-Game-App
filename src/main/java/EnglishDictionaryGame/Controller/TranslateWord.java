@@ -92,7 +92,7 @@ public class TranslateWord {
     anchorPane
         .getStylesheets()
         .add(
-            Objects.requireNonNull(Main.class.getResource("css/translateWord.css"))
+            Objects.requireNonNull(Main.class.getResource("css/TranslateWord.css"))
                 .toExternalForm());
   }
 

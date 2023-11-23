@@ -36,7 +36,7 @@ public abstract class WordOperation {
     anchorPane
         .getStylesheets()
         .add(
-            Objects.requireNonNull(Main.class.getResource("css/wordOperation.css"))
+            Objects.requireNonNull(Main.class.getResource("css/WordOperation.css"))
                 .toExternalForm());
   }
 

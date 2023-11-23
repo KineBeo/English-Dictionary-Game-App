@@ -198,12 +198,12 @@ public class QuizController {
     for (Button button : List.of(option1, option2, option3, option4, newQuizButton, nextQuestion)) {
       button
           .getStylesheets()
-          .add(Objects.requireNonNull(Main.class.getResource("css/quiz.css")).toExternalForm());
+          .add(Objects.requireNonNull(Main.class.getResource("css/Quiz.css")).toExternalForm());
     }
     for (Label label : List.of(question, showingQuestionNumber, quizTimer)) {
       label
           .getStylesheets()
-          .add(Objects.requireNonNull(Main.class.getResource("css/quiz.css")).toExternalForm());
+          .add(Objects.requireNonNull(Main.class.getResource("css/Quiz.css")).toExternalForm());
     }
   }
 
