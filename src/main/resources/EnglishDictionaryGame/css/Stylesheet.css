@@ -58,10 +58,10 @@
 }
 .menu-Title {
     -fx-text-alignment: center;
-        -fx-text-fill: white;
-        -fx-font-size: 25px;
-        -fx-font-family: "Jetbrains Mono";
-        -fx-padding: 0px 0px 0px 0px;
+    -fx-text-fill: white;
+    -fx-font-size: 23px;
+    -fx-font-family: "Jetbrains Mono";
+    -fx-font-weight: bold;
 }
 
 .dropshadow-forUI {
