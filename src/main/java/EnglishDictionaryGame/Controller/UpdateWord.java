@@ -2,38 +2,14 @@ package EnglishDictionaryGame.Controller;
 
 import static EnglishDictionaryGame.Main.database;
 
-import EnglishDictionaryGame.Main;
 import EnglishDictionaryGame.Server.WordInfo;
-import java.util.Objects;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class UpdateWord extends WordOperation {
 
-  @FXML private AnchorPane anchorPane;
-
-  @FXML private TextField antonym;
-
-  @FXML private TextField definition;
-
-  @FXML private TextField example;
-
-  @FXML private TextField inputText;
-
-  @FXML private TextField pronunciation;
-
-  @FXML private TextField synonym;
-
-  @FXML private TextField type;
-
   @FXML
-  private void initialize() {
+  @Override
+  protected void initialize() {
     setCss();
     inputText.setText(Application.editTarget);
     WordInfo wordInfo = database.findWord(Application.editTarget);
@@ -45,14 +21,6 @@ public class UpdateWord extends WordOperation {
       synonym.setText(wordInfo.getSynonym());
       antonym.setText(wordInfo.getAntonyms());
     }
-  }
-
-  private void setCss() {
-    anchorPane
-        .getStylesheets()
-        .add(
-            Objects.requireNonNull(Main.class.getResource("css/wordOperation.css"))
-                .toExternalForm());
   }
 
   @Override
@@ -70,36 +38,5 @@ public class UpdateWord extends WordOperation {
       Application.editTarget = null;
       showAlert("Successfully updated word!", "Notification");
     }
-  }
-
-  public void showAlert(String message, String title) {
-    try {
-      FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxml/Alert.fxml"));
-      Parent root = loader.load();
-      AlertController alertController = loader.getController();
-      alertController.setMessage(message);
-      alertController.setTitle(title);
-      Scene scene = new Scene(root);
-      scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
-      Stage addStage = new Stage();
-      scene
-          .getStylesheets()
-          .add(Objects.requireNonNull(Main.class.getResource("css/Alert.css")).toExternalForm());
-      addStage.setScene(scene);
-      addStage.setResizable(false);
-      addStage.initModality(Modality.APPLICATION_MODAL);
-      addStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
-      addStage.initOwner(new Main().getMainStage());
-      addStage.showAndWait();
-      addStage.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  @Override
-  public void quitScreen() {
-    Stage stage = (Stage) anchorPane.getScene().getWindow();
-    stage.close();
   }
 }
