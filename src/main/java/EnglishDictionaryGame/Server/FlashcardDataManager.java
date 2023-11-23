@@ -86,9 +86,7 @@ public class FlashcardDataManager {
 
       // Delete the flashcard from both databases if they're empty and continue the loop.
       if (editingFlashcard.isEmpty()) {
-        editingFlashcardDatabase.remove(i);
-        flashcardDatabase.remove(i);
-        saveMap.remove(editingFlashcard);
+        removeFlashcard(i);
         i--;
         continue;
       }
