@@ -1,0 +1,4 @@
+.button: pressed {
+    -fx-translate-x: 2px;
+    -fx-translate-y: 2px;
+}
