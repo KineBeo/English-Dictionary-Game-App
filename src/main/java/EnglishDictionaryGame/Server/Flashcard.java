@@ -80,7 +80,7 @@ public class Flashcard {
   }
 
   public boolean isEmpty() {
-    return frontText.isEmpty() && backText.isEmpty();
+    return frontText.isEmpty() || backText.isEmpty();
   }
 
   private Image createCardFaceImage(String text, boolean isBackImage) {
