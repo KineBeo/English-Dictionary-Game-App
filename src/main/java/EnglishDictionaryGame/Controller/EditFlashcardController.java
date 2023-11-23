@@ -392,9 +392,7 @@ public class EditFlashcardController {
     } else if (confirmationChoice == confirmDelete) {
       deleteCurrentFlashcard();
       // Load the previous flashcard.
-      if (FlashcardDataManager.getSize() == 0) {
-        createAddFlashcardPage();
-      } else if (previousFlashcardIndex < 0) {
+      if (previousFlashcardIndex < 0) {
         previousFlashcardIndex = FlashcardDataManager.getSize() - 1;
       }
 

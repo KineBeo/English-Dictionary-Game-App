@@ -54,6 +54,13 @@ public class FlashcardDataManager {
   }
 
   public static void removeFlashcard(int index) {
+    if (editingFlashcardDatabase.size() == 1) {
+      Flashcard placeholderFlashcard = new Flashcard("Empty", "Empty");
+      editingFlashcardDatabase.addFlashcard(placeholderFlashcard);
+      flashcardDatabase.addFlashcard(placeholderFlashcard);
+      saveMap.put(placeholderFlashcard, true);
+    }
+
     Flashcard flashcard = editingFlashcardDatabase.getFlashcard(index);
     editingFlashcardDatabase.remove(index);
     flashcardDatabase.remove(index);

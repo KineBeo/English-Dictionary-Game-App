@@ -1,2 +1,2 @@
 Word|Definition
-Persona!|A person's personality.
+Empty|Empty
