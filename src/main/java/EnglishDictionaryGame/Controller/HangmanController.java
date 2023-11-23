@@ -95,6 +95,7 @@ public class HangmanController {
     text.setText(displayWord.toString());
 
     if (correct == myWord.length()) {
+      HangmanTimer.getCurrentTimer().cancel();
       winStatus.setText("You Win!");
       buttons.setDisable(true);
     }
