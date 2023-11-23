@@ -127,6 +127,7 @@ public class FlashcardController {
   }
 
   private void updateFlashcardCounter(Label flashcardCounter) {
+    currentFlashcardCount = flashcardDatabase.getIndexOf(currentFlashcard) + 1;
     flashcardCounter.setText(currentFlashcardCount + " / " + flashcardDatabase.size());
   }
 }

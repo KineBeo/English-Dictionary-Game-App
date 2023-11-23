@@ -101,6 +101,7 @@ public class EditFlashcardController {
     saveEditFlashcardButton.setOnAction(
         event -> {
           saveCurrentFlashcard();
+          updateFlashcardCounter();
         });
   }
 
@@ -264,6 +265,7 @@ public class EditFlashcardController {
     saveAllEditFlashcardsButton.setOnAction(
         event -> {
           saveAllFlashcards();
+          updateFlashcardCounter();
         });
   }
 
