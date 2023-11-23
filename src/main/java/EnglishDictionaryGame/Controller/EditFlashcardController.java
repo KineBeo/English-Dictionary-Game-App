@@ -229,6 +229,7 @@ public class EditFlashcardController {
         .equals(operatingFlashcard.getFrontText());
     boolean backTextChanged = !currentFlashcardBackText
         .equals(operatingFlashcard.getBackText());
+
     boolean flashcardChanged = frontTextChanged || backTextChanged;
     if (flashcardChanged) {
       FlashcardDataManager.temporarySave(currentIndex, currentFlashcardFrontText,

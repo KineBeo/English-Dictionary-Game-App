@@ -1,2 +1,4 @@
 Word|Definition
-Empty|Empty
+Persona!|A person's personality.
+Mysterio.|Spiderman's enemy.
+William Dafoe|Greatest Green Goblin Actor of all time.
