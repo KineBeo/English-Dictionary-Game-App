@@ -264,7 +264,7 @@ public class Application implements Initializable {
                         AnchorPane view =
                             FXMLLoader.load(
                                 Objects.requireNonNull(
-                                    Main.class.getResource("fxml/AddWordScreen.fxml")));
+                                    Main.class.getResource("fxml/AddWord.fxml")));
                         homeSlider.setVisible(false);
                         borderPane.setVisible(true);
                         borderPane.setCenter(view);
@@ -307,7 +307,7 @@ public class Application implements Initializable {
                           AnchorPane view =
                               FXMLLoader.load(
                                   Objects.requireNonNull(
-                                      Main.class.getResource("fxml/UpdateWordScreen.fxml")));
+                                      Main.class.getResource("fxml/UpdateWord.fxml")));
                           homeSlider.setVisible(false);
                           borderPane.setVisible(true);
                           borderPane.setCenter(view);
@@ -534,8 +534,7 @@ public class Application implements Initializable {
   }
 
   @FXML
-  public void doubleClicktoSelectWord(MouseEvent mouseEvent) {
-    // Change to one click to select word
+  public void clickToSelectWord(MouseEvent mouseEvent) {
     if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 1) {
       String target = searchList.getSelectionModel().getSelectedItem();
       editTarget = target;

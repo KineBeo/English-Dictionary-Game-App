@@ -19,7 +19,7 @@
          <children>
             <Pane fx:id="homeSlider" layoutX="151.0" layoutY="82.0" prefHeight="500.0" prefWidth="895.0">
                <children>
-                  <ListView fx:id="searchList" layoutX="28.0" layoutY="68.0" onKeyPressed="#selectWordUsingKeyBoard" onMouseClicked="#doubleClicktoSelectWord" prefHeight="430.0" prefWidth="240.0" stylesheets="@../css/stylesheet.css">
+                  <ListView fx:id="searchList" layoutX="28.0" layoutY="68.0" onKeyPressed="#selectWordUsingKeyBoard" onMouseClicked="#clickToSelectWord" prefHeight="430.0" prefWidth="240.0" stylesheets="@../css/stylesheet.css">
                      <styleClass>
                         <String fx:value="dropshadow-forUI" />
                         <String fx:value="title" />
