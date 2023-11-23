@@ -5,6 +5,10 @@
     -fx-background-radius: 30px;
 }
 
+.flashcard-number-input-field {
+  -fx-alignment: center;
+}
+
 .button {
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;

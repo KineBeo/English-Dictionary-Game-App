@@ -6,10 +6,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="saveAllFlashcardsButton" prefHeight="500.0" prefWidth="895.0" styleClass="edit-flashcard-controller-border" stylesheets="@../css/FlashCard.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="saveAllFlashcardsButton" prefHeight="500.0" prefWidth="895.0" styleClass="edit-flashcard-controller-border" stylesheets="@../css/FlashCard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="295.0" layoutY="28.0" text="Flashcard Number:" />
-      <Label fx:id="flashcardCounter" layoutX="483.0" layoutY="28.0" text="[FLASHCARD NUMBER COUNTER]" />
+      <Label layoutX="293.0" layoutY="29.0" text="Flashcard Number:" />
+      <Label fx:id="flashcardCounter" layoutX="509.0" layoutY="30.0" text="[FLASHCARD NUMBER COUNTER]" />
       <Button fx:id="addEditFlashcardButton" layoutX="27.0" layoutY="74.0" mnemonicParsing="false" text="Add" />
       <Button fx:id="deleteEditFlashcardButton" layoutX="811.0" layoutY="74.0" mnemonicParsing="false" text="Delete" />
       <TextField fx:id="wordTargetEditor" layoutX="17.0" layoutY="147.0" prefHeight="38.0" prefWidth="862.0" />
@@ -21,6 +21,6 @@
       <Button fx:id="saveEditFlashcardButton" layoutX="421.0" layoutY="445.0" mnemonicParsing="false" text="Save" />
       <Button fx:id="exitEditFlashcardsButton" layoutX="822.0" layoutY="10.0" mnemonicParsing="false" text="Exit" />
       <Button fx:id="saveAllEditFlashcardsButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" text="Save All" />
-      <TextField fx:id="flashcardNumberInputField" layoutX="443.0" layoutY="23.0" prefHeight="37.0" prefWidth="35.0" />
+      <TextField fx:id="flashcardNumberInputField" layoutX="435.0" layoutY="24.0" prefHeight="22.0" prefWidth="66.0" styleClass="flashcard-number-input-field" />
    </children>
 </AnchorPane>
