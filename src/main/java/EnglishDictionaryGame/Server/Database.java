@@ -7,8 +7,8 @@ public class Database {
 
   public static final String URL = "jdbc:mysql://localhost:3306/CompleteDictionary";
   public static final String USE_NAME = "root";
-//  public static final String PASSWORD = "1392004";
-        public static final String PASSWORD = "password";
+  public static final String PASSWORD = "1392004";
+//        public static final String PASSWORD = "password";
   private static Connection connection = null;
 
   public void connectToDatabase() throws SQLException {
