@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/PC/IdeaProjects/English-Dictionary-Game-App/src/main/java/EnglishDictionaryGame</OriginalElement>
+  <nodes>
+    <node x="2330.0" y="2448.0">EnglishDictionaryGame.Controller.WordsOfHangMan</node>
+    <node x="39.0" y="2448.0">EnglishDictionaryGame.Server.TranslationService</node>
+    <node x="1717.0" y="1574.0">EnglishDictionaryGame.Controller.Application.stageType</node>
+    <node x="1921.0" y="2169.0">EnglishDictionaryGame.Server.FlashcardFileManager</node>
+    <node x="1815.0" y="644.0">EnglishDictionaryGame.Controller.UpdateWord</node>
+    <node x="1364.0" y="1739.0">EnglishDictionaryGame.Server.FlashcardDatabase</node>
+    <node x="1510.0" y="631.0">EnglishDictionaryGame.Controller.AddWord</node>
+    <node x="407.0" y="2169.0">EnglishDictionaryGame.Controller.TranslateWord</node>
+    <node x="39.0" y="-17.0">EnglishDictionaryGame.Server.QuizFactory</node>
+    <node x="830.0" y="2169.0">EnglishDictionaryGame.Server.PronunciationService</node>
+    <node x="1678.0" y="2169.0">EnglishDictionaryGame.Main</node>
+    <node x="39.0" y="2169.0">EnglishDictionaryGame.Controller.FlashcardViewController</node>
+    <node x="781.0" y="2448.0">EnglishDictionaryGame.Controller.SettingController</node>
+    <node x="425.0" y="1574.0">EnglishDictionaryGame.Controller.QuizTimer</node>
+    <node x="-65.5" y="1240.5">EnglishDictionaryGame.Server.QuizFactory.questionType</node>
+    <node x="2604.0" y="2448.0">EnglishDictionaryGame.Server.TrieNode</node>
+    <node x="514.0" y="1739.0">EnglishDictionaryGame.Server.Trie</node>
+    <node x="1715.0" y="1082.0">EnglishDictionaryGame.Server.WordInfo</node>
+    <node x="937.0" y="1739.0">EnglishDictionaryGame.Controller.FlashcardController</node>
+    <node x="538.0" y="2448.0">EnglishDictionaryGame.Controller.AlertController</node>
+    <node x="2109.0" y="1739.0">EnglishDictionaryGame.Server.FlashcardStageFactory</node>
+    <node x="2220.0" y="1082.0">EnglishDictionaryGame.Controller.QuizController</node>
+    <node x="1642.75" y="-17.0">EnglishDictionaryGame.Controller.WordOperation</node>
+    <node x="836.0" y="1082.0">EnglishDictionaryGame.Server.FlashcardDataManager</node>
+    <node x="508.0" y="-17.0">EnglishDictionaryGame.Controller.EditFlashcardController</node>
+    <node x="1766.0" y="1739.0">EnglishDictionaryGame.Controller.HangmanController</node>
+    <node x="1333.0" y="2448.0">EnglishDictionaryGame.Controller.InformationController</node>
+    <node x="1099.0" y="-17.0">EnglishDictionaryGame.Controller.Application</node>
+    <node x="-141.5" y="2226.0">EnglishDictionaryGame.Server.Trie.TrieNode</node>
+    <node x="39.0" y="1739.0">EnglishDictionaryGame.Server.Database</node>
+    <node x="39.0" y="1574.0">EnglishDictionaryGame.Controller.HangmanTimer</node>
+    <node x="1635.0" y="2448.0">EnglishDictionaryGame.Controller.QuizResultController</node>
+    <node x="1932.0" y="2448.0">EnglishDictionaryGame.Server.Utils</node>
+    <node x="264.0" y="1082.0">EnglishDictionaryGame.Controller.GameTimer</node>
+    <node x="1280.0" y="1082.0">EnglishDictionaryGame.Server.Flashcard</node>
+    <node x="1285.0" y="2169.0">EnglishDictionaryGame.Controller.DailyWordController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="EnglishDictionaryGame.Controller.UpdateWord" target="EnglishDictionaryGame.Controller.WordOperation" relationship="GENERALIZATION">
+      <point x="0.0" y="-60.0" />
+      <point x="1906.0" y="606.0" />
+      <point x="1779.25" y="606.0" />
+      <point x="0.0" y="299.0" />
+    </edge>
+    <edge source="EnglishDictionaryGame.Controller.AddWord" target="EnglishDictionaryGame.Controller.WordOperation" relationship="GENERALIZATION">
+      <point x="0.0" y="-73.0" />
+      <point x="1652.5" y="606.0" />
+      <point x="1779.25" y="606.0" />
+      <point x="0.0" y="299.0" />
+    </edge>
+    <edge source="EnglishDictionaryGame.Controller.Application.stageType" target="EnglishDictionaryGame.Controller.Application" relationship="INNER_CLASS">
+      <point x="-126.0" y="-0.0" />
+      <point x="1262.5" y="1634.0" />
+      <point x="-19.5" y="346.0" />
+    </edge>
+    <edge source="EnglishDictionaryGame.Server.Trie.TrieNode" target="EnglishDictionaryGame.Server.Trie" relationship="INNER_CLASS">
+      <point x="9.0" y="-31.5" />
+      <point x="-58.0" y="1721.5" />
+      <point x="703.0" y="1721.5" />
+      <point x="-0.0" y="-130.0" />
+    </edge>
+    <edge source="EnglishDictionaryGame.Controller.HangmanTimer" target="EnglishDictionaryGame.Controller.GameTimer" relationship="GENERALIZATION">
+      <point x="0.0" y="-60.0" />
+      <point x="222.0" y="1549.0" />
+      <point x="415.0" y="1549.0" />
+      <point x="0.0" y="221.0" />
+    </edge>
+    <edge source="EnglishDictionaryGame.Server.QuizFactory.questionType" target="EnglishDictionaryGame.Server.QuizFactory" relationship="INNER_CLASS">
+      <point x="-0.0" y="-60.0" />
+      <point x="-180.0" y="442.0" />
+    </edge>
+    <edge source="EnglishDictionaryGame.Controller.QuizTimer" target="EnglishDictionaryGame.Controller.GameTimer" relationship="GENERALIZATION">
+      <point x="1.1368683772161603E-13" y="-60.0" />
+      <point x="608.0" y="1549.0" />
+      <point x="415.0" y="1549.0" />
+      <point x="0.0" y="221.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.14640572073767408" showDependencies="false" x="1225.0" y="1311.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
