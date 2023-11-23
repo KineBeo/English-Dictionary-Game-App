@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="saveAllFlashcardsButton" prefHeight="500.0" prefWidth="895.0" stylesheets="@../css/FlashCard.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="saveAllFlashcardsButton" prefHeight="500.0" prefWidth="895.0" styleClass="edit-flashcard-controller-border" stylesheets="@../css/FlashCard.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="295.0" layoutY="28.0" text="Flashcard Number:" />
       <Label fx:id="flashcardCounter" layoutX="483.0" layoutY="28.0" text="[FLASHCARD NUMBER COUNTER]" />

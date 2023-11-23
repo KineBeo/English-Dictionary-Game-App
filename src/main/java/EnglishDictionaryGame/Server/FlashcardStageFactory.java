@@ -6,8 +6,10 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class FlashcardStageFactory {
 
@@ -21,8 +23,10 @@ public class FlashcardStageFactory {
 
   public static Stage createEditFlashcardStage() {
     Stage stage = new Stage();
+    stage.initStyle(StageStyle.TRANSPARENT);
     AnchorPane root = createEditFlashcardRoot();
     Scene scene = new Scene(root);
+    scene.setFill(Color.TRANSPARENT);
     stage.setTitle("Edit Flashcards");
     stage.setScene(scene);
     stage.setResizable(false);
