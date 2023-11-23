@@ -96,6 +96,11 @@ public class FlashcardController {
         flashcard.reloadData();
       }
 
+      // If the current flashcard was deleted, change to the first flashcard.
+      if (!flashcardDatabase.contains(currentFlashcard)) {
+        changeFlashcard(0);
+      }
+
       // Reload the flashcard counter.
       updateFlashcardCounter((Label) root.lookup("#flashcardCounter"));
     });

@@ -38,4 +38,8 @@ public class FlashcardDatabase {
   public int size() {
     return flashcards.size();
   }
+
+  public boolean contains(Flashcard currentFlashcard) {
+    return flashcards.contains(currentFlashcard);
+  }
 }
