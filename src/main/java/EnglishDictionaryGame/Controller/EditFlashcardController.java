@@ -129,6 +129,9 @@ public class EditFlashcardController {
 
   private void exitEditFlashcards() {
     // Check if there are any changes on the current flashcard that have not been saved.
+    navigateToFlashcard((AnchorPane) stage.getScene().getRoot(), FlashcardDataManager.getIndexOf(operatingFlashcard) - 1);
+    navigateToFlashcard((AnchorPane) stage.getScene().getRoot(), FlashcardDataManager.getIndexOf(operatingFlashcard) + 1);
+
     String frontTextData = operatingFlashcard.getFrontText();
     String backTextData = operatingFlashcard.getBackText();
     String wordTargetEditorContent = getWordTargetEditorContent();
