@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class TranslationService {
 
-  private static final int MAX_SOURCE_TEXT_LENGTH = 100;
+  public static final int MAX_SOURCE_TEXT_LENGTH = 100;
   public static String translate(String sourceText, String sourceLang, String targetLang) {
     String translation = "";
     try {

@@ -29,7 +29,7 @@ public class PronunciationService {
 
   public static void pronounce(String text, String language) {
     try {
-      if (text == null || text.isEmpty() || text.isBlank()) {
+      if (text == null || text.isEmpty() || text.isBlank() || text.length() >= TranslationService.MAX_SOURCE_TEXT_LENGTH) {
         return;
       }
       playPronunciationSound(text, language);
