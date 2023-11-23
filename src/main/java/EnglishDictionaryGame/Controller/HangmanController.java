@@ -23,6 +23,7 @@ public class HangmanController {
   @FXML private Text winStatus;
   @FXML private Text realWord;
   @FXML private Label hintText;
+  @FXML private Label lengthHintText;
 
   private int mistakes;
   private int correct;
@@ -64,6 +65,7 @@ public class HangmanController {
   private void setHint() {
     String hint = TranslationService.translate(myWord, "en", "vi");
     hintText.setText("Hint: " + hint);
+    lengthHintText.setText("Length: " + myWord.length());
   }
 
   public void onClick(ActionEvent event) {

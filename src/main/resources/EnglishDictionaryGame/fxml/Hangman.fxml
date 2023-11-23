@@ -193,7 +193,7 @@
                   <Font size="40.0" />
               </font>
           </Text>
-          <Text fx:id="realWord" fill="#40b9ff" layoutX="466.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="359.0">
+          <Text fx:id="realWord" fill="#40b9ff" layoutX="485.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="359.0">
               <font>
                   <Font size="30.0" />
               </font>
@@ -204,6 +204,11 @@
             </font>
          </Button>
          <Label fx:id="hintText" layoutX="178.0" layoutY="20.0" prefHeight="30.0" prefWidth="386.0" textFill="#59ecf6">
+            <font>
+               <Font name="System Bold" size="20.0" />
+            </font>
+         </Label>
+         <Label fx:id="lengthHintText" layoutX="178.0" layoutY="55.0" prefHeight="30.0" prefWidth="319.0" textFill="#59ecf6">
             <font>
                <Font name="System Bold" size="20.0" />
             </font>
