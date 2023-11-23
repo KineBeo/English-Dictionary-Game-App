@@ -23,6 +23,8 @@ public class HangmanController {
   @FXML private Text winStatus;
   @FXML private Text realWord;
   @FXML private Label hintText;
+  @FXML private Label lengthHintText;
+  @FXML private Label hangmanTimer;
 
   private int mistakes;
   private int correct;
@@ -44,6 +46,8 @@ public class HangmanController {
     correct = 0;
     myWord = word.getRandomWord().toLowerCase(); // Make it case-insensitive
     new Thread(() -> Platform.runLater(this::setHint)).start();
+    GameTimer object = new HangmanTimer();
+    HangmanTimer.setTimer(hangmanTimer, object);
     displayWord = new StringBuilder();
     guessedLetters = new StringBuilder();
 
@@ -64,6 +68,7 @@ public class HangmanController {
   private void setHint() {
     String hint = TranslationService.translate(myWord, "en", "vi");
     hintText.setText("Hint: " + hint);
+    lengthHintText.setText("Length: " + myWord.length());
   }
 
   public void onClick(ActionEvent event) {
@@ -122,6 +127,7 @@ public class HangmanController {
   }
 
   private void endGame(boolean playerWins) {
+    HangmanTimer.getCurrentTimer().cancel();
     if (playerWins) {
       winStatus.setText("You Lose!");
       realWord.setText("The actual word was " + myWord);

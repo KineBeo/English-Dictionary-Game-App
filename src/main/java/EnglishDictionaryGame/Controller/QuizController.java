@@ -5,9 +5,6 @@ import EnglishDictionaryGame.Server.QuizFactory;
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -33,24 +30,19 @@ public class QuizController {
   @FXML private Label question;
 
   @FXML private Label showingQuestionNumber;
-
   @FXML private Label quizTimer;
   @FXML private Button nextQuestion;
   @FXML private Button newQuizButton;
   @FXML private Label correctAnswerText;
   @FXML private static boolean answerSelected = false;
-  @FXML private static Timer currentTimer;
 
   private static QuizFactory quiz;
   private static final int NUMBER_OF_QUESTIONS = 10;
-  private static final long TIME = 60;
+
   static int counter = 1;
   static int correct = 0;
   static int wrong = 0;
   static int numberOfQuestion;
-
-  private static long min, sec, hour, totalSecond = 0;
-
   public QuizController() {
     quiz = new QuizFactory();
     quiz.setQuestionNumber(NUMBER_OF_QUESTIONS);
@@ -61,7 +53,8 @@ public class QuizController {
   private void initialize() {
     setCss();
     startQuizGame();
-    setTimer();
+    GameTimer object = new QuizTimer();
+    QuizTimer.setTimer(quizTimer, object);
     chooseButton(option1);
     chooseButton(option2);
     chooseButton(option3);
@@ -70,7 +63,7 @@ public class QuizController {
     newQuizButton.setOnMouseClicked(
         mouseEvent -> {
           correctAnswerText.setText("");
-          resetTimer();
+          QuizTimer.resetTimer(quizTimer);
           startNewQuiz();
         });
     nextQuestion.setOnMouseClicked(event -> handleNextQuestion());
@@ -96,60 +89,6 @@ public class QuizController {
       button.setText(
           quiz.getChoices()[List.of(option1, option2, option3, option4).indexOf(button)]);
     }
-  }
-
-  public String format(long value) {
-    if (value < 10) {
-      return 0 + String.valueOf(value);
-    }
-
-    return String.valueOf(value);
-  }
-
-  public void convertTime() {
-    min = TimeUnit.SECONDS.toMinutes(totalSecond);
-    sec = totalSecond - TimeUnit.MINUTES.toSeconds(min);
-    hour = TimeUnit.MINUTES.toHours(min);
-    min = min - TimeUnit.HOURS.toMinutes(hour);
-    quizTimer.setText(format(hour) + ":" + format(min) + ":" + format(sec));
-    totalSecond--;
-  }
-
-  public void setTimer() {
-    if (currentTimer != null) {
-      currentTimer.cancel();
-    }
-    totalSecond = TIME;
-    currentTimer = new Timer();
-    TimerTask timerTask =
-        new TimerTask() {
-          @Override
-          public void run() {
-            Platform.runLater(
-                () -> {
-                  convertTime();
-                  if (totalSecond < 0) {
-                    currentTimer.cancel();
-                    quizTimer.setText("00:00:00");
-                    try {
-                      FXMLLoader loader =
-                          new FXMLLoader(Main.class.getResource("fxml/QuizResult.fxml"));
-                      Scene quizscene = new Scene(loader.load());
-                      quizscene.setFill(Color.TRANSPARENT);
-                      Stage quizstage = new Stage();
-                      quizstage.setScene(quizscene);
-                      quizstage.initStyle(StageStyle.TRANSPARENT);
-                      quizstage.show();
-                    } catch (Exception e) {
-                      e.printStackTrace();
-                    }
-                  }
-                });
-          }
-        };
-
-    // preriod: lặp lại
-    currentTimer.schedule(timerTask, 0, 1000);
   }
 
   private void chooseButton(Button button) {
@@ -189,7 +128,7 @@ public class QuizController {
         setShowingQuestionNumber();
       } else if (counter > 10) {
         openResultStage();
-        currentTimer.cancel();
+        QuizTimer.getCurrentTimer().cancel();
       }
     }
   }
@@ -220,16 +159,8 @@ public class QuizController {
     correct = wrong = 0;
     counter = 1;
     quiz = new QuizFactory();
-    totalSecond = TIME;
+    QuizTimer.setTotalSecond(QuizTimer.TIME);
     numberOfQuestion = NUMBER_OF_QUESTIONS;
-  }
-
-  public void resetTimer() {
-    if (currentTimer != null) {
-      currentTimer.cancel();
-      totalSecond = TIME;
-      setTimer();
-    }
   }
 
   public void openResultStage() {
@@ -247,12 +178,12 @@ public class QuizController {
   }
 
   public static Timer getCurrentTimer() {
-    return currentTimer;
+    return QuizTimer.getCurrentTimer();
   }
 
   public static void cancelTimer() {
     if (!Application.currentStage.equals("QUIZ")) {
-      currentTimer.cancel();
+      QuizTimer.getCurrentTimer().cancel();
     }
   }
 }
