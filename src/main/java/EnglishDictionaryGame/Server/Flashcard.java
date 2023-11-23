@@ -79,6 +79,10 @@ public class Flashcard {
     return isShowingFront;
   }
 
+  public boolean isEmpty() {
+    return frontText.isEmpty() && backText.isEmpty();
+  }
+
   private Image createCardFaceImage(String text, boolean isBackImage) {
     Image cardFaceImage = makeImage(text);
     if (isBackImage) {

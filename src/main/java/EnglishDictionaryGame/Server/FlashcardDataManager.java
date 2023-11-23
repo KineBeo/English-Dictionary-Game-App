@@ -77,6 +77,15 @@ public class FlashcardDataManager {
       Flashcard editingFlashcard = editingFlashcardDatabase.getFlashcard(i);
       Flashcard flashcard = flashcardDatabase.getFlashcard(i);
 
+      // Delete the flashcard from both databases if they're empty and continue the loop.
+      if (editingFlashcard.isEmpty()) {
+        editingFlashcardDatabase.remove(i);
+        flashcardDatabase.remove(i);
+        saveMap.remove(editingFlashcard);
+        i--;
+        continue;
+      }
+
       boolean flashcardSaved = saveMap.get(editingFlashcard);
 
       // Save the flashcard, else if it's not saved and is empty, remove it.
@@ -84,8 +93,6 @@ public class FlashcardDataManager {
       if (flashcardSaved) {
         flashcard.setFrontText(editingFlashcard.getFrontText());
         flashcard.setBackText(editingFlashcard.getBackText());
-      } else if (flashcard.getFrontText().equals("") && flashcard.getBackText().equals("")) {
-        flashcardDatabase.remove(i);
       }
     }
 
@@ -118,10 +125,11 @@ public class FlashcardDataManager {
 
     return saveMap.get(flashcard);
   }
+
   public static boolean isAllSaved() {
     for (int i = 0; i < editingFlashcardDatabase.size(); i++) {
       Flashcard flashcard = editingFlashcardDatabase.getFlashcard(i);
-      if (!saveMap.get(flashcard)) {
+      if (!saveMap.get(flashcard) && !flashcard.isEmpty()) {
         return false;
       }
     }
